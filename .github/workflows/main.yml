@@ -3,10 +3,10 @@ on: [push]
 jobs:
   Explore-Github-Actions:
       runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: ./positive-health-int-team-2-frontend
       steps:
-        - run: echo "It works!"
         - uses: actions/checkout@v3
-        - run: 
-            cd positive-health-int-team-2-frontend &&
-            npm ci
+        - run: npm ci
         
