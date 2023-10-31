@@ -16,5 +16,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Go to the backend
       run: cd positive-health-int-team-2-backend
+    - name: Check the path
+      run: echo pwd  
     - name: Build the Docker image
       run: docker-compose up
