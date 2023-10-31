@@ -7,6 +7,6 @@ jobs:
         - run: echo "It works!"
         - uses: actions/checkout@v3
         - run: 
-            cd positive-health-int-team-2-frontend
+            cd positive-health-int-team-2-frontend &&
             npm ci
         
