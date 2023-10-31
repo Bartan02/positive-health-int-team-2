@@ -6,16 +6,16 @@ on:
     branches: [ "main" ]
 jobs:
   run-tests:
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: ./positive-health-int-team-2-frontend
-      steps:
-        - uses: actions/checkout@v3
-        - run: npm ci
-        - name: Run Tests
-          run: npm test
-   run-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./positive-health-int-team-2-frontend
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - name: Run Tests
+        run: npm test
+  run-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,4 +37,3 @@ jobs:
     - uses: isbang/compose-action@v1.5.1
       with:
         compose-file: "./positive-health-int-team-2-backend/docker-compose.yml"
-        
