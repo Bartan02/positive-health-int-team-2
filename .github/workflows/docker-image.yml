@@ -17,5 +17,3 @@ jobs:
     - uses: isbang/compose-action@v1.5.1
       with:
         compose-file: "./positive-health-int-team-2-backend/docker-compose.yml"
-    - name: Build the Docker image
-      run: docker-compose up
