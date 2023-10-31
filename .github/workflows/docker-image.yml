@@ -13,10 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Go to the backend
-      run: cd ./positive-health-int-team-2-backend
-    - name: Check the path
-      run: pwd  
+    - uses: actions/checkout@v3         
+    - uses: isbang/compose-action@v1.5.1
+      with:
+        compose-file: "./positive-health-int-team-2-backend/docker-compose.yml"
     - name: Build the Docker image
       run: docker-compose up
