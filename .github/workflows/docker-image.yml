@@ -17,6 +17,6 @@ jobs:
     - name: Go to the backend
       run: cd positive-health-int-team-2-backend
     - name: Check the path
-      run: echo pwd  
+      run: pwd  
     - name: Build the Docker image
       run: docker-compose up
