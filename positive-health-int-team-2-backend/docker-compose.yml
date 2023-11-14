@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  activities-service:
+    container_name: activities-service
+    build: ./activities-service
+    volumes:
+      - ./activities-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3015:3015"
+    working_dir: /usr/src/app
+    command: bash -c "npm install && npm run dev"
+
   appointments:
     container_name: sample-service
     build: ./sample-service
@@ -11,6 +23,7 @@ services:
       - "3010:3010"
     working_dir: /usr/src/app
     command: bash -c "npm install && npm run dev"
+
 networks:
   positive-health:
     driver: bridge

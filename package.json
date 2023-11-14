@@ -1,0 +1,20 @@
+{
+  "name": "positive-health-int-team-2",
+  "version": "1.0.0",
+  "description": "At the moment, this is a skeleton of our StepUp! application, so that we can easily implement our application. You can find here both the backend and frontend side of our application, these are properly named folders on repository.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bartan02/positive-health-int-team-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bartan02/positive-health-int-team-2/issues"
+  },
+  "homepage": "https://github.com/Bartan02/positive-health-int-team-2#readme"
+}
