@@ -3,6 +3,16 @@ export async function testTheFunctionality(req, res) {
 }
 
 
+export async function getActivities(req, res) {
+    const activities = [
+        { id: 1, name: 'Hiking', location: 'Mountain' },
+        { id: 2, name: 'Swimming', location: 'Beach' }
+        // ... more activities
+    ];
+    res.json(activities);
+}
+
+
 
 // Based on your previous messages and the structure of your application, the activityController is indeed the place where you would typically write the business logic for handling activities in your microservice. In a standard Express.js application structure, controllers are responsible for handling the incoming HTTP requests and sending back the appropriate responses. Here's how you might structure your activityController:
 

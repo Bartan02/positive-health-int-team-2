@@ -13,6 +13,8 @@ services:
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - activities-db
 
   appointments:
     container_name: sample-service
@@ -27,7 +29,55 @@ services:
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - appointments-db
+
+  activities-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: activities_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3307:3306'
+    volumes:
+      - activities-db:/var/lib/mysql
+    networks:
+      - positive-health
+
+  appointments-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: appointments_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3308:3306'
+    volumes:
+      - appointments-db:/var/lib/mysql
+    networks:
+      - positive-health
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: activities-db
+      PMA_PORT: 3306
+      PMA_USER: activity123
+      PMA_PASSWORD: activity123123
+    ports:
+      - '8080:80'
+    depends_on:
+      - activities-db
+    networks:
+      - positive-health
 
 networks:
   positive-health:
     driver: bridge
+
+volumes:
+  activities-db:
+  appointments-db:
