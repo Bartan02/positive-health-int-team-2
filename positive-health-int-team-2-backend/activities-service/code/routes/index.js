@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
     res.json('Activity service is running!');
   });
 
-router.get('/activities', testTheFunctionality);
+router.get('/', testTheFunctionality);
 // between
 
 export default router;
