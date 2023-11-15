@@ -39,27 +39,38 @@
 </svelte:head>  
 
 <script>
+  import { onMount } from 'svelte';
+
+  let getResponsePromise;
+
+  onMount(() => {
+    getResponsePromise = getResponse();
+  });
+
   async function getResponse() {
-    const res = await fetch(`http://localhost:3010/`);
-    const values = await res.json();
-    return values;
+    try {
+      const res = await fetch(`http://localhost:3015/`);
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error; // Re-throw the error to be caught by the await block
+    }
   }
-  
-let result = null;
-let getResponsePromise = getResponse()
-getResponsePromise.then((value) => {
-  result = value
-});
 </script>
-  <div class="button-container">
-    <h1 class="stepup">StepUp!</h1>
-      <a href="." class="rounded-button">Login </a>
-      <a href="." class="flat-button">Register</a>
-  </div>
-  {#await getResponsePromise}
-    <span> Waiting for result... </span>
-    {:then}
-      <span> { result } </span>
-    {:catch error}
-      <li>Error: {error.message}</li>
-  {/await}
+
+<div class="button-container">
+  <h1 class="stepup">StepUp!</h1>
+  <a href="." class="rounded-button">Login</a>
+  <a href="." class="flat-button">Register</a>
+</div>
+
+{#await getResponsePromise}
+  <span>Waiting for result...</span>
+{:then value}
+  <span>{JSON.stringify(value)}</span>
+{:catch error}
+  <li>Error: {error.message}</li>
+{/await}
