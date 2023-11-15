@@ -5,7 +5,6 @@ dotenv.config({ path: 'variables.env' });
 import cors from 'cors';
 import indexRouter from './routes/index.js';
 
-
 const app = express();
 
 // support json encoded and url-encoded bodies, mainly used for post and update
