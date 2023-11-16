@@ -1,20 +1,82 @@
 <script>
+    import Geolocation from "../../../components/Geolocation.svelte";
     import Timer from "../../../components/Timer.svelte";
-    import { startActivity } from "../../../lib/activityService";
+    import { onMount, onDestroy} from 'svelte';
+    import { startActivity, stopActivity, updateLocation} from "../../../lib/activityService";
     let userId = '12345'; // Example user ID, replace with actual user data
     let startLocation = { latitude: 40.7128, longitude: -74.0060 }; // Example start location
+    let isActivityOngoing = false;
+    let activityId;
+    let watchId;
 
     async function handleStartActivity() {
         try {
             const response = await startActivity(userId, startLocation);
             console.log(response); // Handle the response as needed
+            activityId = response.activityId;
+            isActivityOngoing = true;
         } catch (error) {
             console.error('Error starting activity:', error);
         }
     }
+    async function handleStopActivity() {
+      try {
+        const response = await stopActivity(activityId);
+        console.log(response.message);
+        isActivityOngoing = false;
+        activityId = null;
+      } catch (error) {
+        console.error('Error stopping activity:', error);
+      }
+    }
+
+    
+
+
+    onMount(() => {
+        if ('geolocation' in navigator) {
+            watchId = navigator.geolocation.watchPosition(
+                async (position) => {
+                    // Only attempt to update the location if an activity has been started
+                    if (activityId) {
+                        const currentLocation = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        };
+                        console.log(currentLocation);
+                        await updateLocation(activityId, currentLocation);
+                    }
+                },
+                (error) => {
+                    console.error('Error getting location:', error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10,
+                    maximumAge: 0
+                }
+            );
+    } else {
+        console.log('Geolocation is not supported by this browser.');
+    }
+});
+
+onDestroy(() => {
+    if (watchId) {
+      navigator.geolocation.clearWatch(watchId);
+    }
+}); 
+
 </script>
 
-<button on:click={handleStartActivity}>Start Activity</button>
+
+
+
+<button on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}>
+  {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
+</button>
+
+
 
 <div class="bg-white p-4">
     <!-- Top bar with icons and title -->

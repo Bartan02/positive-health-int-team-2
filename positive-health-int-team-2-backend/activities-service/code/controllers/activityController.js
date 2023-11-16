@@ -1,5 +1,7 @@
-import haversine from 'haversine-distance';
+// They handle the request data appropriately and respond with the necessary information.
+// The use of an in-memory object (activities) is suitable for testing but consider using a database for persistent storage.
 
+import haversine from 'haversine-distance';
 
 let activities = { } // this should be from database
 
@@ -26,7 +28,6 @@ export const startActivity = (req, res) => {
     res.json({activityId, message:'Activity succesfully started'});
 
 }
-
 
 export const updateLocation = (req, res) => {
     const { activityId, currentLocation } = req.body;
@@ -55,14 +56,13 @@ export const stopActivity = (req, res) => {
     const activity = activities[activityId];
     const endTime = new Date();
     const totalTime = (endTime - activity.startTime) / 1000; // Total time in seconds
-
     const result = {
         distance: activity.distance,
         totalTime,
         message: 'Activity stopped successfully'
     };
-
-    delete activities[activityId]; // Remove the activity from storage
+    console.log(activities[activityId], endTime, result);
+        
 
     res.json(result);
 };
