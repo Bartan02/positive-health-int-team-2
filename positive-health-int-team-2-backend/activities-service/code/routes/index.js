@@ -1,15 +1,12 @@
 import express from 'express';
-import { testTheFunctionality } from '../controllers/activityController.js';
-import { getActivities } from '../controllers/activityController.js';
+import { startActivity } from '../controllers/activityController.js';
+import { updateLocation } from '../controllers/activityController.js';
+import { stopActivity } from '../controllers/activityController.js';
+
 const router = express.Router();
 
-// here define all the routes
-router.get('/', (req, res, next) => {
-    res.json('Activity service is running!');
-  });
-
-router.get('/', testTheFunctionality);
-router.get('/activities', getActivities);
-// between
+router.post('/start', startActivity);
+router.post('/update-location', updateLocation);
+router.post('/stop', stopActivity);
 
 export default router;

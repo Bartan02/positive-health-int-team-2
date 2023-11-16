@@ -3,7 +3,7 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: 'variables.env' });
 import cors from 'cors';
-import indexRouter from './routes/index.js';
+import activityRouter from './routes/index.js';
 
 const app = express();
 
@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', cors(), indexRouter);
+app.use('/activity', cors(), activityRouter);
 
 app.set('port', process.env.PORT || 3015);
 const server = app.listen(app.get('port'), () => {
