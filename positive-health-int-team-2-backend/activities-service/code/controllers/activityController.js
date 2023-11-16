@@ -1,56 +1,68 @@
-export async function testTheFunctionality(req, res) { 
-    res.status(200).send('Everything is super');
+// They handle the request data appropriately and respond with the necessary information.
+// The use of an in-memory object (activities) is suitable for testing but consider using a database for persistent storage.
+
+import haversine from 'haversine-distance';
+
+let activities = { } // this should be from database
+
+function generateUniqueId() {
+    return Math.random().toString(36).substr(2, 9);
 }
 
+export const startActivity = (req, res) => {
+    const userId = req.body.userId;
+    const startLocation = req.body.startLocation;
 
-export async function getActivities(req, res) {
-    const activities = [
-        { id: 1, name: 'Hiking', location: 'Mountain' },
-        { id: 2, name: 'Swimming', location: 'Beach' }
-        // ... more activities
-    ];
-    res.json(activities);
+    if (!userId || !startLocation) {
+        return res.status(400).send('Missing user Data');
+    }
+
+    const activityId = generateUniqueId();
+    activities[activityId] = {
+        userId,
+        startTime: new Date(),
+        startLocation,
+        distance: 0,
+    };
+
+    res.json({activityId, message:'Activity succesfully started'});
+
 }
 
+export const updateLocation = (req, res) => {
+    const { activityId, currentLocation } = req.body;
+
+    if (!activities[activityId]) {
+        return res.status(404).send('Activity not found');
+    }
+
+    const startLocation = activities[activityId].startLocation;
+    const distance = haversine(startLocation, currentLocation); // Calculates distance in meters
+
+    activities[activityId].distance += distance;
+    activities[activityId].lastLocation = currentLocation;
+
+    res.json({ distance: activities[activityId].distance, message: 'Location updated successfully' });
+};
 
 
-// Based on your previous messages and the structure of your application, the activityController is indeed the place where you would typically write the business logic for handling activities in your microservice. In a standard Express.js application structure, controllers are responsible for handling the incoming HTTP requests and sending back the appropriate responses. Here's how you might structure your activityController:
+export const stopActivity = (req, res) => {
+    const { activityId } = req.body;
 
-// Import Dependencies: Import any necessary modules, middleware, or services that your controller might need. This could include models for database access, utility functions, or external services.
+    if (!activities[activityId]) {
+        return res.status(404).send('Activity not found');
+    }
 
-// Define Controller Functions: Each function in the controller typically corresponds to a specific route and HTTP method. For instance, you might have functions like getActivities, createActivity, updateActivity, and deleteActivity.
+    const activity = activities[activityId];
+    const endTime = new Date();
+    const totalTime = (endTime - activity.startTime) / 1000; // Total time in seconds
+    const result = {
+        distance: activity.distance,
+        totalTime,
+        message: 'Activity stopped successfully'
+    };
+    console.log(activities[activityId], endTime, result);
+        
 
-// Implement Business Logic: Inside each controller function, you'll implement the logic necessary to handle the request. This could involve fetching data from a database, processing or transforming data, handling business rules, and forming the response.
-
-// Error Handling: Ensure that each function has proper error handling. This could involve catching exceptions, validating input data, and sending appropriate error responses.
-
-// Send Responses: Each function should end by sending a response back to the client. This might be a JSON object, a status code, or a message.
-
-// Export the Controller Functions: Make sure to export these functions so they can be used in your route definitions.
-
-// Here’s a simplified example of what part of an activityController might look like:
-
-// import ActivityModel from '../models/ActivityModel';
-
-// Get all activities
-// export async function getActivities(req, res) {
-//     try {
-//         const activities = await ActivityModel.find();
-//         res.json(activities);
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// }
-
-// // Create a new activity
-// export async function createActivity(req, res) {
-//     try {
-//         const newActivity = new ActivityModel(req.body);
-//         await newActivity.save();
-//         res.status(201).json(newActivity);
-//     } catch (error) {
-//         res.status(400).send(error.message);
-//     }
-// }
-
-// ... other controller functions for update, delete, etc.
+    res.json(result);
+};
