@@ -62,7 +62,7 @@
 </script>
 
 <div class="button-container">
-  <h1 class="stepup">StepUp!</h1>
+  <h1 class="text-red-700">StepUp!</h1>
   <a href="." class="rounded-button">Login</a>
   <a href="." class="flat-button">Register</a>
 </div>

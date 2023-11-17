@@ -1,76 +1,74 @@
-<svelte:head>
-  <title>StepUp!</title>
-  <style>
-    .stepup {
-      font-family: 'Abadi', sans-serif;
-    }
-    .button-container {
-          text-align: center;
-      }
-      .rounded-button {
-          display: inline-block;
-          padding: 10px 20px;
-          margin: 5px;
-          border: 2px solid #FFA500; /* Orange border */
-          border-radius: 20px; /* Rounded corners */
-          background-color: #FFA500; /* Orange background */
-          color: #fff; /* White text */
-          text-decoration: none;
-          text-align: center;
-      }
-      .rounded-button:hover {
-          background-color: #ff7f00; /* Slightly darker orange on hover */
-      }
-      .flat-button {
-          display: inline-block;
-          padding: 10px 20px;
-          margin: 5px;
-          border: 2px solid #000; /* Black border */
-          border-radius: 20px; /* Rounded corners */
-          background-color: #fff; /* White background */
-          color: #000; /* Black text */
-          text-decoration: none;
-          text-align: center;
-      }
-      .flat-button:hover {
-          background-color: #ddd; /* Slightly lighter gray on hover */
-      }
-  </style>
-</svelte:head>  
+<div class="bg-white p-4">
+    <!-- Top bar with icons and title -->
+    <div class="flex justify-between items-center mb-4">
+      <div class="text-orange-600">12:00</div>
+      <div class="text-black">Activities</div>
+      <div class="text-gray-800">94%</div>
+    </div>
+  
+    <!-- Grid of activities -->
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <!-- Each activity block -->
+      <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+        <!-- Icon -->
+        <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+        <!-- Text -->
+        <div>Biking</div>
+      </div>
+      <!-- Repeat for other activities -->
+    </div>
+    <!-- Grid of activities -->
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <!-- Each activity block -->
+        <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+          <!-- Icon -->
+          <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+          <!-- Text -->
+          <div>Biking</div>
+        </div>
+        <!-- Repeat for other activities -->
+      </div>
+      <!-- Grid of activities -->
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <!-- Each activity block -->
+        <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+          <!-- Icon -->
+          <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+          <!-- Text -->
+          <div>Biking</div>
+        </div>
+        <!-- Repeat for other activities -->
+      </div><!-- Grid of activities -->
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <!-- Each activity block -->
+        <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+          <!-- Icon -->
+          <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+          <!-- Text -->
+          <div>Biking</div>
+        </div>
+        <!-- Repeat for other activities -->
+      </div>
 
-<script>
-    import { onMount } from 'svelte';
   
-    let getResponsePromise;
+    <!-- Pagination -->
+    <div class="flex justify-center items-center space-x-2 mb-4">
+      <div class="text-gray-600">&lt;</div>
+      <div class="text-red-600">1</div>
+      <div class="text-gray-600">2 3</div>
+      <div class="text-gray-600">&gt;</div>
+    </div>
   
-    onMount(() => {
-      getResponsePromise = getResponse();
-    });
-  
-    async function getResponse() {
-      try {
-        const res = await fetch(`http://localhost:3015/activities`);
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return await res.json();
-      } catch (error) {
-        console.error('Fetch error:', error);
-        throw error; // Re-throw the error to be caught by the await block
-      }
-    }
-  </script>
-  
-  <div class="button-container">
-    <h1 class="stepup">StepUp!</h1>
-    <a href="." class="rounded-button">Login</a>
-    <a href="." class="flat-button">Register</a>
+    <!-- Bottom navigation -->
+    <div class="fixed bottom-0 inset-x-0 bg-white p-2">
+      <div class="grid grid-cols-5 gap-4">
+        <!-- Each nav icon -->
+        <div class="flex flex-col items-center">
+          <img src="/path-to-your-home-icon.svg" alt="Home" class="mb-1">
+          <div>Home</div>
+        </div>
+        <!-- Repeat for other nav items -->
+      </div>
+    </div>
   </div>
   
-  {#await getResponsePromise}
-    <span>Waiting for result...</span>
-  {:then value}
-    <span>{JSON.stringify(value)}</span>
-  {:catch error}
-    <li>Error: {error.message}</li>
-  {/await}
