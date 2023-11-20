@@ -59,6 +59,17 @@
       throw error; // Re-throw the error to be caught by the await block
     }
   }
+
+  import { auth } from '../lib/firebase/firebase.client';
+	import { authHandlers, authStore } from '../stores/authStore';
+
+	let email,info;
+	authStore.subscribe((curr) => {
+		console.log('CURR', curr);
+    info = curr?.currentUser
+		email = curr?.currentUser?.email;
+	});
+
 </script>
 
 <div class="button-container">
@@ -74,3 +85,13 @@
 {:catch error}
   <li>Error: {error.message}</li>
 {/await}
+
+{#if $authStore.currentUser}
+	<div>
+		<h1>CURRENT USER: {email}</h1>
+    { console.log(info)}
+        <button on:click={authHandlers.logout}>Logout</button>
+	</div>
+{:else}
+	<div>Not logged in. <a href="/login">Login</a></div>
+{/if}
