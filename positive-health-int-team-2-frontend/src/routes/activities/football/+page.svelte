@@ -4,33 +4,50 @@
     import { onMount, onDestroy} from 'svelte';
     import { startActivity, stopActivity, updateLocation} from "../../../lib/activityService";
     let userId = '12345'; // Example user ID, replace with actual user data
-    let startLocation = { latitude: 40.7128, longitude: -74.0060 }; // Example start location
+    let startLocation = { latitude: 0, longitude: 0 };; // Example start location
     let isActivityOngoing = false;
     let activityId;
     let watchId;
 
-    async function handleStartActivity() {
-        try {
-            const response = await startActivity(userId, startLocation);
-            console.log(response); // Handle the response as needed
-            activityId = response.activityId;
-            isActivityOngoing = true;
-        } catch (error) {
-            console.error('Error starting activity:', error);
+
+    function getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            reject('Geolocation is not supported by your browser');
+        } else {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
         }
+    });
+}
+
+async function handleStartActivity() {
+    try {
+        // Get current location
+        const position = await getCurrentLocation();
+        startLocation.latitude = position.coords.latitude;
+        startLocation.longitude = position.coords.longitude;
+
+        // Start activity with the real location
+        const response = await startActivity(userId, startLocation);
+        console.log(response); // Handle the response as needed
+        console.log(startLocation);
+        activityId = response.activityId;
+        isActivityOngoing = true;
+    } catch (error) {
+        console.error('Error in handleStartActivity:', error);
     }
+}
     async function handleStopActivity() {
       try {
         const response = await stopActivity(activityId);
         console.log(response.message);
+        console.log(response.distance);
         isActivityOngoing = false;
         activityId = null;
       } catch (error) {
         console.error('Error stopping activity:', error);
       }
     }
-
-    
 
 
     onMount(() => {
