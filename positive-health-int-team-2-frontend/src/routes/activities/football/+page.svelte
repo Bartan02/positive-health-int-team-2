@@ -1,99 +1,34 @@
 <script>
-    import Geolocation from "../../../components/Geolocation.svelte";
-    import Timer from "../../../components/Timer.svelte";
-    import { onMount, onDestroy} from 'svelte';
-    import { startActivity, stopActivity, updateLocation} from "../../../lib/activityService";
-    let userId = '12345'; // Example user ID, replace with actual user data
-    let startLocation = { latitude: 0, longitude: 0 };; // Example start location
-    let isActivityOngoing = false;
-    let activityId;
-    let watchId;
+  import ActivityManager from '../../../components/ActivityManager.svelte';
+  import Timer from '../../../components/Timer.svelte';
 
+  let userId = '12345'; // Replace with the actual user ID
 
-    function getCurrentLocation() {
-    return new Promise((resolve, reject) => {
-        if (!navigator.geolocation) {
-            reject('Geolocation is not supported by your browser');
-        } else {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        }
-    });
-}
+  // Handler for when an activity starts
+  function handleActivityStart(event) {
+      // Logic to handle the start of an activity
+      console.log("Activity started with ID:", event.detail.activityId);
+      // Additional UI update or state management logic here
+  }
 
-async function handleStartActivity() {
-    try {
-        // Get current location
-        const position = await getCurrentLocation();
-        startLocation.latitude = position.coords.latitude;
-        startLocation.longitude = position.coords.longitude;
-
-        // Start activity with the real location
-        const response = await startActivity(userId, startLocation);
-        console.log(response); // Handle the response as needed
-        console.log(startLocation);
-        activityId = response.activityId;
-        isActivityOngoing = true;
-    } catch (error) {
-        console.error('Error in handleStartActivity:', error);
-    }
-}
-    async function handleStopActivity() {
-      try {
-        const response = await stopActivity(activityId);
-        console.log(response.message);
-        console.log(response.distance);
-        isActivityOngoing = false;
-        activityId = null;
-      } catch (error) {
-        console.error('Error stopping activity:', error);
-      }
-    }
-
-
-    onMount(() => {
-        if ('geolocation' in navigator) {
-            watchId = navigator.geolocation.watchPosition(
-                async (position) => {
-                    // Only attempt to update the location if an activity has been started
-                    if (activityId) {
-                        const currentLocation = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        };
-                        console.log(currentLocation);
-                        await updateLocation(activityId, currentLocation);
-                    }
-                },
-                (error) => {
-                    console.error('Error getting location:', error);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10,
-                    maximumAge: 0
-                }
-            );
-    } else {
-        console.log('Geolocation is not supported by this browser.');
-    }
-});
-
-onDestroy(() => {
-    if (watchId) {
-      navigator.geolocation.clearWatch(watchId);
-    }
-}); 
-
+  // Handler for when an activity stops
+  function handleActivityStop(event) {
+      // Logic to handle the stopping of an activity
+      console.log("Activity stopped:", event.detail);
+      // Additional UI update or state management logic here
+  }
 </script>
 
+<ActivityManager 
+  {userId} 
+  on:activityStarted={handleActivityStart} 
+  on:activityStopped={handleActivityStop} 
+/>
 
 
+<!-- Activity control button -->
 
-<button on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}>
-  {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
-</button>
-
-
+<!-- Additional UI elements -->
 
 <div class="bg-white p-4">
     <!-- Top bar with icons and title -->
