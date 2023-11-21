@@ -1,3 +1,4 @@
+// Function to start an activity
 export async function startActivity(userId, startLocation) {
     const response = await fetch('https://localhost:3015/activity/start/', {
         method: 'POST',
@@ -14,6 +15,7 @@ export async function startActivity(userId, startLocation) {
     return response.json();
 }
 
+// Function to stop an activity
 export async function stopActivity(activityId) {
     const response = await fetch('https://localhost:3015/activity/stop/', {
         method: 'POST',
@@ -30,6 +32,7 @@ export async function stopActivity(activityId) {
     return response.json();
 }
 
+// Function to update an activity's location
 export async function updateLocation(activityId, currentLocation) {
     const response = await fetch('https://localhost:3015/activity/update-location', {
         method: 'POST',
