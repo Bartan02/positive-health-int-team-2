@@ -64,8 +64,8 @@
 
 <div class="button-container">
   <h1 class="text-red-700">StepUp!</h1>
-  <a href="." class="rounded-button">Login</a>
-  <a href="." class="flat-button">Register</a>
+  <a href="/login" class="rounded-button">Login</a>
+  <a href="/register" class="flat-button">Register</a>
 </div>
 
 {#await getResponsePromise}
