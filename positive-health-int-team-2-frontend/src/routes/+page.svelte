@@ -59,6 +59,7 @@
       throw error; // Re-throw the error to be caught by the await block
     }
   }
+
 </script>
 
 <div class="button-container">

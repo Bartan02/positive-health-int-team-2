@@ -15,7 +15,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - activities-db
-
   appointments:
     container_name: sample-service
     build: ./sample-service
@@ -31,7 +30,20 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - appointments-db
-
+  authentication-service:
+    container_name: authentication-service
+    build: ./authentication-service
+    volumes:
+      - ./authentication-service/code:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - positive-health
+    ports:
+      - "3020:3020"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   activities-db:
     image: mysql:latest
     environment:
@@ -45,7 +57,6 @@ services:
       - activities-db:/var/lib/mysql
     networks:
       - positive-health
-
   appointments-db:
     image: mysql:latest
     environment:
@@ -59,7 +70,6 @@ services:
       - appointments-db:/var/lib/mysql
     networks:
       - positive-health
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -73,11 +83,9 @@ services:
       - activities-db
     networks:
       - positive-health
-
 networks:
   positive-health:
     driver: bridge
-
 volumes:
   activities-db:
   appointments-db:
