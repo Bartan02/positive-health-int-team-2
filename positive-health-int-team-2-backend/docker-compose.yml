@@ -70,17 +70,30 @@ services:
       - appointments-db:/var/lib/mysql
     networks:
       - positive-health
+  authentication-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: authentication_db
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - '3309:3306'
+    volumes:
+      - authentication-db:/var/lib/mysql
+    networks:
+      - positive-health
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: activities-db
+      PMA_HOST: authentication-db
       PMA_PORT: 3306
-      PMA_USER: activity123
-      PMA_PASSWORD: activity123123
+      PMA_USER: example
+      PMA_PASSWORD: example
     ports:
       - '8080:80'
     depends_on:
-      - activities-db
+      - authentication-db
     networks:
       - positive-health
 networks:
@@ -89,3 +102,4 @@ networks:
 volumes:
   activities-db:
   appointments-db:
+  authentication-db:

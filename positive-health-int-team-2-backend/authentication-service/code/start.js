@@ -2,7 +2,9 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: 'variables.env' });
 import cors from 'cors';
-import authRouter from './routes/index.js';
+import authRouter from './routes/authRoutes.js';
+import sequelize from './connection/connection.js';
+
 
 const app = express();
 
@@ -10,13 +12,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+sequelize.sync().then(() => {
+  console.log('Database synced');
+  // Start the Express app after syncing
+  app.use('/', cors(), authRouter);
 
-app.use('/auth', cors(), authRouter);
+  app.set('port', process.env.PORT || 3020);
+  const server = app.listen(app.get('port'), () => {
+    console.log(`🍿 Express running → PORT ${server.address().port}`);
+  });
+}).catch(err => console.error('Error syncing database:', err));
 
-app.set('port', process.env.PORT || 3020);
-const server = app.listen(app.get('port'), () => {
-  console.log(`🍿 Express running → PORT ${server.address().port}`);
- });
+
 
 // import express from 'express';
 // import mongoose from 'mongoose';

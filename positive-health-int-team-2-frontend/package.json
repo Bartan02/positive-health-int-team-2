@@ -34,6 +34,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^10.6.0"
+		"axios": "^1.6.2",
+		"firebase": "^10.6.0",
+		"svelte-navigator": "^3.2.2"
 	}
 }
