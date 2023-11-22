@@ -17,6 +17,8 @@
       console.log("Activity stopped:", event.detail);
       // Additional UI update or state management logic here
   }
+
+ 
 </script>
 
 <ActivityManager 

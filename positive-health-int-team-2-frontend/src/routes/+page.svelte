@@ -49,7 +49,7 @@
 
   async function getResponse() {
     try {
-      const res = await fetch(`https://145.19.251.129:3015/activity`);
+      const res = await fetch(`https://localhost:3015/activity`);
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }

@@ -14,7 +14,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.2",
-    "haversine-distance": "^1.2.1"
+    "express-sse": "^0.5.3",
+    "haversine-distance": "^1.2.1",
+    "mysql2": "^3.6.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

@@ -28,6 +28,7 @@ import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
 import activityRouter from './routes/index.js';
+import { updateLocation } from './controllers/activityController.js';
 
 dotenv.config({ path: 'variables.env' });
 
