@@ -24,7 +24,7 @@
         </div>
 
         <div class="flex-grow text-center mt-4 mr-12">
-            <p>Friends</p>
+            <p class= "text-orange-400 font-bold text-lg">Friends</p>
         </div>
     </div>
 
@@ -33,12 +33,12 @@
     <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mt-0 mb-4">
 
         <!-- User avatar image on the top-left -->
-        <div class="mr-2">
-            <img src="profilepicture.jpg" class="w-12 h-12 rounded-full">
+        <div class="mr-3">
+            <img src="profilepicture.jpg" class="w-18 h-16 rounded-full">
         </div>
 
         <!-- Text content -->
-        <div class="ml-2">
+        <div class="ml-3">
             <p class="text-gray-800 font-bold text-lg">John Doe</p>
             <p class="text-gray-800">Hi! Where are you?</p>
             <div class="flex items-end mt-2">
@@ -56,7 +56,7 @@
 
         <!-- Button 1 -->
         <button class="bg-orange-500 rounded-full p-2">
-            <a href=""><img src="plus.png"  class="w-12 h-12"></a>
+            <a href="friends/find"><img src="plus.png"  class="w-12 h-12"></a>
         </button>
 
         <!-- Button 2 -->
