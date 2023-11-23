@@ -1,5 +1,5 @@
 <script>
-
+    import validateEmail from '../../lib/authverification.js';
   
     let username = '';
     let password = '';
@@ -8,6 +8,7 @@
   
     const register = async () => {
         try {
+            if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
             const response = await fetch('http://localhost:3020/register', {
             method: 'POST',
             headers: {

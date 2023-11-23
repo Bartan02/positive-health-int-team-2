@@ -1,9 +1,12 @@
 <script>
+	import { error } from '@sveltejs/kit';
+    import validateEmail from '../../lib/authverification.js';
     let email = '';
     let password = '';
   
     const login = async () => {
     try {
+    if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
     const response = await fetch('http://localhost:3020/login', {
       method: 'POST',
       headers: {
@@ -11,14 +14,14 @@
       },
       body: JSON.stringify({ email: email, password: password }),
     });
-
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem('token', data.token);
       // Redirect to the specified route
       window.location.href = data.redirect;
     } else {
-      console.error('Login failed');
+        if(response.status == 401) throw 'Your email and password are incorrect. Check if you included a typo in your credentials.';
+        else if(response.status == 500) throw 'There are some problems with our server. If the problem still persists, please contact us.';
     }
   } catch (error) {
     console.error('Error during login:', error);
