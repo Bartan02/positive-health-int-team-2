@@ -2,7 +2,11 @@
 export default {
   content: ['./src/routes/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        custom: ['Roboto', 'sans-serif'],
+      },
+    },
   },
   plugins: []
 };
