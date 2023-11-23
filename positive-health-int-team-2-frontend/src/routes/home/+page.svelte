@@ -1,6 +1,12 @@
+<script>
+	import SideMenu from '../../components/side-menu.svelte';
+	let isOpen = false;
+</script>
+
 <div class="flex justify-between flex-col w-screen h-screen">
+	<SideMenu {isOpen} />
 	<div class="h-20 w-full" />
-	<div class="bg-red-200 h-20 w-full center">
+	<div class="bg-red-200 h-20 w-full">
         <h2>Component for navigation and title</h2>
     </div>
 
@@ -47,7 +53,7 @@
 			<div class="flex flex-col gap-2 p-2">
 				<div class="flex justify-start center">
 					<div class="h-full">
-						<h2 class="relative left-2 w-10 h-10 bg-gray-400 rounded-3xl center">*IMG*</h2>
+						<h2 class="left-2 w-10 h-10 bg-gray-400 rounded-3xl center">*IMG*</h2>
 					</div>
 					<div class="center h-1/2 w-full bg-gray-300 rounded-3xl">
 						<h2>Hello! U up?</h2>
@@ -55,7 +61,7 @@
 				</div>
 				<div class="flex justify-start center">
 					<div class="h-full">
-						<h2 class="relative left-2 w-10 h-10 bg-gray-400 rounded-3xl center">*IMG*</h2>
+						<h2 class="left-2 w-10 h-10 bg-gray-400 rounded-3xl center">*IMG*</h2>
 					</div>
 					<div class="center h-1/2 w-full bg-gray-300 rounded-3xl">
 						<h2>You ariving?</h2>
