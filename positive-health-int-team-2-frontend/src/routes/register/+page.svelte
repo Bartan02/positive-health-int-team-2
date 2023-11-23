@@ -1,14 +1,32 @@
 <script>
     import validateEmail from '../../lib/authverification.js';
-  
+    import { onMount } from 'svelte';
+
     let username = '';
     let password = '';
     let email = '';
     let confirmPassword = '';
   
+    let myInput, letter, capital, number, length, message;
+
+    // When the user clicks on the password field, show the message box
+    function showMessageDisplay() {
+        message.classList.remove("hidden");
+        message.classList.add("flex");
+        message.classList.add("flex-col");
+    }
+
+    // When the user clicks outside of the password field, hide the message box
+    function hideMessageDisplay() {
+        message.classList.remove("flex");
+        message.classList.remove("flex-col");
+        message.classList.add("hidden");
+    }
+
     const register = async () => {
         try {
             if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
+            if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same."
             const response = await fetch('http://localhost:3020/register', {
             method: 'POST',
             headers: {
@@ -29,6 +47,46 @@
             console.error('Error during register:', error);
         }
     };
+
+    onMount(() => {
+        const lowerCaseLetters = /[a-z]/g;
+        if(password.match(lowerCaseLetters)) {
+            letter.classList.remove("text-red-400");
+            letter.classList.add("text-green-400");
+        } else {
+            letter.classList.remove("text-green-400");
+            letter.classList.add("text-red-400");
+        }
+
+        // Validate capital letters
+        const upperCaseLetters = /[A-Z]/g;
+        if(password.match(upperCaseLetters)) {
+            capital.classList.remove("text-red-400");
+            capital.classList.add("text-green-400");
+        } else {
+            capital.classList.remove("text-green-400");
+            capital.classList.add("text-red-400");
+        }
+
+        // Validate numbers
+        const numbers = /[0-9]/g;
+        if(password.match(numbers)) {
+            number.classList.remove("text-red-400");
+            number.classList.add("text-green-400");
+        } else {
+            number.classList.remove("text-green-400");
+            number.classList.add("text-red-400");
+        }
+
+        // Validate length
+        if(password.length >= 8) {
+            length.classList.remove("text-red-400");
+            length.classList.add("text-green-400");
+        } else {
+            length.classList.remove("text-green-400");
+            length.classList.add("text-red-400");
+        }
+        })
   </script>
 
 <div class="flex justify-between flex-col w-screen h-screen">
@@ -51,12 +109,21 @@
             </div>    
             <div class="center h-10">
                 <div class="w-2/3 h-full center border-b border-orange-400">
-                    <input type="password" bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
+                    <input type="password" on:blur={hideMessageDisplay} on:focus={showMessageDisplay} bind:this={myInput} bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
                 </div>  
             </div>  
             <div class="center h-10">
                 <div class="w-2/3 h-full center border-b border-orange-400">
                     <input type="password" bind:value={confirmPassword} placeholder="Confirm Password" class="bg-transparent outline-none w-full">
+                </div>
+            </div>
+            <div class="center h-10">
+                <div class="w-full h-full border-2 border-red-500 p-4 mx-auto center rounded-lg hidden" bind:this={message} id="message">
+                        <h3 class="text-lg font-bold mb-2">Password must contain the following:</h3>
+                        <p id="letter" bind:this={letter} class="text-red-400 text-left">A <b>lowercase</b> letter</p>
+                        <p id="capital" bind:this={capital} class="text-red-400 text-left">A <b>capital (uppercase)</b> letter</p>
+                        <p id="number" bind:this={number} class="text-red-400 text-left">A <b>number</b></p>
+                        <p id="length" bind:this={length} class="text-red-400 text-left">Minimum <b>8 characters</b></p>
                 </div>
             </div>
             <div class="w-full h-20 center flex justify-evenly mt-5">
