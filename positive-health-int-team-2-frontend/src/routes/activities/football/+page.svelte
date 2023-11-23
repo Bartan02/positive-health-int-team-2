@@ -39,28 +39,14 @@
     </div>
 
     <div class="flex-grow text-center mt-4 mr-12">
-        <p class= "text-4xl text-orange-500 font-bold">Friends</p>
+        <p class= "text-4xl text-orange-500 font-bold">Activity</p>
     </div>
    </div>
 
-   <ActivityManager 
-  {userId} 
-  on:activityStarted={handleActivityStart} 
-  on:activityStopped={handleActivityStop} 
-/>
-  
-
-
-   
-  
-    <!-- Pagination -->
-    <div class="flex justify-center items-center space-x-6">
-      <div class="text-gray-600 text-4xl font-bold">&lt;</div>
-      <div class="bg-orange-600 p-8 rounded-full text-white text-3xl flex items-center justify-center w-12 h-12">1</div>
-      <div class="text-gray-600 text-3xl">2</div>
-      <div class="text-gray-600 text-3xl">3</div>
-      <div class="text-gray-600 text-4xl font-bold">&gt;</div>
-    </div>
+    <ActivityManager 
+      userId={userId} 
+      on:activityStarted={handleActivityStart} 
+      on:activityStopped={handleActivityStop}
+    />
 
   </div>
-  
