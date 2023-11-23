@@ -1,10 +1,12 @@
 <script>
     import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+    import { writable } from 'svelte/store';
     import { startActivity, stopActivity, updateLocation } from '../lib/activityService.js';
 
     export let userId;
     let activityId = null;
     let isActivityOngoing = false;
+    let distance = writable(0);
     const dispatcher = createEventDispatcher();
 
     function getCurrentLocation() {
@@ -29,6 +31,7 @@
             activityId = response.activityId;
             isActivityOngoing = true;
             dispatcher('activityStarted', { activityId });
+            console.log(response, startLocation);
         } catch (error) {
             console.error('Error in handleStartActivity:', error);
         }
@@ -39,7 +42,8 @@
             const response = await stopActivity(activityId);
             isActivityOngoing = false;
             activityId = null;
-            dispatcher('activityStopped', response);
+            dispatcher('activityStopped', response.distance / 10);
+            
         } catch (error) {
             console.error('Error stopping activity:', error);
         }
@@ -55,7 +59,15 @@
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         };
-                        await updateLocation(activityId, currentLocation);
+
+                        console.log(`Latitude: ${currentLocation.latitude}, Longitude: ${currentLocation.longitude}`);
+                        
+                        try {
+                            const response = await updateLocation(activityId, currentLocation);
+                            distance.set(response.distance); // Update distance state
+                        } catch (error) {
+                            console.error('Error updating location:', error);
+                        }
                     }
                 },
                 (error) => {
@@ -63,7 +75,7 @@
                 },
                 {
                     enableHighAccuracy: true,
-                    timeout: 10,
+                    timeout: 10000, // Adjusted timeout for better reliability
                     maximumAge: 0
                 }
             );
@@ -71,7 +83,6 @@
             console.error('Geolocation is not supported by this browser.');
         }
     });
-
     onDestroy(() => {
         if (watchId) {
             navigator.geolocation.clearWatch(watchId);
@@ -82,3 +93,5 @@
 <button on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}>
     {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
 </button>
+
+<h2>Distance: {$distance} meters</h2>
