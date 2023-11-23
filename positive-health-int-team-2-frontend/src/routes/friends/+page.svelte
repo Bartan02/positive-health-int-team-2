@@ -24,7 +24,7 @@
         </div>
 
         <div class="flex-grow text-center mt-4 mr-12">
-            <p class= "text-orange-400 font-bold text-lg">Friends</p>
+            <p class= "text-4xl text-orange-500 font-bold">Friends</p>
         </div>
     </div>
 
