@@ -50,8 +50,7 @@
 />
   
 
-    <Timer />
-    <p> Distance Traveled: </p>
+
    
   
     <!-- Pagination -->
