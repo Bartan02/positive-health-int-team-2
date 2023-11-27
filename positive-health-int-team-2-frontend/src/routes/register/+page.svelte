@@ -1,12 +1,10 @@
 <script>
     import validateEmail from '../../lib/authverification.js';
     import { onMount } from 'svelte';
-
     let username = '';
     let password = '';
     let email = '';
     let confirmPassword = '';
-  
     const lowerCaseLetters = /[a-z]/g;
     const upperCaseLetters = /[A-Z]/g;
     const numbers = /[0-9]/g;

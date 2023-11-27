@@ -54,7 +54,7 @@
             <div class="w-full h-20 center flex justify-evenly">
                 <a href="/register" class="w-1/3 h-3/5">
                     <div class="w-full h-full border border-orange-500 center rounded-3xl">
-                        <h2 href="/register">Register</h2>
+                        <h2 a href="/register">Register</h2>
                     </div>
                 </a>
                 <a class="w-1/3 h-3/5">

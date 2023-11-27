@@ -1,104 +1,126 @@
+<style>
+  .burger{
+            width: 50px;
+            height: 50px;
+     }
+</style>
+
 <div class="bg-white p-4">
-    <!-- Top bar with icons and title -->
-    <div class="flex justify-between items-center mb-4">
-      <div class="text-orange-600">12:00</div>
-      <div class="text-4xl text-orange-500">Activities</div>
-      <div class="text-gray-800">94%</div>
-    </div>
-  
+    <div class="flex items-center mb-4">
+      <div class="ml-4 mt-4">
+         <a href=""><img src="burgermenu.png" class="burger"></a>
+      </div>
+
+      <div class="flex-grow text-center mt-4 mr-12">
+          <p class= "text-4xl text-orange-500 font-bold">Friends</p>
+      </div>
+     </div>
 
 
-   <!-- Grid of activities -->
-<div class="grid grid-cols-2 gap-4 mb-4">
+
+
+  <!-- Grid of activities -->
+ <div class="grid grid-cols-2 gap-4 mb-4">
+
+<a href="/activities/football">  
   <!-- First activity block -->
-  <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+  <div class="bg-white-600 p-8  rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
     <!-- Icon -->
     <img src="/footballogo.png" alt="Football" class="mb-2">
     <!-- Text -->
-    <div>Football</div>
+    <div class="font-custom text-2xl text-orange-500 font-bold">Football</div>
   </div>
+</a>
+<a href="">
   <!-- Second activity block (Repeat the block with different content if needed) -->
-  <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+  <div class="bg-white-600 p-8  rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
     <!-- Icon -->
-    <img src="/path-to-your-other-activity-icon.svg" alt="Other Activity" class="mb-2">
+    <img src="/basketball.png" alt="Basketball" class="mb-2">
     <!-- Text -->
-    <div>Basketball</div>
+    <div class="font-custom text-2xl text-orange-500 font-bold">Basketball</div>
   </div>
-</div>
+</a>
+ </div>
+
+
 
    <!-- Grid of activities -->
    <div class="grid grid-cols-2 gap-4 mb-4">
+  <a href="">
     <!-- First activity block -->
-    <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+    <div class="bg-white-600 p-8  rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
       <!-- Icon -->
-      <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+      <img src="/run.png" alt="run" class="mb-2">
       <!-- Text -->
-      <div>Running</div>
+      <div class="font-custom text-2xl text-orange-500 font-bold">Running</div>
     </div>
+  </a>
+  <a href="">
     <!-- Second activity block (Repeat the block with different content if needed) -->
-    <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+    <div class="bg-white-600 p-8 rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
       <!-- Icon -->
-      <img src="/path-to-your-other-activity-icon.svg" alt="Other Activity" class="mb-2">
+      <img src="/bicycle.png" alt="Other Activity" class="mb-2">
       <!-- Text -->
-      <div>Outdoor cycle</div>
+      <div class="font-custom text-2xl text-orange-500 font-bold">Cycling</div>
     </div>
-  </div>
+  </a>
+</div>
+
+
 
      <!-- Grid of activities -->
-<div class="grid grid-cols-2 gap-4 mb-4">
+ <div class="grid grid-cols-2 gap-4 mb-4">
+<a href="">
   <!-- First activity block -->
-  <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+  <div class="bg-white-600 p-8  rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
     <!-- Icon -->
-    <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+    <img src="/skateboard.png" alt="Biking" class="mb-2">
     <!-- Text -->
-    <div>Skateboarding</div>
+    <div class="font-custom text-2xl text-orange-500 font-bold">Skateboarding</div>
   </div>
+</a>
+<a href="">
   <!-- Second activity block (Repeat the block with different content if needed) -->
-  <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+  <div class="bg-white-600 p-8 rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
     <!-- Icon -->
-    <img src="/path-to-your-other-activity-icon.svg" alt="Other Activity" class="mb-2">
+    <img src="/rollerskate.png" alt="Other Activity" class="mb-2">
     <!-- Text -->
-    <div>Rollerskating</div>
+    <div class="font-custom text-2xl text-orange-500 font-bold">Rollerskating</div>
   </div>
-</div>
+</a> 
+ </div>
+
+
 
    <!-- Grid of activities -->
    <div class="grid grid-cols-2 gap-4 mb-4">
+    <a href="">
     <!-- First activity block -->
-    <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+    <div class="bg-white-600 p-8 rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
       <!-- Icon -->
-      <img src="/path-to-your-biking-icon.svg" alt="Biking" class="mb-2">
+      <img src="/snowboard.png" alt="Biking" class="mb-2">
       <!-- Text -->
-      <div>Snowboarding</div>
+      <div class="font-custom text-2xl text-orange-500 font-bold">Snowboarding</div>
     </div>
+  </a>
+  <a href="">
     <!-- Second activity block (Repeat the block with different content if needed) -->
-    <div class="bg-gray-200 p-4 rounded-lg flex flex-col items-center justify-center">
+    <div class="bg-white-600 p-8 rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
       <!-- Icon -->
-      <img src="/path-to-your-other-activity-icon.svg" alt="Other Activity" class="mb-2">
+      <img src="/ski.png" alt="Other Activity" class="mb-2">
       <!-- Text -->
-      <div>Skying</div>
+      <div class="font-custom text-2xl text-orange-500 font-bold">Skying</div>
     </div>
+  </a>
   </div>
-      
+     
   
     <!-- Pagination -->
-    <div class="flex justify-center items-center space-x-2 mb-4">
-      <div class="text-gray-600">&lt;</div>
-      <div class="text-red-600">1</div>
-      <div class="text-gray-600">2 3</div>
-      <div class="text-gray-600">&gt;</div>
-    </div>
-  
-    <!-- Bottom navigation -->
-    <div class="fixed bottom-0 inset-x-0 bg-white p-2">
-      <div class="grid grid-cols-5 gap-4">
-        <!-- Each nav icon -->
-        <div class="flex flex-col items-center">
-          <img src="/path-to-your-home-icon.svg" alt="Home" class="mb-1">
-          <div>Home</div>
-        </div>
-        <!-- Repeat for other nav items -->
-      </div>
+    <div class="flex justify-center items-center space-x-6">
+      <div class="text-gray-600 text-4xl font-bold">&lt;</div>
+      <div class="bg-orange-600 p-8 rounded-full text-white text-3xl flex items-center justify-center w-12 h-12">1</div>
+      <div class="text-gray-600 text-3xl">2</div>
+      <div class="text-gray-600 text-3xl">3</div>
+      <div class="text-gray-600 text-4xl font-bold">&gt;</div>
     </div>
   </div>
-  
