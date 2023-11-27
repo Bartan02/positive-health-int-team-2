@@ -30,6 +30,19 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - appointments-db
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    volumes:
+      - ./api-gateway/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3025:3025"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   authentication-service:
     container_name: authentication-service
     build: ./authentication-service
