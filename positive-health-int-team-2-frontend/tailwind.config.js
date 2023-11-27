@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
 export default {
   content: ['./src/routes/**/*.{html,js,svelte,ts}',
     './src/App.svelte',
@@ -6,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        custom: ['Roboto', 'sans-serif'],
+        custom: ['"Raleway"', ...defaultTheme.fontFamily.sans],
       },
     },
   },
