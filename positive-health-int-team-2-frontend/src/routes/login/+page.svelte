@@ -1,8 +1,14 @@
+<svelte:head>
+    <title> Login | StepUp! </title>
+</svelte:head>
+
 <script>
 	import { error } from '@sveltejs/kit';
     import validateEmail from '../../lib/authverification.js';
     let email = '';
     let password = '';
+
+    let errorDisplay, errorContent;
   
     const login = async () => {
     try {
@@ -24,12 +30,18 @@
         else if(response.status == 500) throw 'There are some problems with our server. If the problem still persists, please contact us.';
     }
   } catch (error) {
-    console.error('Error during login:', error);
+            console.error('Error during login:', error);
+            errorDisplay.classList.remove("hidden");
+            errorContent = error;
+        }
   }
-    };
   </script>
 
-
+<div bind:this={errorDisplay} class="fixed bg-red-600 w-screen text-white p-3 hidden">
+    {#if errorDisplay}
+        <span> {errorContent} </span>
+    {/if}
+</div>
 <div class="flex justify-between flex-col w-screen h-screen">
     <div class="h-20 w-full"></div>          
     <div class="w-full h-full center flex-col">          
@@ -38,12 +50,12 @@
         </div>
         <form on:submit={login}>
         <div class="w-full h-2/3">
-            <div class="center h-10">
+            <div class=" w-80 center h-10 my-3">
                 <div class="w-2/3 h-full center border-b border-orange-400">
                     <input type="email" bind:value={email} placeholder="Email" class="bg-transparent outline-none w-full">
                 </div>
             </div>
-            <div class="center h-10">
+            <div class="w-80 center h-10 my-3">
                 <div class="w-2/3 h-full center border-b border-orange-400">
                     <input type="password" bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
                 </div>  
@@ -57,11 +69,11 @@
                         <h2 a href="/register">Register</h2>
                     </div>
                 </a>
-                <a class="w-1/3 h-3/5">
-                    <button type="submit" class="w-full h-full border border-orange-500 center rounded-3xl">
+                <span class="w-1/3 h-3/5">
+                    <button type="submit" class="w-full bg-orange-500 h-full border border-orange-500 center rounded-3xl text-white">
                         <h2>Login</h2>
                     </button>
-                </a>
+                </span>
             </div>    
         </div>
         </form>

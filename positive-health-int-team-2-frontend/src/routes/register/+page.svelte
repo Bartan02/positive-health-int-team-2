@@ -1,3 +1,7 @@
+<svelte:head>
+    <title> Register | StepUp! </title>
+</svelte:head>
+
 <script>
     import validateEmail from '../../lib/authverification.js';
     import { onMount } from 'svelte';
@@ -111,23 +115,23 @@
         </div>
         <form on:submit|preventDefault={register}>
         <div class="w-full h-5/6">
-            <div class="center h-10">
-                <div class="w-2/3 h-full center border-b border-orange-400">
+            <div class="center h-10 my-3">
+                <div class="w-80 h-full center border-b border-orange-400">
                     <input type="text" bind:value={username} placeholder="Username" class="bg-transparent outline-none w-full">
                 </div>
             </div>
-            <div class="center h-10">
-                <div class="w-2/3 h-full center border-b border-orange-400">
+            <div class="center h-10 my-3">
+                <div class="w-80 h-full center border-b border-orange-400">
                     <input type="email" bind:value={email} placeholder="E-Mail" class="bg-transparent outline-none w-full">
                 </div>  
             </div>    
-            <div class="center h-10">
-                <div class="w-2/3 h-full center border-b border-orange-400">
+            <div class="center h-10 my-3">
+                <div class="w-80 h-full center border-b border-orange-400">
                     <input type="password" on:blur={hideMessageDisplay} on:focus={showMessageDisplay} on:keyup={checkPasswordDisplay} bind:this={myInput} bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
                 </div>  
             </div>  
-            <div class="center h-10">
-                <div class="w-2/3 h-full center border-b border-orange-400">
+            <div class="center h-10 my-3">
+                <div class="w-80 h-full center border-b border-orange-400">
                     <input type="password" bind:value={confirmPassword} placeholder="Confirm Password" class="bg-transparent outline-none w-full">
                 </div>
             </div>
@@ -142,15 +146,15 @@
             </div>
             <div class="w-full h-20 center flex justify-evenly mt-5">
                 <a href="/login" class="w-1/3 h-3/5">
-                    <div class="w-full h-full border border-orange-500 center rounded-3xl">
+                    <div class="w-full h-full p-3 border border-orange-500 center text-center rounded-3xl">
                         <h2 href="/login">Already a user?</h2>
                     </div>
                 </a>
-                <a class="w-1/3 h-3/5">
-                    <button type="submit" class="w-full h-full border border-orange-500 center rounded-3xl">
+                <span class="w-1/3 h-3/5">
+                    <button type="submit" class="w-full p-3 h-max border border-orange-500 bg-orange-500 center rounded-3xl text-white">
                         <h2 >Join</h2>
                     </button>
-                </a>
+                </span>
             </div>    
         </div>
         </form>
