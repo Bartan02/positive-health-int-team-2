@@ -39,7 +39,7 @@
     </div>
 
     <div class="flex-grow text-center mt-4 mr-12">
-        <p class= "text-4xl text-orange-500 font-bold">Activity</p>
+        <p class= "text-4xl text-orange-500 font-bold">Football</p>
     </div>
    </div>
 
