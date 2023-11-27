@@ -1,56 +1,128 @@
-export async function testTheFunctionality(req, res) { 
-    res.status(200).send('Everything is super');
+// Purpose: Handles the core business logic for managing activities.
+// Key Functions:
+// startActivity: Initializes an activity with a unique ID, start time, and location.
+// updateLocation: Updates the current location of an ongoing activity and calculates the distance traveled using the haversine formula.
+// stopActivity: Terminates an ongoing activity, calculating the total time and distance.
+// Data Handling: Currently uses an in-memory object (activities) for data storage. For production, you should consider integrating a database for persistent storage.
+// Dependencies: Relies on the haversine-distance package for calculating distances.
+
+// Connection and Flow
+// Activity Start:
+
+// User initiates an activity on the frontend.
+// startActivity in activityService.js sends a request to the backend's /start route.
+// Backend initializes the activity and returns an activity ID.
+// Location Update:
+
+// The frontend continuously tracks the user's location.
+// updateLocation sends the current location to the backend's /update-location route.
+// Backend calculates and updates the distance traveled.
+// Activity Stop:
+
+// User stops the activity on the frontend.
+// stopActivity communicates with the backend's /stop route.
+// Backend finalizes the activity data and sends a response back.
+
+import haversine from 'haversine-distance';
+import db from '../db.js';
+
+let activities = { } // In-memory storage, replace with DB for production
+
+// Generates a unique ID for each activity
+function generateUniqueId() {
+    return Math.random().toString(36).substr(2, 9);
 }
 
+// Starts a new activity and returns its ID
+export const startActivity = async (req, res) => {
+    const userId = req.body.userId;
+    const startLocation = req.body.startLocation;
 
-export async function getActivities(req, res) {
-    const activities = [
-        { id: 1, name: 'Hiking', location: 'Mountain' },
-        { id: 2, name: 'Swimming', location: 'Beach' }
-        // ... more activities
-    ];
-    res.json(activities);
-}
+    if (!userId || !startLocation) {
+        return res.status(400).send('Missing user Data');
+    }
 
+    const activityId = generateUniqueId();
+    try {
+        const [rows, fields] = await db.execute(
+            'INSERT INTO activities (activity_id, user_id, start_time, start_location, distance) VALUES (?, ?, NOW(), ?, 0)',
+            [activityId, userId, JSON.stringify(startLocation)]
+        );
+        res.json({ activityId, message: 'Activity successfully started' });
+    } catch (error) {
+        console.error('Error in startActivity:', error);
+        res.status(500).send('Database error');
+    }
+};
 
+// Updates the location of an ongoing activity
+export async function updateLocation(req, res) {
+    const { activityId, currentLocation } = req.body;
 
-// Based on your previous messages and the structure of your application, the activityController is indeed the place where you would typically write the business logic for handling activities in your microservice. In a standard Express.js application structure, controllers are responsible for handling the incoming HTTP requests and sending back the appropriate responses. Here's how you might structure your activityController:
+    try {
+        // Retrieve the last location and current total distance from the database
+        const [activityRows] = await db.query(
+            'SELECT last_location, distance FROM activities WHERE activity_id = ?',
+            [activityId]
+        );
 
-// Import Dependencies: Import any necessary modules, middleware, or services that your controller might need. This could include models for database access, utility functions, or external services.
+        if (activityRows.length === 0) {
+            return res.status(404).send('Activity not found');
+        }
 
-// Define Controller Functions: Each function in the controller typically corresponds to a specific route and HTTP method. For instance, you might have functions like getActivities, createActivity, updateActivity, and deleteActivity.
+        let lastLocation = activityRows[0].last_location;
+        let totalDistance = activityRows[0].distance;
 
-// Implement Business Logic: Inside each controller function, you'll implement the logic necessary to handle the request. This could involve fetching data from a database, processing or transforming data, handling business rules, and forming the response.
+        if (typeof lastLocation === 'string') {
+            lastLocation = JSON.parse(lastLocation);
+        }
 
-// Error Handling: Ensure that each function has proper error handling. This could involve catching exceptions, validating input data, and sending appropriate error responses.
+        if (lastLocation) {
+            // Calculate distance between the last and current locations
+            const incrementalDistance = haversine(lastLocation, currentLocation);
+            totalDistance += incrementalDistance;
+        }
 
-// Send Responses: Each function should end by sending a response back to the client. This might be a JSON object, a status code, or a message.
+        // Update the total distance and last location in the database
+        await db.query(
+            'UPDATE activities SET distance = ?, last_location = ? WHERE activity_id = ?',
+            [totalDistance, JSON.stringify(currentLocation), activityId]
+        );
 
-// Export the Controller Functions: Make sure to export these functions so they can be used in your route definitions.
+        res.json({ distance: totalDistance, message: 'Location updated successfully' });
+    } catch (error) {
+        console.error('Error in updating activity:', error);
+        res.status(500).send('Database error');
+    }
+};
 
-// Here’s a simplified example of what part of an activityController might look like:
+// Stops an ongoing activity and returns its summary
+export async function stopActivity(req, res) {
+    const { activityId } = req.body;
 
-// import ActivityModel from '../models/ActivityModel';
+    try {
+        // Retrieve the activity data from the database
+        const [activityRows] = await db.query(
+            'SELECT start_time, distance FROM activities WHERE activity_id = ?',
+            [activityId]
+        );
 
-// Get all activities
-// export async function getActivities(req, res) {
-//     try {
-//         const activities = await ActivityModel.find();
-//         res.json(activities);
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// }
+        if (activityRows.length === 0) {
+            return res.status(404).send('Activity not found');
+        }
 
-// // Create a new activity
-// export async function createActivity(req, res) {
-//     try {
-//         const newActivity = new ActivityModel(req.body);
-//         await newActivity.save();
-//         res.status(201).json(newActivity);
-//     } catch (error) {
-//         res.status(400).send(error.message);
-//     }
-// }
+        const activity = activityRows[0];
+        const endTime = new Date();
+        const totalTime = (endTime - new Date(activity.start_time)) / 1000;
 
-// ... other controller functions for update, delete, etc.
+        const result = {
+            distance: activity.distance,
+            totalTime,
+            message: 'Activity stopped successfully'
+        };
+
+        res.json(result);
+    } catch (error) {
+        res.status(500).send('Database error');
+    }
+};
