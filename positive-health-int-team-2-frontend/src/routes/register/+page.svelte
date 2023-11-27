@@ -7,7 +7,11 @@
     let email = '';
     let confirmPassword = '';
   
-    let myInput, letter, capital, number, length, message;
+    const lowerCaseLetters = /[a-z]/g;
+    const upperCaseLetters = /[A-Z]/g;
+    const numbers = /[0-9]/g;
+
+    let myInput, letter, capital, number, length, message, errorDisplay, errorContent;
 
     // When the user clicks on the password field, show the message box
     function showMessageDisplay() {
@@ -23,34 +27,44 @@
         message.classList.add("hidden");
     }
 
+    function checkPassword(password){
+        if(password.match(lowerCaseLetters) && password.match(upperCaseLetters) && password.match(numbers) && password.length >= 8) return true;
+        else return false 
+    }
+
     const register = async () => {
         try {
             if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
-            if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same."
+            if (!checkPassword(password)) throw "Passsord does not fulfill safety requirements. ";
+            if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same.";
             const response = await fetch('http://localhost:3020/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email: email, username: username, password: password }),
             });
-
             if (response.ok) {
             const data = await response.json();
             localStorage.setItem('token', data.token);
             // Redirect to the specified route
             window.location.href = data.redirect;
             } else {
-            console.error('Register failed');
+                let error = '';
+                response.json().then((data) => {
+                    error = data.error;
+                });
+                throw error;
             }
         } catch (error) {
             console.error('Error during register:', error);
+            errorDisplay.classList.remove("hidden");
+            errorContent = error;
         }
     };
 
-    onMount(() => {
-        const lowerCaseLetters = /[a-z]/g;
-        if(password.match(lowerCaseLetters)) {
+    function checkPasswordDisplay(){
+            if(password.match(lowerCaseLetters)) {
             letter.classList.remove("text-red-400");
             letter.classList.add("text-green-400");
         } else {
@@ -59,7 +73,6 @@
         }
 
         // Validate capital letters
-        const upperCaseLetters = /[A-Z]/g;
         if(password.match(upperCaseLetters)) {
             capital.classList.remove("text-red-400");
             capital.classList.add("text-green-400");
@@ -69,7 +82,6 @@
         }
 
         // Validate numbers
-        const numbers = /[0-9]/g;
         if(password.match(numbers)) {
             number.classList.remove("text-red-400");
             number.classList.add("text-green-400");
@@ -86,9 +98,13 @@
             length.classList.remove("text-green-400");
             length.classList.add("text-red-400");
         }
-        })
+        }
   </script>
-
+<div bind:this={errorDisplay} class="fixed bg-red-600 w-screen text-white p-3 hidden">
+    {#if errorDisplay}
+        <span> {errorContent} </span>
+    {/if}
+</div>
 <div class="flex justify-between flex-col w-screen h-screen">
     <div class="h-20 w-full"></div>          
     <div class="w-full h-full center flex-col">          
@@ -96,7 +112,7 @@
             <img src="/logo.png" alt="StepUp!_logo" class="h-2/3">
         </div>
         <form on:submit|preventDefault={register}>
-        <div class="w-full h-2/3">
+        <div class="w-full h-5/6">
             <div class="center h-10">
                 <div class="w-2/3 h-full center border-b border-orange-400">
                     <input type="text" bind:value={username} placeholder="Username" class="bg-transparent outline-none w-full">
@@ -109,7 +125,7 @@
             </div>    
             <div class="center h-10">
                 <div class="w-2/3 h-full center border-b border-orange-400">
-                    <input type="password" on:blur={hideMessageDisplay} on:focus={showMessageDisplay} bind:this={myInput} bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
+                    <input type="password" on:blur={hideMessageDisplay} on:focus={showMessageDisplay} on:keyup={checkPasswordDisplay} bind:this={myInput} bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
                 </div>  
             </div>  
             <div class="center h-10">
@@ -117,8 +133,8 @@
                     <input type="password" bind:value={confirmPassword} placeholder="Confirm Password" class="bg-transparent outline-none w-full">
                 </div>
             </div>
-            <div class="center h-10">
-                <div class="w-full h-full border-2 border-red-500 p-4 mx-auto center rounded-lg hidden" bind:this={message} id="message">
+            <div class="center mt-6">
+                <div class="w-full h-full border-2 border-red-500 p-4 mx-auto center rounded-lg hidden text-left" bind:this={message} id="message">
                         <h3 class="text-lg font-bold mb-2">Password must contain the following:</h3>
                         <p id="letter" bind:this={letter} class="text-red-400 text-left">A <b>lowercase</b> letter</p>
                         <p id="capital" bind:this={capital} class="text-red-400 text-left">A <b>capital (uppercase)</b> letter</p>
