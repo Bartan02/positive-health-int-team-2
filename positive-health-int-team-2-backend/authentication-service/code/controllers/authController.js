@@ -21,10 +21,10 @@ async function register(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, username, password: hashedPassword });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
-    res.status(200).json({ token, redirect: '/logintest' });
+    return res.status(200).json({ token, redirect: '/logintest' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
@@ -40,10 +40,10 @@ async function login(req, res) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
-    res.status(200).json({ token, redirect: '/logintest' });
+    return res.status(200).json({ token, redirect: '/logintest' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
@@ -57,7 +57,7 @@ function logout(req, res) {
   // Add the token to the blacklist
   tokenBlacklist.push(token);
 
-  res.status(200).json({ message: 'Logout successful', redirect: '/'  });
+  return res.status(200).json({ message: 'Logout successful', redirect: '/'  });
 }
 
 export default { register, login, logout };

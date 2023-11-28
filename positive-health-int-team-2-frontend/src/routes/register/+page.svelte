@@ -39,7 +39,7 @@
             if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
             if (!checkPassword(password)) throw "Passsord does not fulfill safety requirements. ";
             if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same.";
-            const response = await fetch('http://localhost:3020/register', {
+            const response = await fetch('http://localhost:3025/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
