@@ -13,6 +13,25 @@
     const dispatcher = createEventDispatcher();
     let localStartTime; // Local variable to hold start time
     let maximumSpeed = 0; // maximumSpeed;
+    let sprintDistance = 0;
+    let currentSpeed = 0;
+    let previousLocation = null;
+
+
+    function calculateSpeed(currentLocation) {
+    if (previousLocation) {
+        const timeDifference = Date.now() - lastUpdateTime; // time in milliseconds
+        const distance = haversine(previousLocation, currentLocation); // distance in meters
+
+        // Speed in meters per second
+        currentSpeed = distance / (timeDifference / 1000); 
+
+        // Optionally, convert to km/h or mph as needed
+        currentSpeed = currentSpeed * 3.6; // for km/h
+    }
+
+    previousLocation = currentLocation; // update previousLocation for the next calculation
+}
 
     function getCurrentLocation() {
         return new Promise((resolve, reject) => {
@@ -95,6 +114,8 @@
                                 longitude: position.coords.longitude
                             };
                             
+                            calculateSpeed(currentLocation);
+
                             try {
                                 console.log("Sending maximumSpeed:", maximumSpeed);
                                 const response = await updateLocation(activityId, currentLocation, maximumSpeed);
@@ -189,8 +210,13 @@
     </a>
 
     <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum Speed:</h5>
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum avg Speed:</h5>
         <p class="font-normal text-gray-700 dark:text-gray-400">{maximumSpeed.toFixed(2)} meters/hour</p>
+    </a>
+
+    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Speed</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{currentSpeed.toFixed(2)} km/h</p>
     </a>
 
     <!-- UI for controlling the activity -->
