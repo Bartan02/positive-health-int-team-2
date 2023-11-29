@@ -36,9 +36,9 @@
 
     const register = async () => {
         try {
-            if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
-            if (!checkPassword(password)) throw "Passsord does not fulfill safety requirements. ";
-            if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same.";
+            //if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
+            //if (!checkPassword(password)) throw "Passsord does not fulfill safety requirements. ";
+            //if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same.";
             const response = await fetch('http://localhost:3025/auth/register', {
             method: 'POST',
             headers: {
@@ -47,19 +47,18 @@
             body: JSON.stringify({ email: email, username: username, password: password }),
             });
             if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
             // Redirect to the specified route
-            window.location.href = data.redirect;
+                window.location.href = data.redirect;
             } else {
                 let error = '';
-                response.json().then((data) => {
+                await response.json().then((data) => {
                     error = data.error;
                 });
                 throw error;
             }
         } catch (error) {
-            console.error('Error during register:', error);
             errorDisplay.classList.remove("hidden");
             errorContent = error;
         }

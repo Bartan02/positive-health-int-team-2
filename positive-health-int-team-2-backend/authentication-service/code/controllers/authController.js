@@ -13,36 +13,34 @@ function validateEmail(email) {
 async function register(req, res) {
   try {
     const { email, username, password } = req.body;
-    const existingEmail = await User.findOne({where: {email: email}});
-    const existingUsername = await User.findOne({where: {username: username}});
-    if(!validateEmail(email)) return res.status(401).json({ error: 'Typped email is invalid. Your email should look like this: email@domain.com' });
-    else if(existingEmail != null) return res.status(401).json({ error: 'Typped email has already been taken. You need to use other email for registration or log in with typped email.' });
-    else if(existingUsername != null) return res.status(401).json({ error: 'Typped username has already been taken. You need to use other username for registration or log in with typped username.' });
+    if(username === '') return res.status(401).send({ error: 'Please, do not leave username blank.' });
+    if(email === '') return res.status(401).send({ error: 'Please, do not leave email blank.' });
+    const queryEmail = await User.findOne({where: {email: email}});
+    if(queryEmail !== null) return res.status(401).send({ error: 'Typped email has already been taken. You need to use other email for registration or log in with typped email.' });
+    const queryUsername = await User.findOne({where: {username: username}});
+    if(queryUsername !== null) return res.status(401).send({ error: 'Typped username has already been taken. You need to use other username for registration or log in with typped username.' });
+    if(!validateEmail(email)) return res.status(401).send({ error: 'Typped email is invalid. Your email should look like this: email@domain.com' });
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, username, password: hashedPassword });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
     return res.status(200).json({ token, redirect: '/logintest' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).send({ error: 'Internal Server Error' });
   }
 }
 
 async function login(req, res) {
   try {
-    const { email, username, password } = req.body;
+  const { email, username, password } = req.body;
+  try{
     const user = await User.findOne({ where: { email } });
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
-    else if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
     return res.status(200).json({ token, redirect: '/logintest' });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
