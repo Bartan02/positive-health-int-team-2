@@ -63,32 +63,36 @@
 
     let watchId;
     let intervalId; // ID for the interval timer
+    const THROTTLE_INTERVAL = 200; // Throttle interval in milliseconds (e.g., 5000ms = 5s)
+    let lastUpdateTime = 0; // Variable to store the last update time
     onMount(() => {
         if ('geolocation' in navigator) {
             watchId = navigator.geolocation.watchPosition(
                 async (position) => {
                     if (activityId) {
-                        const currentLocation = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        };
+                        const now = Date.now();
+                        if (now - lastUpdateTime > THROTTLE_INTERVAL) {
+                            lastUpdateTime = now;
 
-                        try {
-                            const response = await updateLocation(activityId, currentLocation);
-                            distance.set(response.distance);
+                            const currentLocation = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            };
 
-                            if (localStartTime) {
-                                const now = new Date();
-                                const elapsed = new Date(now - localStartTime);
+                            try {
+                                const response = await updateLocation(activityId, currentLocation);
+                                distance.set(response.distance);
 
-                                const hours = elapsed.getUTCHours().toString().padStart(2, '0');
-                                const minutes = elapsed.getUTCMinutes().toString().padStart(2, '0');
-                                const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
-
-                                elapsedTime.set(`${hours}:${minutes}:${seconds}`);
+                                if (localStartTime) {
+                                    const elapsed = new Date(now - localStartTime);
+                                    const hours = elapsed.getUTCHours().toString().padStart(2, '0');
+                                    const minutes = elapsed.getUTCMinutes().toString().padStart(2, '0');
+                                    const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
+                                    elapsedTime.set(`${hours}:${minutes}:${seconds}`);
+                                }
+                            } catch (error) {
+                                console.error('Error updating location:', error);
                             }
-                        } catch (error) {
-                            console.error('Error updating location:', error);
                         }
                     }
                 },

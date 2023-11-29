@@ -1,6 +1,6 @@
 // Function to start an activity
 export async function startActivity(userId, startLocation) {
-    const response = await fetch('http://localhost:3025/activities/activity/start/', {
+    const response = await fetch('https://my-activities-service-c4850aca1f8f.herokuapp.com/activity/start/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ export async function startActivity(userId, startLocation) {
 
 // Function to stop an activity
 export async function stopActivity(activityId) {
-    const response = await fetch('http://localhost:3025/activities/activity/stop/', {
+    const response = await fetch('https://my-activities-service-c4850aca1f8f.herokuapp.com/activity/stop/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ export async function stopActivity(activityId) {
 
 // Function to update an activity's location
 export async function updateLocation(activityId, currentLocation) {
-    const response = await fetch('http://localhost:3025/activities/activity/update-location', {
+    const response = await fetch('https://my-activities-service-c4850aca1f8f.herokuapp.com/activity/update-location', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
