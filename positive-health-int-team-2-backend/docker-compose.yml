@@ -1,76 +1,106 @@
 version: '3.8'
 services:
-  activities-service:
-    container_name: activities-service
-    build: ./activities-service
+  map-service:
+    container_name: map-service
+    build: ./map-service
     volumes:
-      - ./activities-service/code:/usr/src/app
+      - ./map-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
-      - "3015:3015"
+      - "3019:3019"
     working_dir: /usr/src/app
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
-      - activities-db
+      - map-db
 
-  appointments:
-    container_name: sample-service
-    build: ./sample-service
-    volumes:
-      - ./sample-service/code:/usr/src/app
-    networks:
-      - positive-health
-    ports:
-      - "3010:3010"
-    working_dir: /usr/src/app
-    command: npm run dev
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - appointments-db
+  # activities-service:
+  #   container_name: activities-service
+  #   build: ./activities-service
+  #   volumes:
+  #     - ./activities-service/code:/usr/src/app
+  #   networks:
+  #     - positive-health
+  #   ports:
+  #     - "3015:3015"
+  #   working_dir: /usr/src/app
+  #   command: npm run dev
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #   depends_on:
+  #     - activities-db
 
-  activities-db:
+  # appointments:
+  #   container_name: sample-service
+  #   build: ./sample-service
+  #   volumes:
+  #     - ./sample-service/code:/usr/src/app
+  #   networks:
+  #     - positive-health
+  #   ports:
+  #     - "3010:3010"
+  #   working_dir: /usr/src/app
+  #   command: npm run dev
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #   depends_on:
+  #     - appointments-db
+
+  map-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: activities_db
+      MYSQL_DATABASE: map-db
       MYSQL_USER: activity123
       MYSQL_PASSWORD: activity123123
       MYSQL_ROOT_PASSWORD: activity123123
     ports:
-      - '3307:3306'
+      - '3306:3306'
     volumes:
-      - activities-db:/var/lib/mysql
+      - map-db:/var/lib/mysql
     networks:
       - positive-health
 
-  appointments-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: appointments_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
-    ports:
-      - '3308:3306'
-    volumes:
-      - appointments-db:/var/lib/mysql
-    networks:
-      - positive-health
+  # activities-db:
+  #   image: mysql:latest
+  #   environment:
+  #     MYSQL_DATABASE: activities_db
+  #     MYSQL_USER: activity123
+  #     MYSQL_PASSWORD: activity123123
+  #     MYSQL_ROOT_PASSWORD: activity123123
+  #   ports:
+  #     - '3307:3306'
+  #   volumes:
+  #     - activities-db:/var/lib/mysql
+  #   networks:
+  #     - positive-health
+
+  # appointments-db:
+  #   image: mysql:latest
+  #   environment:
+  #     MYSQL_DATABASE: appointments_db
+  #     MYSQL_USER: activity123
+  #     MYSQL_PASSWORD: activity123123
+  #     MYSQL_ROOT_PASSWORD: activity123123
+  #   ports:
+  #     - '3308:3306'
+  #   volumes:
+  #     - appointments-db:/var/lib/mysql
+  #   networks:
+  #     - positive-health
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: activities-db
+      PMA_HOST: map-db
       PMA_PORT: 3306
       PMA_USER: activity123
       PMA_PASSWORD: activity123123
     ports:
       - '8080:80'
     depends_on:
-      - activities-db
+      - map-db
     networks:
       - positive-health
 
@@ -81,3 +111,4 @@ networks:
 volumes:
   activities-db:
   appointments-db:
+  map-db:

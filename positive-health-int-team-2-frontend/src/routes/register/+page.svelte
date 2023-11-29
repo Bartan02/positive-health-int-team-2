@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import { goto } from "$app/navigation";
 	import { authHandlers } from "../../stores/authStore";
 
@@ -63,4 +63,4 @@
             </div>    
         </div>
     </div>  
-</div>  
+</div>   -->

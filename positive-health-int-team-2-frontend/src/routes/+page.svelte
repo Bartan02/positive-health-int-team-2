@@ -1,4 +1,4 @@
-<svelte:head>
+<!-- <svelte:head>
   <title>StepUp!</title>
   <style>
     .stepup {
@@ -94,4 +94,4 @@
 	</div>
 {:else}
 	<div>Not logged in. <a href="/login">Login</a></div>
-{/if}
+{/if} -->

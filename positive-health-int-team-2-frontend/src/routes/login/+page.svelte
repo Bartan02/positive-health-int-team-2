@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import { authHandlers } from "../../stores/authStore";
 
     let email = '';
@@ -53,4 +53,4 @@
             </div>    
         </div>
     </div>  
-</div>
+</div> -->
