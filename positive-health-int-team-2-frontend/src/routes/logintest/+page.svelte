@@ -5,7 +5,7 @@
   
     onMount(async () => {
       try {
-        const response = await fetch('http://localhost:3020/logintest', {
+        const response = await fetch('http://localhost:3025/auth/logintest', {
           method: 'GET',
           headers: { 
             'Authorization': localStorage.getItem('token'),
@@ -22,7 +22,7 @@
 
     async function logout(){
       try {
-        const response = await fetch('http://localhost:3020/logout', {
+        const response = await fetch('http://localhost:3025/auth/logout', {
           method: 'POST',
           headers: { 
             'Authorization': localStorage.getItem('token'),
