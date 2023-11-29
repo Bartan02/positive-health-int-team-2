@@ -55,9 +55,51 @@ export const startActivity = async (req, res) => {
     }
 };
 
+
+
+// Stops an ongoing activity and returns its summary
+export async function stopActivity(req, res) {
+    // const { activityId, maximumSpeed } = req.body;
+    const activityId = req.body.activityId;
+    const maximumSpeed = req.body.maximumSpeed;
+    console.log('Received in backend:', req.body);
+    try {
+        // Retrieve the activity data from the database
+        const [activityRows] = await db.query(
+            'SELECT start_time, distance FROM activities WHERE activity_id = ?',
+            [activityId]
+        );
+        
+
+        if (activityRows.length === 0) {
+            return res.status(404).send('Activity not found');
+        }
+        
+        // Update maximum speed only if the activity exists
+        const updateQuery = 'UPDATE activities SET maximum_speed = ? WHERE activity_id = ?';
+        await db.query(updateQuery, [maximumSpeed, activityId]);
+
+        const activity = activityRows[0];
+        const endTime = new Date();
+        const totalTime = (endTime - new Date(activity.start_time)) / 1000;
+
+        const result = {
+            distance: activity.distance,
+            totalTime,
+            maximumSpeed,
+            message: 'Activity stopped successfully',
+        };
+        console.log(result);
+        res.json(result);
+    } catch (error) {
+        console.error('Error in stopActivity:', error); // Log the error for debugging
+        res.status(500).send('Database error');
+    }
+};
+
 // Updates the location of an ongoing activity
 export async function updateLocation(req, res) {
-    const { activityId, currentLocation } = req.body;
+    const { activityId, currentLocation, maximumSpeed } = req.body;
 
     try {
         // Retrieve the last location and current total distance from the database
@@ -82,47 +124,17 @@ export async function updateLocation(req, res) {
             const incrementalDistance = haversine(lastLocation, currentLocation);
             totalDistance += incrementalDistance;
         }
-
+        console.log('Received request body: ', req.body);
         // Update the total distance and last location in the database
         await db.query(
-            'UPDATE activities SET distance = ?, last_location = ? WHERE activity_id = ?',
-            [totalDistance, JSON.stringify(currentLocation), activityId]
+            'UPDATE activities SET distance = ?, last_location = ?, maximum_speed = ? WHERE activity_id = ?',
+            [totalDistance, JSON.stringify(currentLocation), maximumSpeed, activityId]
         );
+        
 
-        res.json({ distance: totalDistance, message: 'Location updated successfully' });
+        res.json({ distance: totalDistance, message: 'Location updated successfully', maximumSpeed });
     } catch (error) {
         console.error('Error in updating activity:', error);
-        res.status(500).send('Database error');
-    }
-};
-
-// Stops an ongoing activity and returns its summary
-export async function stopActivity(req, res) {
-    const { activityId } = req.body;
-
-    try {
-        // Retrieve the activity data from the database
-        const [activityRows] = await db.query(
-            'SELECT start_time, distance FROM activities WHERE activity_id = ?',
-            [activityId]
-        );
-
-        if (activityRows.length === 0) {
-            return res.status(404).send('Activity not found');
-        }
-
-        const activity = activityRows[0];
-        const endTime = new Date();
-        const totalTime = (endTime - new Date(activity.start_time)) / 1000;
-
-        const result = {
-            distance: activity.distance,
-            totalTime,
-            message: 'Activity stopped successfully'
-        };
-
-        res.json(result);
-    } catch (error) {
         res.status(500).send('Database error');
     }
 };

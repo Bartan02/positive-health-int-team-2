@@ -1,6 +1,6 @@
 <script>
     import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { writable, get } from 'svelte/store';
     import { startActivity, stopActivity, updateLocation } from '../lib/activityService.js';
 
     export let userId;
@@ -12,6 +12,7 @@
     const elapsedTime = writable('00:00:00'); // Store to keep track of elapsed time
     const dispatcher = createEventDispatcher();
     let localStartTime; // Local variable to hold start time
+    let maximumSpeed = 0; // maximumSpeed;
 
     function getCurrentLocation() {
         return new Promise((resolve, reject) => {
@@ -47,7 +48,7 @@
 
     async function handleStopActivity() {
         try {
-            const response = await stopActivity(activityId);
+            const response = await stopActivity(activityId, maximumSpeed);
             isActivityOngoing = false;
             activityId = null;
             dispatcher('activityStopped', response);
@@ -61,6 +62,21 @@
         }
     }
 
+    function updateAverageSpeed() {
+        const elapsedParts = get(elapsedTime).split(':');
+        const elapsedHours = parseInt(elapsedParts[0]) + parseInt(elapsedParts[1]) / 60 + parseInt(elapsedParts[2]) / 3600;
+        
+        if (elapsedHours > 0) {
+             // Average speed in meters/hour
+            const avgSpeed = get(distance) / elapsedHours;
+            averageSpeed.set(avgSpeed);
+            if (maximumSpeed < avgSpeed) {
+                maximumSpeed = avgSpeed;
+            }
+        }
+    }
+
+    
     let watchId;
     let intervalId; // ID for the interval timer
     const THROTTLE_INTERVAL = 200; // Throttle interval in milliseconds (e.g., 5000ms = 5s)
@@ -78,9 +94,10 @@
                                 latitude: position.coords.latitude,
                                 longitude: position.coords.longitude
                             };
-
+                            
                             try {
-                                const response = await updateLocation(activityId, currentLocation);
+                                console.log("Sending maximumSpeed:", maximumSpeed);
+                                const response = await updateLocation(activityId, currentLocation, maximumSpeed);
                                 distance.set(response.distance);
 
                                 if (localStartTime) {
@@ -117,6 +134,8 @@
                     const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
 
                     elapsedTime.set(`${hours}:${minutes}:${seconds}`);
+
+                    updateAverageSpeed();
                 }
             }, 1000);
         } else {
@@ -167,6 +186,11 @@
     <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Average Speed:</h5>
         <p class="font-normal text-gray-700 dark:text-gray-400">{$averageSpeed.toFixed(2)} meters/hour</p>
+    </a>
+
+    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum Speed:</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{maximumSpeed.toFixed(2)} meters/hour</p>
     </a>
 
     <!-- UI for controlling the activity -->
