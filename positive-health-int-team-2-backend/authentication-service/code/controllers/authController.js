@@ -32,14 +32,12 @@ async function register(req, res) {
 async function login(req, res) {
   try {
   const { email, username, password } = req.body;
-  try{
     const user = await User.findOne({ where: { email } });
+    if (user === null) return res.status(401).json({ error: 'Invalid username or password' });
     const passwordMatch = await bcrypt.compare(password, user.password);
-  } catch (error) {
-    return res.status(401).json({ error: 'Invalid username or password' });
-  }
+    if (!passwordMatch) return res.status(401).json({ error: 'Invalid username or password' });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
-    return res.status(200).json({ token, redirect: '/logintest' });
+    return res.status(200).json({ token, redirect: '/logintest', userid: user.id});
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }

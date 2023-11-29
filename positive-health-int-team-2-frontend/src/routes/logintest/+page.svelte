@@ -12,8 +12,9 @@
           },
         });
         if(response.ok){
-          const data = await response.json();
-          message = data.message;
+          const token = localStorage.getItem('token');
+          const userid = localStorage.getItem('userid');
+          message = userid;
         }
       } catch (error) {
         console.error('Profile access failed:', error);
