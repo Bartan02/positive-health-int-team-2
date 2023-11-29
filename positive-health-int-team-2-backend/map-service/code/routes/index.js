@@ -1,7 +1,7 @@
 import express from 'express';
-import { testTheFunctionality } from '../controllers/activityController.js';
-import { createMeeting } from '../controllers/activityController.js';
-import { getAllInfo } from '../controllers/activityController.js';
+import { testTheFunctionality } from '../controllers/mapController.js';
+import { createMeeting } from '../controllers/mapController.js';
+import { getAllInfo } from '../controllers/mapController.js';
 
 const router = express.Router();
 
