@@ -1,6 +1,6 @@
 <script>
     import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { writable, get } from 'svelte/store';
     import { startActivity, stopActivity, updateLocation } from '../lib/activityService.js';
 
     export let userId;
@@ -12,6 +12,26 @@
     const elapsedTime = writable('00:00:00'); // Store to keep track of elapsed time
     const dispatcher = createEventDispatcher();
     let localStartTime; // Local variable to hold start time
+    let maximumSpeed = 0; // maximumSpeed;
+    let sprintDistance = 0;
+    let currentSpeed = 0;
+    let previousLocation = null;
+
+
+    function calculateSpeed(currentLocation) {
+    if (previousLocation) {
+        const timeDifference = Date.now() - lastUpdateTime; // time in milliseconds
+        const distance = haversine(previousLocation, currentLocation); // distance in meters
+
+        // Speed in meters per second
+        currentSpeed = distance / (timeDifference / 1000); 
+
+        // Optionally, convert to km/h or mph as needed
+        currentSpeed = currentSpeed * 3.6; // for km/h
+    }
+
+    previousLocation = currentLocation; // update previousLocation for the next calculation
+}
 
     function getCurrentLocation() {
         return new Promise((resolve, reject) => {
@@ -47,7 +67,7 @@
 
     async function handleStopActivity() {
         try {
-            const response = await stopActivity(activityId);
+            const response = await stopActivity(activityId, maximumSpeed);
             isActivityOngoing = false;
             activityId = null;
             dispatcher('activityStopped', response);
@@ -61,34 +81,56 @@
         }
     }
 
+    function updateAverageSpeed() {
+        const elapsedParts = get(elapsedTime).split(':');
+        const elapsedHours = parseInt(elapsedParts[0]) + parseInt(elapsedParts[1]) / 60 + parseInt(elapsedParts[2]) / 3600;
+        
+        if (elapsedHours > 0) {
+             // Average speed in meters/hour
+            const avgSpeed = get(distance) / elapsedHours;
+            averageSpeed.set(avgSpeed);
+            if (maximumSpeed < avgSpeed) {
+                maximumSpeed = avgSpeed;
+            }
+        }
+    }
+
+    
     let watchId;
     let intervalId; // ID for the interval timer
+    const THROTTLE_INTERVAL = 200; // Throttle interval in milliseconds (e.g., 5000ms = 5s)
+    let lastUpdateTime = 0; // Variable to store the last update time
     onMount(() => {
         if ('geolocation' in navigator) {
             watchId = navigator.geolocation.watchPosition(
                 async (position) => {
                     if (activityId) {
-                        const currentLocation = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        };
+                        const now = Date.now();
+                        if (now - lastUpdateTime > THROTTLE_INTERVAL) {
+                            lastUpdateTime = now;
 
-                        try {
-                            const response = await updateLocation(activityId, currentLocation);
-                            distance.set(response.distance);
+                            const currentLocation = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            };
+                            
+                            calculateSpeed(currentLocation);
 
-                            if (localStartTime) {
-                                const now = new Date();
-                                const elapsed = new Date(now - localStartTime);
+                            try {
+                                console.log("Sending maximumSpeed:", maximumSpeed);
+                                const response = await updateLocation(activityId, currentLocation, maximumSpeed);
+                                distance.set(response.distance);
 
-                                const hours = elapsed.getUTCHours().toString().padStart(2, '0');
-                                const minutes = elapsed.getUTCMinutes().toString().padStart(2, '0');
-                                const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
-
-                                elapsedTime.set(`${hours}:${minutes}:${seconds}`);
+                                if (localStartTime) {
+                                    const elapsed = new Date(now - localStartTime);
+                                    const hours = elapsed.getUTCHours().toString().padStart(2, '0');
+                                    const minutes = elapsed.getUTCMinutes().toString().padStart(2, '0');
+                                    const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
+                                    elapsedTime.set(`${hours}:${minutes}:${seconds}`);
+                                }
+                            } catch (error) {
+                                console.error('Error updating location:', error);
                             }
-                        } catch (error) {
-                            console.error('Error updating location:', error);
                         }
                     }
                 },
@@ -113,6 +155,8 @@
                     const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
 
                     elapsedTime.set(`${hours}:${minutes}:${seconds}`);
+
+                    updateAverageSpeed();
                 }
             }, 1000);
         } else {
@@ -163,6 +207,16 @@
     <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Average Speed:</h5>
         <p class="font-normal text-gray-700 dark:text-gray-400">{$averageSpeed.toFixed(2)} meters/hour</p>
+    </a>
+
+    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum avg Speed:</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{maximumSpeed.toFixed(2)} meters/hour</p>
+    </a>
+
+    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Speed</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{currentSpeed.toFixed(2)} km/h</p>
     </a>
 
     <!-- UI for controlling the activity -->

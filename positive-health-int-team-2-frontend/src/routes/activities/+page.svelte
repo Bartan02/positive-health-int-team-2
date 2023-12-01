@@ -2,6 +2,29 @@
    import SideMenu from '../../components/side-menu.svelte';
 </script>
 
+<script>
+  import { onMount } from 'svelte';
+
+  let getResponsePromise;
+
+  onMount(() => {
+    getResponsePromise = getResponse();
+  });
+
+  async function getResponse() {
+    try {
+      const res = await fetch(`http://localhost:3025/activities/activity`);
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error; // Re-throw the error to be caught by the await block
+    }
+  }
+</script>
+
 <div class="bg-white p-4">
     <div class="flex items-center mb-4">
       <div class="ml-4 mb-5">
@@ -120,3 +143,11 @@
       <div class="text-gray-600 text-4xl font-bold">&gt;</div>
     </div>
   </div>
+
+  {#await getResponsePromise}
+  <span>Waiting for result...</span>
+{:then value}
+  <span>{JSON.stringify(value)}</span>
+{:catch error}
+  <li>Error: {error.message}</li>
+{/await}

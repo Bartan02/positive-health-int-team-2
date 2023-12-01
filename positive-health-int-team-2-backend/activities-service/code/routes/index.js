@@ -10,6 +10,22 @@ import { startActivity, updateLocation, stopActivity } from '../controllers/acti
 
 const router = express.Router();
 
+router.options('/activities', (req, res, next) => {
+    try {
+      //set header before response
+      res.header({
+        allow: 'GET, POST, OPTIONS',
+        'Content-type': 'application/json',
+        Data: Date.now(),
+        'Content-length': 0,
+      });
+      //response
+      res.sendStatus(200);
+    } catch (err) {
+      next(err);
+    }
+  });
+
 // Route to start a new activity
 router.post('/start', startActivity);
 
