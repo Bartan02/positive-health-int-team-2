@@ -4,10 +4,10 @@
     import CurrentSessionTopSpeed from '../../../components/CurrentSessionTopSpeed.svelte';
 </script>
 <div class="bg-white p-4">
+    <div class="ml-4">
+        <SideMenu />
+    </div>
     <div class="flex items-center">
-        <div class="ml-4">
-            <SideMenu/>
-        </div>
         <div class="flex-grow text-center  mr-6">
             <p class="text-4xl text-orange-500 font-bold mb-4">Stats</p>
         </div>

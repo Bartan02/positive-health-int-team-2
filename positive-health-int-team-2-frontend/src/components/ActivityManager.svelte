@@ -193,7 +193,7 @@
     </div>
 </div>
 
-<div class="flex flex-row justify-center py-10 z-10 relative">
+<div class="flex flex-row justify-center py-10" style="z-index: 0">
     <span class="app-font-big font-bold text-black">{$elapsedTime}</span>
 </div>
 
