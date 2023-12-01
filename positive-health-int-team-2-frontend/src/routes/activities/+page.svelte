@@ -1,9 +1,6 @@
 <script>
-   import SideMenu from '../../components/side-menu.svelte';
-</script>
-
-<script>
   import { onMount } from 'svelte';
+  import SideMenu from '../../components/side-menu.svelte';
 
   let getResponsePromise;
 

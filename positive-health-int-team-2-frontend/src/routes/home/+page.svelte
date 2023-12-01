@@ -5,10 +5,6 @@
 
 <div class="flex justify-between flex-col w-screen h-screen">
 	<SideMenu {isOpen} />
-	<div class="h-20 w-full" />
-	<div class="bg-red-200 h-20 w-full">
-        <h2>Component for navigation and title</h2>
-    </div>
 
 	<div class="h-1/5 w-full text-2xl font-bold center">
 		<h2>Welcome, @USER !</h2>
@@ -31,42 +27,40 @@
 				<h2>Daily Stats</h2>
 			</div>
 			<div class="center flex-col gap-2 p-2">
-				<div class="flex justify-between w-full h-10 bg-gray-400 rounded-3xl center">
-					<h2>*HEART*</h2>
-					<h2>95</h2>
+				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
+					<img class="w-8 h-8 ml-2" src="cal.png">
+					<h2 class="mr-2 text-orange-500 text-xl">95</h2>
 				</div>
-				<div class="flex justify-between w-full h-10 bg-gray-400 rounded-3xl center">
-					<h2>*STEPS*</h2>
-					<h2>10150</h2>
+				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
+					<img class="w-8 h-8 ml-2" src="footsteps.png">
+					<h2 class="mr-2 text-orange-500 text-xl">10150</h2>
 				</div>
-				<div class="flex justify-between w-full h-10 bg-gray-400 rounded-3xl center">
-					<h2>*CALOR*</h2>
-					<h2>349</h2>
+				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
+					<img class="w-8 h-8 ml-2" src="calories.png">
+					<h2 class="mr-2 text-orange-500 text-xl">349</h2>
 				</div>
 			</div>
 		</div>
 
-		<div class="bg-gray-200 h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
+		<div class="bg-white h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
 			<div class="bg-slate-200 h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
 				<h2>Recent Chat</h2>
 			</div>
+
 			<div class="flex flex-col gap-2 p-2">
-				<div class="flex justify-start center">
-					<div class="h-full">
-						<h2 class="left-2 w-10 h-10 bg-gray-400 rounded-3xl center">*IMG*</h2>
-					</div>
-					<div class="center h-1/2 w-full bg-gray-300 rounded-3xl">
-						<h2>Hello! U up?</h2>
-					</div>
-				</div>
-				<div class="flex justify-start center">
-					<div class="h-full">
-						<h2 class="left-2 w-10 h-10 bg-gray-400 rounded-3xl center">*IMG*</h2>
-					</div>
-					<div class="center h-1/2 w-full bg-gray-300 rounded-3xl">
-						<h2>You ariving?</h2>
-					</div>
-				</div>
+				
+<div class="flex items-center gap-4">
+    <div class="relative">
+		<img class="w-10 h-10 rounded-full" src="profilepicture.jpg" alt="">
+		<span class="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+	</div>
+    <div class="font-medium dark:text-white">
+        <div>Jese Leos</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Where ya at bro?</div>
+	</div>
+</div>
+
+		
 			</div>
 		</div>
 
