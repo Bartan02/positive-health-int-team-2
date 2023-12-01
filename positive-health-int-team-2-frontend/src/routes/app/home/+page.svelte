@@ -1,5 +1,5 @@
 <script>
-	import SideMenu from '../../components/side-menu.svelte';
+	import SideMenu from '../../../components/side-menu.svelte';
 </script>
 
 <body>
@@ -22,7 +22,7 @@
 
 	<div class="h-full w-full px-3 pb-20 gap-5 grid grid-cols-2 grid-rows-2">
        
-		<a href="/activities">
+		<a href="/app/activities">
 		<div class="bg-gray-200 h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
 			<div class="bg-stone-800 h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
 				<h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-red-500 from-orange-400">Activities</span></h1>
@@ -35,7 +35,7 @@
 		</div>
 		</a>
 	
-        <a href="/stats">
+        <a href="/app/stats">
 		<div class="bg-gray-200 h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
 			<div class="bg-stone-800  h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
 				<h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-red-500 from-orange-400">Daily Stats</span></h1>
@@ -57,7 +57,7 @@
 		</div>
 		</a>
 
-		<a href="/friends">
+		<a href="/app/friends">
 		<div class="bg-white h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
 			<div class="bg-stone-800  h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
 				<h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-red-500 from-orange-400">Recent Chat</span></h1>

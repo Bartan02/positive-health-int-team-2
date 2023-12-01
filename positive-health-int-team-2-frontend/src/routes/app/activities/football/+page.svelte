@@ -1,7 +1,7 @@
 <script>
-  import ActivityManager from '../../../components/ActivityManager.svelte';
-  import Timer from '../../../components/Timer.svelte';
-  import SideMenu from '../../../components/side-menu.svelte';
+  import ActivityManager from '../../../../components/ActivityManager.svelte';
+  import Timer from '../../../../components/Timer.svelte';
+  import SideMenu from '../../../../components/side-menu.svelte';
 
   let userId = '12345'; // Replace with the actual user ID
 

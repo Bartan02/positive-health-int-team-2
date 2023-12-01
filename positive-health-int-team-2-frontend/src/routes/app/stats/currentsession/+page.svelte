@@ -1,7 +1,7 @@
 <script>
-    import SideMenu from '../../../components/side-menu.svelte';
-    import CurrenSessionDistanceAvarage from '../../../components/CurrenSessionDistanceAvarage.svelte';
-    import CurrentSessionTopSpeed from '../../../components/CurrentSessionTopSpeed.svelte';
+    import SideMenu from '../../../../components/side-menu.svelte';
+    import CurrenSessionDistanceAvarage from '../../../../components/CurrenSessionDistanceAvarage.svelte';
+    import CurrentSessionTopSpeed from '../../../../components/CurrentSessionTopSpeed.svelte';
 </script>
 <div class="bg-gray-100 p-4">
     <div class="flex items-center">

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import SideMenu from '../../components/side-menu.svelte';
+  import SideMenu from '../../../components/side-menu.svelte';
 
   let getResponsePromise;
 
@@ -10,7 +10,7 @@
 
   async function getResponse() {
     try {
-      const res = await fetch(`http://localhost:3025/activities/activity`);
+      const res = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/activities/activity`);
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
@@ -40,7 +40,7 @@
   <!-- Grid of activities -->
  <div class="grid grid-cols-2 gap-4 mb-4">
 
-<a href="/activities/football">  
+<a href="/app/activities/football">  
   <!-- First activity block -->
   <div class="bg-white-600 p-8  rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
     <!-- Icon -->

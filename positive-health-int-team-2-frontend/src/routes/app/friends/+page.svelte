@@ -1,5 +1,5 @@
 <script>
-    import SideMenu from '../../components/side-menu.svelte';
+    import SideMenu from '../../../components/side-menu.svelte';
 </script>
 
 <body class="bg-gray-100 h-screen flex flex-col p-4">
@@ -49,7 +49,7 @@
 
         <!-- Button 1 -->
         <button class="bg-orange-500 rounded-full p-2">
-            <a href="friends/find"><img src="plus.png"  class="w-12 h-12"></a>
+            <a href="/app/friends/find"><img src="plus.png"  class="w-12 h-12"></a>
         </button>
 
         <!-- Button 2 -->
