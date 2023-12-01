@@ -1,11 +1,5 @@
-<style>
-  .burger{
-            width: 50px;
-            height: 50px;
-     }
-</style>
-
 <script>
+  import SideMenu from '../../components/side-menu.svelte';
   import { onMount } from 'svelte';
 
   let getResponsePromise;
@@ -30,14 +24,13 @@
 
 <div class="bg-white p-4">
     <div class="flex items-center mb-4">
-      <div class="ml-4 mt-4">
-         <a href=""><img src="burgermenu.png" class="burger"></a>
-      </div>
-
+      <div class="ml-4 mb-5">
+        <SideMenu/>
+       </div>
       <div class="flex-grow text-center mt-4 mr-12">
-          <p class= "text-4xl text-orange-500 font-bold">Friends</p>
+          <p class= "text-4xl text-orange-500 font-bold ml-10">Activities</p>
       </div>
-     </div>
+    </div>
 
 
 
@@ -58,7 +51,7 @@
   <!-- Second activity block (Repeat the block with different content if needed) -->
   <div class="bg-white-600 p-8  rounded-lg flex flex-col items-center justify-center border border-4 border-orange-500">
     <!-- Icon -->
-    <img src="/basketball.png" alt="Basketball" class="mb-2">
+    <img src="/bball.png" alt="Basketball" class="mb-2">
     <!-- Text -->
     <div class="font-custom text-2xl text-orange-500 font-bold">Basketball</div>
   </div>

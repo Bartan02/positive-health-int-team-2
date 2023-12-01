@@ -1,28 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Friends</title>
-
-    <style>
-     .burger{
-            width: 50px;
-            height: 50px;
-     }
-    </style>
-
-</head>
+<script>
+    import SideMenu from '../../components/side-menu.svelte';
+</script>
 
 <body class="bg-gray-100 h-screen flex flex-col p-4">
 
     <!-- First container -->
     <div class="flex items-center mb-4">
-        <div class="ml-4 mt-4">
-           <a href=""><img src="burgermenu.png" class="burger"></a>
+        <div class="ml-4 mb-5">
+            <SideMenu/>
         </div>
-
         <div class="flex-grow text-center mt-4 mr-12">
             <p class= "text-4xl text-orange-500 font-bold">Friends</p>
         </div>
@@ -42,7 +28,7 @@
             <p class="text-gray-800 font-bold text-lg">John Doe</p>
             <p class="text-gray-800">Hi! Where are you?</p>
             <div class="flex items-end mt-2">
-                <span class="text-xs text-gray-500">12:34 PM</span>
+             <span class="text-xs text-gray-500">12:34 PM</span>
                 <span class="ml-2 text-xs text-gray-500">Delivered</span>
             </div>
         </div>
@@ -65,7 +51,4 @@
         </button>
 
     </div>
-
 </body>
-
-</html>

@@ -1,13 +1,7 @@
-<style>
-  .burger{
-    width: 50px;
-    height: 50px;
-  }
-</style>
-
 <script>
   import ActivityManager from '../../../components/ActivityManager.svelte';
   import Timer from '../../../components/Timer.svelte';
+  import SideMenu from '../../../components/side-menu.svelte';
 
   let userId = '12345'; // Replace with the actual user ID
 
@@ -35,11 +29,10 @@
 <div class="bg-white p-4">
   <div class="flex items-center mb-4">
     <div class="ml-4 mt-4">
-       <a href=""><img src="/burgermenu.png" class="burger"></a>
-    </div>
-
+      <SideMenu/>
+     </div>
     <div class="flex-grow text-center mt-4 mr-12">
-        <p class= "text-4xl text-orange-500 font-bold">Football</p>
+        <p class= "text-4xl text-orange-500 font-bold ml-11">Football</p>
     </div>
    </div>
 

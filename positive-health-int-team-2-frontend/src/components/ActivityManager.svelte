@@ -193,7 +193,7 @@
     </div>
 </div>
 
-<div class="flex flex-row justify-center py-10 z-10 relative">
+<div class="flex flex-row justify-center py-10" style="z-index: 0">
     <span class="app-font-big font-bold text-black">{$elapsedTime}</span>
 </div>
 
@@ -235,14 +235,14 @@ body {
 }
 
 div.container {
-    width: 500px;
+    width: 400px;
     background: linear-gradient(to bottom, #353378 50%,#242c44 100%);
-    height: 730px;
+    height: 530px;
 }
 
 div.outer-circle {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     background: linear-gradient(to bottom, #302d67, #2c2d5c);
     border-radius: 50%;
 }
