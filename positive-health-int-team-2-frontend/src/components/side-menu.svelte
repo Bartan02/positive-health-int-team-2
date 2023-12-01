@@ -8,6 +8,23 @@
     function toggleMenu() {
 	isOpen = !isOpen;
   }
+
+  async function logout(){
+    try {
+      const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/logout', {
+        method: 'POST',
+        headers: { 
+          'Authorization': localStorage.getItem('token'),
+        },
+      });
+      if(response.ok){
+        const data = await response.json();
+        window.location.href = data.redirect;
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 </script>
 
 {#if !isOpen} <!--Sets the button location when the side menu is closed-->
@@ -35,22 +52,22 @@
                 </div>
                 <ul class="space-y-2 text-white mt-10">
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <img src="/Stats-icon.png" alt="Stats" class="mr-2" style="width: 10; height: 10; margin-right: 16px;"> Stats
+                        <a href="/app/stats"><img src="/Stats-icon.png" alt="Stats" class="mr-2" style="width: 10; height: 10; margin-right: 16px;"> Stats </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <img src="/Profile-icon.png" alt="Profile" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Profile
+                        <a href=""><img src="/Profile-icon.png" alt="Profile" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Profile </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <img src="/Activities-icon.png" alt="Favorites" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Activities
+                        <a href=""><img src="/Activities-icon.png" alt="Favorites" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Activities </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <img src="/Leaderboard-icon.png" alt="Stats" class="mr-2" style="width: 10; height: 10; margin-right: 16px;"> Leaderboard
+                        <a href="/app/stats"><img src="/Leaderboard-icon.png" alt="Stats" class="mr-2" style="width: 10; height: 10; margin-right: 16px;"> Leaderboard </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <img src="/Map-icon.png" alt="Discover" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Map
+                        <a href=""><img src="/Map-icon.png" alt="Discover" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Map </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center text-base">
-                        <img src="/Friends-icon.png" alt="Feed" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Friends
+                        <a href="/app/friends"><img src="/Friends-icon.png" alt="Feed" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Friends </a>
                     </li>
                 </ul>
             </div>
@@ -59,8 +76,8 @@
                 <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                     <img src="/Settings-icon.png" alt="Settings" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Settings
                 </li>
-                <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                    <img src="/Logout-icon.png" alt="Log Out" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Log Out
+                <li on:click={logout} class="hover:bg-orange-400 p-2 pl-10 flex items-center">
+                   <img src="/Logout-icon.png" alt="Log Out" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Log Out
                 </li>
             </ul>
         </div>

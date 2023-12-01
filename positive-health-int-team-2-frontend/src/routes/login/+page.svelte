@@ -13,7 +13,7 @@
     const login = async () => {
     try {
     if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
-    const response = await fetch('http://localhost:3025/auth/login', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

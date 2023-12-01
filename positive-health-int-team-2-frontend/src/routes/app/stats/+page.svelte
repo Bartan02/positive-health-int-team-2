@@ -6,8 +6,8 @@
 
   
 <script>
-    import SideMenu from '../../components/side-menu.svelte';
-    import CurrenSession from '../../components/CurrenSessionDistanceAvarage.svelte';
+    import SideMenu from '../../../components/side-menu.svelte';
+    import CurrenSession from '../../../components/CurrenSessionDistanceAvarage.svelte';
 </script>
   
 
@@ -23,7 +23,7 @@
       </div>
       </div>
 
-    <a href="/stats/currentsession">
+    <a href="/app/stats/currentsession">
      <div class="w-100 h-32 bg-orange-500 rounded-lg relative overflow-hidden mt-8 mb-8">
         <!-- Text in the top left corner -->
         <p class="absolute top-4 left-4 text-white font-bold text-3xl ">Current Session</p>
