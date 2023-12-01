@@ -10,6 +10,12 @@
   }
 </script>
 
+<style>
+    .hover:text-custom-color:hover {
+        color: #FF5B00;
+    }
+</style>
+
 {#if !isOpen} <!--Sets the button location when the side menu is closed-->
 <button on:click={toggleMenu} class="text-4xl z-30 fixed left-0 p-4">
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
@@ -33,33 +39,33 @@
                     <h2 class="w-10 h-10 bg-gray-400 rounded-3xl center mb-4">*IMG*</h2>
                     <h1 class="text-white">*NAME*</h1>
                 </div>
-                <ul class="space-y-2 text-white mt-10" style="padding-left: 10%">
-                    <li class="hover:bg-red-700 p-2 rounded flex items-center">
+                <ul class="space-y-2 text-white mt-10">
+                    <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                         <img src="/Stats-icon.png" alt="Stats" class="mr-2" style="width: 10; height: 10; margin-right: 16px;"> Stats
                     </li>
-                    <li class="hover:bg-red-700 p-2 rounded flex items-center">
+                    <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                         <img src="/Profile-icon.png" alt="Profile" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Profile
                     </li>
-                    <li class="hover:bg-red-700 p-2 rounded flex items-center">
+                    <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                         <img src="/Activities-icon.png" alt="Favorites" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Activities
                     </li>
-                    <li class="hover:bg-red-700 p-2 rounded flex items-center">
+                    <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                         <img src="/Leaderboard-icon.png" alt="Stats" class="mr-2" style="width: 10; height: 10; margin-right: 16px;"> Leaderboard
                     </li>
-                    <li class="hover:bg-red-700 p-2 rounded flex items-center">
+                    <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                         <img src="/Map-icon.png" alt="Discover" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Map
                     </li>
-                    <li class="hover:bg-red-700 p-2 rounded flex items-center text-base">
+                    <li class="hover:bg-orange-400 p-2 pl-10 flex items-center text-base">
                         <img src="/Friends-icon.png" alt="Feed" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Friends
                     </li>
                 </ul>
             </div>
 
-            <ul class="space-y-2 text-white" style="margin-bottom: 10%; padding-left: 10%">
-                <li class="hover:bg-red-700 p-2 rounded flex items-center">
+            <ul class="space-y-2 text-white" style="margin-bottom: 10%">
+                <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                     <img src="/Settings-icon.png" alt="Settings" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Settings
                 </li>
-                <li class="hover:bg-red-700 p-2 rounded flex items-center">
+                <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
                     <img src="/Logout-icon.png" alt="Log Out" class="mr-2" style="width: 20; height: 20; margin-right: 16px;"> Log Out
                 </li>
             </ul>
