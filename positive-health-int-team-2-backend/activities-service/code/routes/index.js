@@ -36,8 +36,8 @@ router.post('/update-location', updateLocation);
 router.post('/stop', stopActivity);
 
 // Health check route
-router.get('/', (req, res, next) => {
-    res.json('Backend service is running!');
+router.get('/test', (req, res) => {
+  res.json('Test route works!');
 });
 
 export default router;
