@@ -1,6 +1,5 @@
-
-export async function getAllInfo() {
-    const response = await fetch('http://localhost:3019/map/get-all-info/', {
+export async function getAllMeetings() {
+    const response = await fetch('http://localhost:3019/map/get-all-meetings/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -18,11 +17,11 @@ export async function getAllInfo() {
  * @param {any} meetingStartTime
  * @param {any} meetingEndTime
  * @param {any} latitude
- * @param {any} longtitude
+ * @param {any} longitude
  * @param {any} skillLevel
  * @param {any} activity
  */
-export async function createMeeting(activity, meetingStartTime, meetingEndTime, latitude, longtitude, skillLevel) {
+export async function createMeeting(activity, meetingStartTime, meetingEndTime, latitude, longitude, skillLevel) {
     const response = await fetch('http://localhost:3019/map/create-meeting/', {
         method: 'POST',
         headers: {
@@ -33,7 +32,7 @@ export async function createMeeting(activity, meetingStartTime, meetingEndTime, 
             meetingStartTime: meetingStartTime,
             meetingEndTime: meetingEndTime,
             latitude: latitude,
-            longtitude: longtitude,
+            longitude: longitude,
             skillLevel: skillLevel
         })
     });

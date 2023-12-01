@@ -1,60 +1,79 @@
+import { createConnection } from 'mysql2/promise';
+
 export async function testTheFunctionality(req, res) { 
     res.status(200).send('Everything is super');
 }
 
-export async function getAllInfo(req, res) {
-    const allInfo = [
-        { id: 1, name: 'Hiking', location: 'Mountain' },
-        { id: 2, name: 'Swimming', location: 'Beach' }
-        // ... more activities
-    ];
-    res.json(allInfo);
+export async function getAllMeetings(req, res) {
+    try {
+        // MySQL database configuration
+        const dbConfig = {
+            host: 'positive-health-int-team-2-backend-map-db-1',
+            user: 'activity123',
+            password: 'activity123123',
+            database: 'map-db',
+        };
+
+        const connection = await createConnection(dbConfig);
+        console.log('Connected to MySQL database');
+
+        // Perform the SQL query to retrieve all meetings
+        const [rows] = await connection.query('SELECT * FROM Meetings');
+
+        console.log('Fetched all meetings:', rows);
+        res.json({ meetings: rows });
+
+        // Close the connection
+        await connection.end();
+        console.log('MySQL connection closed');
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
 }
 
-export async function createMeeting (req, res) {
+export async function createMeeting(req, res) {
+    try {
+        const activity = req.body.activity;
 
-    res.json("it worked my dude"); // Respond with the newly created meeting data
+        const meetingStartTime = new Date();
+        const meetingHour = parseInt(req.body.meetingStartTime);
+        meetingStartTime.setHours(meetingHour, 0, 0, 0);
+
+        const meetingEndTime = new Date();
+        const meetingEndHour = parseInt(req.body.meetingEndTime);
+        meetingEndTime.setHours(meetingEndHour, 0, 0, 0);
+
+        const locationLatitude = req.body.latitude;
+        const locationLongitude = req.body.longitude;
+
+        console.log('Latitude:', locationLatitude);
+        console.log('Longitude:', locationLongitude);
+        const skillLevel = req.body.skillLevel;
+
+        // MySQL database configuration
+        const dbConfig = {
+            host: 'positive-health-int-team-2-backend-map-db-1',
+            user: 'activity123',
+            password: 'activity123123',
+            database: 'map-db',
+        };
+
+        const connection = await createConnection(dbConfig);
+        console.log('Connected to MySQL database');
+
+        // Perform the SQL query to insert a new entry
+        const newMeeting = { activity, meetingStartTime, meetingEndTime, locationLatitude, locationLongitude, skillLevel };
+        const [result] = await connection.query('INSERT INTO Meetings SET ?', newMeeting);
+
+        console.log('New meeting created:', result.insertId);
+        res.json({ message: 'New meeting created', meetingId: result.insertId });
+
+        // Close the connection
+        await connection.end();
+        console.log('MySQL connection closed');
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
 }
-
-
-
-// Based on your previous messages and the structure of your application, the activityController is indeed the place where you would typically write the business logic for handling activities in your microservice. In a standard Express.js application structure, controllers are responsible for handling the incoming HTTP requests and sending back the appropriate responses. Here's how you might structure your activityController:
-
-// Import Dependencies: Import any necessary modules, middleware, or services that your controller might need. This could include models for database access, utility functions, or external services.
-
-// Define Controller Functions: Each function in the controller typically corresponds to a specific route and HTTP method. For instance, you might have functions like getActivities, createActivity, updateActivity, and deleteActivity.
-
-// Implement Business Logic: Inside each controller function, you'll implement the logic necessary to handle the request. This could involve fetching data from a database, processing or transforming data, handling business rules, and forming the response.
-
-// Error Handling: Ensure that each function has proper error handling. This could involve catching exceptions, validating input data, and sending appropriate error responses.
-
-// Send Responses: Each function should end by sending a response back to the client. This might be a JSON object, a status code, or a message.
-
-// Export the Controller Functions: Make sure to export these functions so they can be used in your route definitions.
-
-// Here’s a simplified example of what part of an activityController might look like:
-
-// import ActivityModel from '../models/ActivityModel';
-
-// Get all activities
-// export async function getActivities(req, res) {
-//     try {
-//         const activities = await ActivityModel.find();
-//         res.json(activities);
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// }
-
-// // Create a new activity
-// export async function createActivity(req, res) {
-//     try {
-//         const newActivity = new ActivityModel(req.body);
-//         await newActivity.save();
-//         res.status(201).json(newActivity);
-//     } catch (error) {
-//         res.status(400).send(error.message);
-//     }
-// }
-
-// ... other controller functions for update, delete, etc.
