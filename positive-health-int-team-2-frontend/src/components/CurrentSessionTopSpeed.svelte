@@ -3,8 +3,6 @@
 href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
 rel="stylesheet"
 />
-<!-- Stylesheet -->
-<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <div class="mt-10 w-64 flex items-center justify-center mx-auto">

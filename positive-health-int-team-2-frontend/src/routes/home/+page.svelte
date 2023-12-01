@@ -1,10 +1,9 @@
 <script>
 	import SideMenu from '../../components/side-menu.svelte';
-	let isOpen = false;
 </script>
 
 <div class="flex justify-between flex-col w-screen h-screen">
-	<SideMenu {isOpen} />
+	<SideMenu />
 	<div class="h-20 w-full" />
 	<div class="bg-red-200 h-20 w-full">
         <h2>Component for navigation and title</h2>

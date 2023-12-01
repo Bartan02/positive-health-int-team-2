@@ -10,12 +10,6 @@
   }
 </script>
 
-<style>
-    .hover:text-custom-color:hover {
-        color: #FF5B00;
-    }
-</style>
-
 {#if !isOpen} <!--Sets the button location when the side menu is closed-->
 <button on:click={toggleMenu} class="text-4xl z-30 fixed left-0 p-4">
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
