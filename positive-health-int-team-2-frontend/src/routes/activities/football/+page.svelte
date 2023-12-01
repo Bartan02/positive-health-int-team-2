@@ -18,23 +18,23 @@
       console.log("Activity stopped:", event.detail);
       // Additional UI update or state management logic here
   }
-
- 
 </script>
 
 <!-- Activity control button -->
 
 <!-- Additional UI elements -->
 
-<div class="bg-white p-4">
-  <div class="flex items-center mb-4">
-    <div class="ml-4 mt-4">
-      <SideMenu/>
-     </div>
-    <div class="flex-grow text-center mt-4 mr-12">
-        <p class= "text-4xl text-orange-500 font-bold ml-11">Football</p>
+<div class="bg-gray-100 p-4">
+  <div class="flex items-center">
+    <div class="flex-grow text-right mt-1 mb-3">
+      <div class="ml-4">
+        <SideMenu/>
+       </div>
+      <div>
+        <p class= "text-4xl text-orange-500 font-bold ">Activity</p>
+      </div>
     </div>
-   </div>
+    </div>
 
     <ActivityManager 
       userId={userId} 

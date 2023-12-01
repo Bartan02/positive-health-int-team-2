@@ -5,18 +5,20 @@
 <body class="bg-gray-100 h-screen flex flex-col p-4">
 
     <!-- First container -->
-    <div class="flex items-center mb-4">
-        <div class="ml-4 mb-5">
+    <div class="flex items-center">
+        <div class="flex-grow text-right">
+          <div class="ml-4">
             <SideMenu/>
-        </div>
-        <div class="flex-grow text-center mt-4 mr-12">
-            <p class= "text-4xl text-orange-500 font-bold">Friends</p>
+           </div>
+          <div>
+            <p class= "text-4xl text-orange-500 font-bold ">Stats</p>
+          </div>
         </div>
     </div>
 
     <!-- Second container -->
 <a href="">
-    <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mt-0 mb-4">
+    <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mt-4 mb-4">
 
         <!-- User avatar image on the top-left -->
         <div class="mr-3">

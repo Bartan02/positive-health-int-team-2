@@ -1,8 +1,4 @@
 <script>
-   import SideMenu from '../../components/side-menu.svelte';
-</script>
-
-<script>
   import { onMount } from 'svelte';
   import SideMenu from '../../components/side-menu.svelte';
 
@@ -26,14 +22,16 @@
   }
 </script>
 
-<div class="bg-white p-4">
-    <div class="flex items-center mb-4">
-      <div class="ml-4 mb-5">
+<div class="bg-gray-100 p-4">
+  <div class="flex items-center">
+    <div class="flex-grow text-right mt-1 mb-3">
+      <div class="ml-4">
         <SideMenu/>
        </div>
-      <div class="flex-grow text-center mt-4 mr-12">
-          <p class= "text-4xl text-orange-500 font-bold ml-10">Activities</p>
+      <div>
+        <p class= "text-4xl text-orange-500 font-bold ">Activities</p>
       </div>
+    </div>
     </div>
 
 
@@ -48,7 +46,7 @@
     <!-- Icon -->
     <img src="/footballogo.png" alt="Football" class="mb-2">
     <!-- Text -->
-    <div class="font-custom text-2xl text-orange-500 font-bold">Football</div>
+    <div class="font-custom text-2xl text-black font-bold">Football</div>
   </div>
 </a>
 <a href="">
@@ -57,7 +55,7 @@
     <!-- Icon -->
     <img src="/bball.png" alt="Basketball" class="mb-2">
     <!-- Text -->
-    <div class="font-custom text-2xl text-orange-500 font-bold">Basketball</div>
+    <div class="font-custom text-2xl text-black font-bold">Basketball</div>
   </div>
 </a>
  </div>
@@ -72,7 +70,7 @@
       <!-- Icon -->
       <img src="/run.png" alt="run" class="mb-2">
       <!-- Text -->
-      <div class="font-custom text-2xl text-orange-500 font-bold">Running</div>
+      <div class="font-custom text-2xl text-black font-bold">Running</div>
     </div>
   </a>
   <a href="">
@@ -81,7 +79,7 @@
       <!-- Icon -->
       <img src="/bicycle.png" alt="Other Activity" class="mb-2">
       <!-- Text -->
-      <div class="font-custom text-2xl text-orange-500 font-bold">Cycling</div>
+      <div class="font-custom text-2xl text-black font-bold">Cycling</div>
     </div>
   </a>
 </div>
@@ -96,7 +94,7 @@
     <!-- Icon -->
     <img src="/skateboard.png" alt="Biking" class="mb-2">
     <!-- Text -->
-    <div class="font-custom text-2xl text-orange-500 font-bold">Skateboarding</div>
+    <div class="font-custom text-2xl text-black font-bold">Skateboarding</div>
   </div>
 </a>
 <a href="">
@@ -105,7 +103,7 @@
     <!-- Icon -->
     <img src="/rollerskate.png" alt="Other Activity" class="mb-2">
     <!-- Text -->
-    <div class="font-custom text-2xl text-orange-500 font-bold">Rollerskating</div>
+    <div class="font-custom text-2xl text-black font-bold">Rollerskating</div>
   </div>
 </a> 
  </div>
@@ -120,7 +118,7 @@
       <!-- Icon -->
       <img src="/snowboard.png" alt="Biking" class="mb-2">
       <!-- Text -->
-      <div class="font-custom text-2xl text-orange-500 font-bold">Snowboarding</div>
+      <div class="font-custom text-2xl text-black font-bold">Snowboarding</div>
     </div>
   </a>
   <a href="">
@@ -129,7 +127,7 @@
       <!-- Icon -->
       <img src="/ski.png" alt="Other Activity" class="mb-2">
       <!-- Text -->
-      <div class="font-custom text-2xl text-orange-500 font-bold">Skying</div>
+      <div class="font-custom text-2xl text-black font-bold">Skying</div>
     </div>
   </a>
   </div>

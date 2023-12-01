@@ -12,7 +12,7 @@
     <div class="w-full max-w-3xl">
         <div class="-mx-2 md:flex">
             <div class="w-full md:w-1/3 px-2">
-                <div class="rounded-lg shadow-sm mb-4">
+                <div class="rounded-lg shadow-sm mb-2">
                     <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
                         <div class="px-3 pt-8 pb-10 text-center relative z-10">
                             <h4 class="text-sm uppercase text-gray-600 leading-tight">Distance</h4>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="w-full md:w-1/3 px-2">
-                <div class="rounded-lg shadow-sm mb-4">
+                <div class="rounded-lg shadow-sm mb-2">
                     <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
                         <div class="px-3 pt-8 pb-10 text-center relative z-10">
                             <h4 class="text-sm uppercase text-gray-600 leading-tight">Avarage Speed</h4>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="w-full md:w-1/3 px-2">
-                <div class="rounded-lg shadow-sm mb-4">
+                <div class="rounded-lg shadow-sm mb-2">
                     <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
                         <div class="px-3 pt-8 pb-10 text-center relative z-10">
                             <h4 class="text-sm uppercase text-gray-600 leading-tight">Sprint Distance</h4>

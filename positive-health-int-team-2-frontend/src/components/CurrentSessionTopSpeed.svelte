@@ -5,13 +5,13 @@ rel="stylesheet"
 />
 </head>
 <body>
-<div class="mt-10 w-64 flex items-center justify-center mx-auto">
+<div class="w-64 flex items-center justify-center mx-auto">
 <div class="container">
  <div class="circular-progress">
    <div class="value-container">0%</div>
  </div>
 <div>
-  <p class="text-center text-bold text-xl mb-5">Top Speed</p>
+  <p class="text-center text-bold text-xl">Top Speed</p>
 </div>
 </div>
 </div>
