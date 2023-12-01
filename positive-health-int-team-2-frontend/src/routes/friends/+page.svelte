@@ -15,7 +15,7 @@
     </div>
 
     <!-- Second container -->
-    <a href="">
+<a href="">
     <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mt-0 mb-4">
 
         <!-- User avatar image on the top-left -->
@@ -33,10 +33,15 @@
             </div>
         </div>
 
+        <div>
+            <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                Available
+            </span>
+        </div>
+
     </div>
 </a>
-    
-
     <!-- Third container -->
     <div class="flex justify-end space-x-4 mt-auto">
 

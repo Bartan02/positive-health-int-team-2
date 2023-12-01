@@ -53,7 +53,7 @@ rel="stylesheet"
   .value-container {
   position: relative;
   font-family: "Poppins", sans-serif;
-  font-size: 35px;
+  font-size: 25px;
   color: black;
   transition: font-size 0.3s ease; /* Check if this is intentional */
 }
@@ -72,7 +72,7 @@ let speed = 15;
 
 let progress = setInterval(() => {
   progressValue++;
-  valueContainer.textContent = `${progressValue}%`;
+  valueContainer.textContent = `${progressValue}km/h`;
   progressBar.style.background = `conic-gradient(
     #FFA500 ${progressValue * 3.6}deg,
     #FFEBCC ${progressValue * 3.6}deg
