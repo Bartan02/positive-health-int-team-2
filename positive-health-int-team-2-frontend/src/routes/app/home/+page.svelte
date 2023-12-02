@@ -42,15 +42,15 @@
 			</div>
 			<div class="center flex-col gap-2 p-2">
 				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
-					<img class="w-8 h-8 ml-2" src="cal.png">
+					<img class="w-8 h-8 ml-2" src="/cal.png">
 					<h2 class="mr-2 text-orange-500 text-xl">95</h2>
 				</div>
 				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
-					<img class="w-8 h-8 ml-2" src="footsteps.png">
+					<img class="w-8 h-8 ml-2" src="/footsteps.png">
 					<h2 class="mr-2 text-orange-500 text-xl">10150</h2>
 				</div>
 				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
-					<img class="w-8 h-8 ml-2" src="calories.png">
+					<img class="w-8 h-8 ml-2" src="/calories.png">
 					<h2 class="mr-2 text-orange-500 text-xl">349</h2>
 				</div>
 			</div>
@@ -65,8 +65,8 @@
 
 			<div class="flex flex-col gap-2 p-2">
 				<div class="flex items-center gap-4 bg-gray-300 rounded-lg">
-					<div class="relative">
-		                <img class="w-10 h-10 rounded-full" src="profilepicture.jpg" alt="">
+					<div>
+		                <img class="w-10 h-10 rounded-full" src="/profilepicture.jpg" alt="">
 		                <span class="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
 	                </div>
                 <div class="font-medium dark:text-white">

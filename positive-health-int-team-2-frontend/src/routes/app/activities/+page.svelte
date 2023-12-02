@@ -34,9 +34,6 @@
     </div>
     </div>
 
-
-
-
   <!-- Grid of activities -->
  <div class="grid grid-cols-2 gap-4 mb-4">
 
