@@ -24,18 +24,13 @@
 
 <!-- Additional UI elements -->
 
-<div class="bg-gray-100 p-4">
-  <div class="flex items-center">
-    <div class="flex-grow text-right mt-1 mb-3">
-      <div class="ml-4">
-        <SideMenu/>
-       </div>
-      <div>
-        <p class= "text-4xl text-orange-500 font-bold ">Activity</p>
-      </div>
-    </div>
-    </div>
+<SideMenu />
 
+<div class="fixed right-4 z-20">
+    <p class="text-4xl text-orange-500 mt-4 font-bold">Friends</p>
+</div>
+
+<div class="bg-gray-100 p-4 pt-16">
     <ActivityManager 
       userId={userId} 
       on:activityStarted={handleActivityStart} 

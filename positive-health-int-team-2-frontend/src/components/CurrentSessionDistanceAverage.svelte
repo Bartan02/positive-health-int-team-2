@@ -30,7 +30,7 @@
                     <div class="rounded-lg shadow-sm mb-2">
                         <div class="rounded-lg bg-white shadow-lg md:shadow-xl overflow-hidden">
                             <div class="px-3 pt-8 pb-10 text-center z-10">
-                                <h4 class="text-sm uppercase text-gray-600 leading-tight">Age Speed</h4>
+                                <h4 class="text-sm uppercase text-gray-600 leading-tight">Average Speed</h4>
                                 <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3">11 km/h</h3>
                                 <p class="text-xs text-red-500 leading-tight">▼ 8.8%</p>
                             </div>

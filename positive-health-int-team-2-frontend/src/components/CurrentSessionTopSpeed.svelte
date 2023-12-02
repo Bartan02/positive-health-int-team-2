@@ -25,7 +25,7 @@
   <div>
     <div class="circular-progress flex items-center justify-center bg-ffebcc rounded-full mx-auto" style="height: 150px; width: 150px;">
       <div class="inner-circle flex items-center justify-center rounded-full bg-white" style="height: 130px; width: 130px;">
-        <div class="value-container text-2xl font-bold">0%</div>
+        <div class="value-container text-2xl font-bold">0 km/h</div>
       </div>
     </div>
     <p class="text-center font-bold text-xl mt-4">Top Speed</p>
