@@ -1,6 +1,6 @@
 // Function to start an activity
 export async function startActivity(userId, startLocation) {
-    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/activities/start/', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/start/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ export async function startActivity(userId, startLocation) {
 // Function to stop an activity
 export async function stopActivity(activityId, maximumSpeed) {
     console.log('Sending to backend:', { activityId, maximumSpeed });
-    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/activities/stop/', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/stop/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ export async function stopActivity(activityId, maximumSpeed) {
 // Function to update an activity's location
 export async function updateLocation(activityId, currentLocation, maximumSpeed) {
     const maximumSpeedInt = parseInt(maximumSpeed, 10);
-    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/activities/update-location', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/update-location/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
