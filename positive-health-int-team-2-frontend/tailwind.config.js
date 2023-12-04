@@ -1,9 +1,17 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ['./src/routes/**/*.{html,js,svelte,ts}',
+    './src/App.svelte',
+    './src/components/**/*.{html,js,svelte,ts}',],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        custom: ['"Raleway"', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
-  plugins: [],
-}
-
+  plugins: [
+    require('flowbite/plugin'),
+  ],
+};
