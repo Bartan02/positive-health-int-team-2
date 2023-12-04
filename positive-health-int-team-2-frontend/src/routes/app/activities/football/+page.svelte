@@ -27,7 +27,7 @@
 <SideMenu />
 
 <div class="fixed right-4 z-20">
-    <p class="text-4xl text-orange-500 mt-4 font-bold">Friends</p>
+    <p class="text-4xl text-orange-500 mt-4 font-bold">Activities</p>
 </div>
 
 <div class="bg-gray-100 p-4 pt-16">
