@@ -11,7 +11,7 @@
   async function getResponse() {
     try {
       const res = await fetch(
-      `https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/activities/activity`);
+      `http://localhost:3025/activities/activity`);
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }

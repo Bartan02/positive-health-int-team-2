@@ -41,7 +41,7 @@ services:
     ports:
       - "3020:3020"
     working_dir: /usr/src/app
-    command:  npm run dev
+    command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
   activities-db:
