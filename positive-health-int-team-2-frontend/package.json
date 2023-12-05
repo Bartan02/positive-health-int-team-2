@@ -37,6 +37,7 @@
 	"dependencies": {
 		"axios": "^1.6.2",
 		"firebase": "^10.6.0",
+		"haversine-distance": "^1.2.1",
 		"svelte-navigator": "^3.2.2"
 	}
 }

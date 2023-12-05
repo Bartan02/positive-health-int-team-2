@@ -2,6 +2,7 @@
     import { onMount, onDestroy, createEventDispatcher } from 'svelte';
     import { writable, get } from 'svelte/store';
     import { startActivity, stopActivity, updateLocation } from '../lib/activityService.js';
+    import haversine from 'haversine-distance'; 
 
     export let userId;
     let activityId = null;
@@ -21,13 +22,24 @@
     function calculateSpeed(currentLocation) {
     if (previousLocation) {
         const timeDifference = Date.now() - lastUpdateTime; // time in milliseconds
-        const distance = haversine(previousLocation, currentLocation); // distance in meters
 
-        // Speed in meters per second
-        currentSpeed = distance / (timeDifference / 1000); 
+        if (timeDifference > 0) { // Check to prevent division by zero
+            const distance = haversine(previousLocation, currentLocation); // distance in meters
 
-        // Optionally, convert to km/h or mph as needed
-        currentSpeed = currentSpeed * 3.6; // for km/h
+            if (distance > 0) {
+                // Speed in meters per second
+                currentSpeed = distance / (timeDifference / 1000); 
+
+                // Convert to km/h
+                currentSpeed = currentSpeed * 3.6;
+            } else {
+                // No movement detected, set speed to zero
+                currentSpeed = 0;
+            }
+        } else {
+            // No time elapsed, set speed to zero
+            currentSpeed = 0;
+        }
     }
 
     previousLocation = currentLocation; // update previousLocation for the next calculation
