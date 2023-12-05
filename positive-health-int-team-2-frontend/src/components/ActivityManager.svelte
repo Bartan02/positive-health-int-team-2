@@ -184,7 +184,7 @@
     });
 </script>
 
-<div class="flex flex-row justify-center mt-14 mb-12">
+<div class="flex flex-row justify-center">
     <div class="outer-circle flex justify-center items-center">
         <div class="absolute tick right"></div>
         <div class="absolute tick left"></div>
@@ -205,7 +205,7 @@
     </div>
 </div>
 
-<div class="flex flex-row justify-center py-10 z-10 relative">
+<div class="flex flex-row justify-center py-6" style="z-index: 0">
     <span class="app-font-big font-bold text-black">{$elapsedTime}</span>
 </div>
 
@@ -232,7 +232,7 @@
     </a>
 
     <!-- UI for controlling the activity -->
-    <div class="text-center mt-5">
+    <div class="text-center mt-2">
         <button class="inline-flex items-center justify-center px-5 py-3 text-2xl font-bold text-center  text-white border border-orange-500 rounded-lg shadow-sm cursor-pointer hover:text-white bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600"
             on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}><svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
@@ -247,14 +247,14 @@ body {
 }
 
 div.container {
-    width: 500px;
+    width: 300px;
     background: linear-gradient(to bottom, #353378 50%,#242c44 100%);
-    height: 730px;
+    height: 430px;
 }
 
 div.outer-circle {
-    width: 250px;
-    height: 250px;
+    width: 150px;
+    height: 150px;
     background: linear-gradient(to bottom, #302d67, #2c2d5c);
     border-radius: 50%;
 }

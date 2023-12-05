@@ -41,7 +41,7 @@ services:
     ports:
       - "3020:3020"
     working_dir: /usr/src/app
-    command: npm run dev
+    command:  npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
   activities-db:
@@ -96,6 +96,19 @@ services:
       - authentication-db
     networks:
       - positive-health
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    volumes:
+      - ./api-gateway/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3025:3025"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 networks:
   positive-health:
     driver: bridge

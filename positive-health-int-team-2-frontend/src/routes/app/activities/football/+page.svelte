@@ -1,13 +1,7 @@
-<style>
-  .burger{
-    width: 50px;
-    height: 50px;
-  }
-</style>
-
 <script>
-  import ActivityManager from '../../../components/ActivityManager.svelte';
-  import Timer from '../../../components/Timer.svelte';
+  import ActivityManager from '../../../../components/ActivityManager.svelte';
+  import Timer from '../../../../components/Timer.svelte';
+  import SideMenu from '../../../../components/side-menu.svelte';
 
   let userId = '12345'; // Replace with the actual user ID
 
@@ -24,25 +18,19 @@
       console.log("Activity stopped:", event.detail);
       // Additional UI update or state management logic here
   }
-
- 
 </script>
 
 <!-- Activity control button -->
 
 <!-- Additional UI elements -->
 
-<div class="bg-white p-4">
-  <div class="flex items-center mb-4">
-    <div class="ml-4 mt-4">
-       <a href=""><img src="/burgermenu.png" class="burger"></a>
-    </div>
+<SideMenu />
 
-    <div class="flex-grow text-center mt-4 mr-12">
-        <p class= "text-4xl text-orange-500 font-bold">Football</p>
-    </div>
-   </div>
+<div class="fixed right-4 z-20">
+    <p class="text-4xl text-orange-500 mt-4 font-bold">Activities</p>
+</div>
 
+<div class="bg-gray-100 p-4 pt-16">
     <ActivityManager 
       userId={userId} 
       on:activityStarted={handleActivityStart} 
