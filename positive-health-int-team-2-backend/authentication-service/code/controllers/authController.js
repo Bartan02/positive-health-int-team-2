@@ -23,7 +23,7 @@ async function register(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, username, password: hashedPassword });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
-    return res.status(200).json({ token, redirect: '/logintest' });
+    return res.status(200).json({ token, redirect: '/app/home' });
   } catch (error) {
     return res.status(500).send({ error: 'Internal Server Error' });
   }
@@ -37,7 +37,7 @@ async function login(req, res) {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) return res.status(401).json({ error: 'Invalid username or password' });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
-    return res.status(200).json({ token, redirect: '/logintest', userid: user.id});
+    return res.status(200).json({ token, redirect: '/app/home', userid: user.id});
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
