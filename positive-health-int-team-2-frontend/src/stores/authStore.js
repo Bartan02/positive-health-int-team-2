@@ -1,7 +1,7 @@
-// import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from "firebase/auth";
-// import { writable } from "svelte/store";
-// import { auth } from "../lib/firebase/firebase.client";
-// import { goto } from "$app/navigation";
+import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, updateProfile } from "firebase/auth";
+import { writable } from "svelte/store";
+//import { auth } from "../lib/firebase/firebase.client";
+import { goto } from "$app/navigation";
 
 // export const authStore = writable({
 //     isLoading: true,
