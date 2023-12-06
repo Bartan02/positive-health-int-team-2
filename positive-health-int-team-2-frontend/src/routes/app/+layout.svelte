@@ -12,8 +12,10 @@ import { onMount } from 'svelte';
         },
       });
       if(response.ok){
+        const data = await response.json();
         const token = localStorage.getItem('token');
-        const userid = localStorage.getItem('userid');
+        const userid = data.userId;
+        localStorage.setItem('userid',userid);
       }
       else{
         const data = await response.json();
