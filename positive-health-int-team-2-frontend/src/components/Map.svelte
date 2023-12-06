@@ -9,7 +9,13 @@
 	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
 	import { createMeeting, getAllMeetings } from '../lib/mapService.js';
 
+	/**
+	 * @type {Map}
+	 */
 	let map;
+	/**
+	 * @type {Overlay}
+	 */
 	let userPoint;
 
 	let popupIsVisible = false;
@@ -102,7 +108,22 @@
 		});
 	});
 
-	let activity, start, end, latitude, longitude, skill;
+	/**
+	 * @type {string}
+	 */
+	let activity
+	/**
+	 * @type {number}
+	 */
+	let start;
+	/**
+	 * @type {number}
+	 */
+	let end;
+	/**
+	 * @type {string}
+	 */
+	let skill;
 
 	/**
 	 * Sets the activity for the meeting
@@ -112,6 +133,7 @@
 		activity = selectedActivity;
 		const activityElements = document.getElementById('activityContainer')?.children;
 
+		// @ts-ignore
 		Array.from(activityElements).forEach((element) => {
 			if (element.nodeType === 1) {
 				element.classList.remove('bg-gray-200');
@@ -128,6 +150,7 @@
 		skill = selectedSkill;
 		const skillElements = document.getElementById('skillContainer')?.children;
 
+		// @ts-ignore
 		Array.from(skillElements).forEach((element) => {
 			if (element.nodeType === 1) {
 				element.classList.remove('bg-gray-200');
@@ -141,7 +164,7 @@
 		getAllMeetings().then((meetings) => {
 			const meetingsArray = Object.values(meetings)[0];
 			console.log(meetingsArray);
-			meetingsArray.forEach((meeting) => {
+			meetingsArray.forEach((/** @type {{ activity: string; skillLevel: string; locationLatitude: number; locationLongitude: number; meetingStartTime: string | number | Date; meetingEndTime: string | number | Date; }} */ meeting) => {
 					const activityPointElement = document.createElement('img');
 					activityPointElement.style.width = '50px';
 					activityPointElement.id = `${meeting.activity}Point`;
@@ -164,8 +187,6 @@
 						skill = meeting.skillLevel;
 						start = meetingStartTime.getUTCHours()
 						end = meetingEndTime.getUTCHours()
-						latitude = meeting.locationLatitude;
-						longitude = meeting.locationLongitude;
 						if (!popupIsVisible) {
 							toggleVisibilityPopupInfo();
 						}
@@ -183,9 +204,13 @@
 	}
 
 	function createNewMeeting() {
+		// @ts-ignore
 		start = document.getElementById('meetingStart')?.value;
+		// @ts-ignore
 		end = document.getElementById('meetingEnd')?.value;
+		// @ts-ignore
 		let latitude = userPoint.getPosition()[0];
+		// @ts-ignore
 		let longitude = userPoint.getPosition()[1];
 
 		createMeeting(activity, start, end, latitude, longitude, skill);
@@ -218,6 +243,7 @@
 	<div id="popup-info-content" class="fixed left bg-white w-5/6 z-10 p-4 shadow-md rounded-md">
 		<div class="flex justify-between">
 			<h1 class="font-semibold text-xl">Meeting info</h1>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div id="closeButton" class="text-xl" on:click={toggleVisibilityPopupInfo}>X</div>
 		</div>
 		<div class="flex gap-5">
@@ -259,6 +285,7 @@
 	<div id="popup" class="fixed left bg-white w-5/6 z-10 p-4 shadow-md rounded-md">
 		<div class="flex justify-between">
 			<h1 class="font-semibold text-xl">Create meeting</h1>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div id="closeButton" class="text-xl" on:click={toggleVisibilityPopup}>X</div>
 		</div>
 		<h2>Choose activity</h2>
