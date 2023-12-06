@@ -18,6 +18,7 @@
             });
             if (response.ok) {
                 const data = await response.json();
+                localStorage.clear();
                 window.location.href = data.redirect;
             }
         } catch (error) {

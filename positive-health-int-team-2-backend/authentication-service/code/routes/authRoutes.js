@@ -29,7 +29,7 @@ router.post('/auth/logout', authenticateMiddleware, authController.logout);
 
 // Example protected route
 router.get('/auth/logintest', authenticateMiddleware, (req, res) => {
-  res.json({ message: 'Profile accessed successfully',  redirect: '/logintest'});
+  res.json({ message: 'Profile accessed successfully',  redirect: '/logintest', userId: req.userId});
 });
 
 router.get('/auth/test', (req, res) => {
