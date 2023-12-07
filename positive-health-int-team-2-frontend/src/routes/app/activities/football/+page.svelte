@@ -3,8 +3,9 @@
   import Timer from '../../../../components/Timer.svelte';
   import SideMenu from '../../../../components/side-menu.svelte';
 
-  let userId = '12345'; // Replace with the actual user ID
-
+  let userId = '1234'; // Replace with the actual user ID
+  console.log(localStorage.getItem('userid'));
+  
   // Handler for when an activity starts
   function handleActivityStart(event) {
       // Logic to handle the start of an activity
