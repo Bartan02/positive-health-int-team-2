@@ -90,7 +90,7 @@
 			point.style.width = '50px';
 			point.style.padding = '1px';
 			point.id = 'point';
-			point.src = 'point.png';
+			point.src = '../point.png';
 
 			userPoint = new Overlay({
 				offset: [-25, -50],
@@ -168,7 +168,7 @@
 					const activityPointElement = document.createElement('img');
 					activityPointElement.style.width = '50px';
 					activityPointElement.id = `${meeting.activity}Point`;
-					activityPointElement.src = `map-icons/${meeting.activity}/${meeting.activity}-${meeting.skillLevel}.png`;
+					activityPointElement.src = `../map-icons/${meeting.activity}/${meeting.activity}-${meeting.skillLevel}.png`;
 
 					const activityPoint = new Overlay({
 						offset: [-25, -50],
@@ -220,7 +220,7 @@
 		const activityPointElement = document.createElement('img');
 		activityPointElement.style.width = '50px';
 		activityPointElement.id = `${activity}Point`;
-		activityPointElement.src = `map-icons/${activity}/${activity}-${skill}.png`;
+		activityPointElement.src = `../map-icons/${activity}/${activity}-${skill}.png`;
 
 		activityPointElement.addEventListener('click', () => {
 			if (!popupIsVisible) {
@@ -268,7 +268,7 @@
 			</div>
 			<div class="center flex-col w-2/3">
 				<h2>Activity:</h2>
-				<img src={`map-icons/${activity}/${activity}-${skill}.png`} alt="activity" class="border border-gray-400 p-2" />
+				<img src={`../map-icons/${activity}/${activity}-${skill}.png`} alt="activity" class="border border-gray-400 p-2" />
 				<h2>{activity}</h2>
 			</div>
 		</div>
@@ -292,15 +292,15 @@
 		<div id="activityContainer" class="flex justify-evenly center">
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div id="football" class="w-full border border-gray-400 center flex-col h-10" on:click={() => selectActivity('football')}>
-				<img src="football.png" class="w-1/3" alt="football" />
+				<img src="../football.png" class="w-1/3" alt="football" />
 			</div>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div id="basketball" class="w-full border-y border-gray-400 center h-10" on:click={() => selectActivity('basketball')}>
-				<img src="basketball.png" class="w-1/3" alt="basketball" />
+				<img src="../basketball.png" class="w-1/3" alt="basketball" />
 			</div>
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div id="tennis" class="w-full border border-gray-400 center h-10" on:click={() => selectActivity('tennis')}>
-				<img src="tennis.png" class="w-1/3" alt="tennis" />
+				<img src="../tennis.png" class="w-1/3" alt="tennis" />
 			</div>
 			<div id="activity" class="hidden" />
 		</div>

@@ -108,12 +108,12 @@ services:
   map-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: map_db
+      MYSQL_DATABASE: map-db
       MYSQL_USER: activity123
       MYSQL_PASSWORD: activity123123
       MYSQL_ROOT_PASSWORD: activity123123
     ports:
-      - '3307:3306'
+      - '3302:3306'
     volumes:
       - map-db:/var/lib/mysql
     networks:
