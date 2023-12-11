@@ -1,9 +1,39 @@
 import User from '../models/User.js';
+import { Op } from '@sequelize/core'
 
-async function findUser(req, res){
-    const queryFindUser = await User.findOne({where: {id: req.params.id}, attributes: ['id', 'username', 'email']});
-    if(queryFindUser === null) return res.status(401).send({ error: 'Typped email has already been taken. You need to use other email for registration or log in with typped email.' });
-    res.status(200).send(queryFindUser);
+function isInteger(str) {
+    // Remove leading and trailing whitespaces
+    str = str.trim();
+  
+    // Check if the string is empty
+    if (str === "") {
+      return false;
+    }
+  
+    // Check if the string is a valid integer
+    return /^[+-]?\d+$/.test(str);
+  }
+
+async function findUser(req,res,next){
+    const reqPrompt = req.params.prompt;
+    if(isInteger(reqPrompt)){
+        try{
+            const queryFindUser = await User.findOne({where: {id: reqPrompt}, attributes: ['id', 'username', 'email']});
+            const foundRecords = {user: queryFindUser};
+            return res.status(200).json({foundRecords: foundRecords});
+        }catch(error){
+            next(error);
+        }
+    }else{
+        try{
+            const queryFindUser = await User.findOne({where: {username: reqPrompt}, attributes: ['id', 'username', 'email']});
+            const queryFindUsers = await User.findAll({where: {username: { [Op.like]: reqPrompt + '%' }}, attributes: ['id', 'username', 'email']});
+            const foundRecords = {user: queryFindUser, users: queryFindUsers}
+            return res.status(200).json({foundRecords: foundRecords});
+        }catch(error){
+            next(error);
+        }
+    }
 }
 
 export default { findUser }

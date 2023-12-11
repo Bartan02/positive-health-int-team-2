@@ -11,8 +11,10 @@ const app = express();
 // support json encoded and url-encoded bodies, mainly used for post and update
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.options('*', cors())
 
-app.use('/', indexRouter);
+
+app.use('/', cors(), indexRouter);
 
 app.set('port', process.env.PORT || 3025);
 const server = app.listen(app.get('port'), () => {

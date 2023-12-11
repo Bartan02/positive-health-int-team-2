@@ -57,6 +57,32 @@ services:
       - activities-db:/var/lib/mysql
     networks:
       - positive-health
+  friends-service:
+    container_name: friends-service
+    build: ./friends-service
+    volumes:
+      - ./friends-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3021:3021"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  friends-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: friends_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3305:3306'
+    volumes:
+      - friends-db:/var/lib/mysql
+    networks:
+      - positive-health
   appointments-db:
     image: mysql:latest
     environment:
@@ -93,7 +119,7 @@ services:
     ports:
       - '8080:80'
     depends_on:
-      - authentication-db
+      - friends-db
     networks:
       - positive-health
   api-gateway:
@@ -116,3 +142,4 @@ volumes:
   activities-db:
   appointments-db:
   authentication-db:
+  friends-db:

@@ -11,6 +11,7 @@ const app = express();
 // support json encoded and url-encoded bodies, mainly used for post and update
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.options('*',cors())
 
 sequelize.sync().then(() => {
   console.log('Database synced');
