@@ -20,6 +20,8 @@ app.options('*', cors());
 // support json encoded and url-encoded bodies, mainly used for post and update
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.options('*', cors())
+
 
 app.use('/', cors(corsOptions), indexRouter);
 

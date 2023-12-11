@@ -3,6 +3,7 @@ import authController from '../controllers/authController.js';
 import authenticateMiddleware from '../middleware/authenticate.js';
 import notAuthenticateMiddleware from '../middleware/notAuthenticate.js';
 import userRetrieve from '../controllers/userRetrieve.js'
+import cors from 'cors';
 
 const router = express.Router();
 
@@ -37,7 +38,7 @@ router.get('/auth/test', (req, res) => {
   res.status(200).send('it works!')
 })
 
-router.get('/auth/user/:id', userRetrieve.findUser)
+router.get('/auth/user/:prompt', cors() ,userRetrieve.findUser)
 
 router.get('/auth/getuserid', authController.getUserID);
 
