@@ -5,6 +5,8 @@ import cors from 'cors';
 const router = express.Router();
 
 // routes
-router.get('/friends/find/:prompt', cors() ,findFriend.findFriend);
+router.get('/friends/findperson/:prompt', cors() ,findFriend.findPerson);
+router.get('/friends/findrelationship/:prompt', cors(), findFriend.findRelationship)
+
 
 export default router;

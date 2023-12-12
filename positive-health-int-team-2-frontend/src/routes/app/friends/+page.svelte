@@ -70,7 +70,7 @@
 
                 <!-- Button 2 -->
                 <div class="bg-orange-500 rounded-full p-2">
-                    <a href=""><img src="/Search-icon.png" class="w-12 h-12"></a>
+                    <a href="/app/friends/find"><img src="/Search-icon.png" class="w-12 h-12"></a>
                 </div>
             </div>
         </div>
