@@ -1,7 +1,7 @@
 // Function to start an activity
 // https://step-up-api-gateway-2639a76e4388.herokuapp.com   a link to hosted back end
 export async function startActivity(userId, startLocation) {
-    const response = await fetch('http://localhost:3025/activities/start/', {
+    const response = await fetch('http://localhost:3015/activities/start/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ export async function startActivity(userId, startLocation) {
 // Function to stop an activity
 export async function stopActivity(activityId, maximumSpeed) {
     console.log('Sending to backend:', { activityId, maximumSpeed });
-    const response = await fetch('http://localhost:3025/activities/stop/', {
+    const response = await fetch('http://localhost:3015/activities/stop/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ export async function stopActivity(activityId, maximumSpeed) {
 // Function to update an activity's location
 export async function updateLocation(activityId, currentLocation, maximumSpeed) {
     const maximumSpeedInt = parseInt(maximumSpeed, 10);
-    const response = await fetch('http://localhost:3025/activities/update-location/', {
+    const response = await fetch('http://localhost:3015/activities/update-location/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
