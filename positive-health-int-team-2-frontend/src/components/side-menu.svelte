@@ -1,4 +1,5 @@
 <script>
+    import { user } from '../stores/user.js';
     import { fly } from 'svelte/transition';
     export let isOpen = false;
 
@@ -20,6 +21,7 @@
                 const data = await response.json();
                 localStorage.clear();
                 window.location.href = data.redirect;
+                user.set({ id: null, token: null });
             }
         } catch (error) {
             console.error('Logout failed:', error);

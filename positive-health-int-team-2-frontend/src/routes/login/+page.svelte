@@ -5,15 +5,17 @@
 <script>
 	import { error } from '@sveltejs/kit';
     import validateEmail from '../../lib/authverification.js';
+    import { user } from '../../stores/user.js';
     let email = '';
     let password = '';
+    
 
     let errorDisplay, errorContent;
   
     const login = async () => {
     try {
     if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
-    const response = await fetch('http://localhost:3025/auth/login', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,6 +27,8 @@
       localStorage.setItem('token', data.token);
       localStorage.setItem('userid', data.userid);
       localStorage.setItem('userinfo',data.userinfo);
+      user.set({ id: data.userid, token: data.token });
+      console.log('Store updated with:', { id: data.userid, info: data.userinfo, token: data.token });
       // Redirect to the specified route
       window.location.href = data.redirect;
     } else {
