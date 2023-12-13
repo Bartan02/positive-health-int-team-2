@@ -20,6 +20,7 @@
     let speedUpdateIntervalId; 
     const SPEED_UPDATE_INTERVAL = 50; // Adjust this to control how often the speed updates (in milliseconds)
     const maxHumanSpeed = 28;
+    const SPRINT_THRESHOLD_SPEED = 24 * 1000 / 3600; // 24 km/h in meters per second
 
 
     function calculateSpeed(currentLocation) {
@@ -27,11 +28,11 @@
         const timeDifference = Date.now() - lastUpdateTime; // Time in milliseconds
 
         if (timeDifference > 0) { // Check to prevent division by zero
-            const distance = haversine(previousLocation, currentLocation); // Distance in meters
+            const distanceCovered = haversine(previousLocation, currentLocation); // Distance in meters
 
-            if (distance > 0) {
+            if (distanceCovered > 0) {
                 // Speed in meters per second
-                currentSpeed = distance / (timeDifference / 1000); 
+                currentSpeed = distanceCovered / (timeDifference / 1000); 
 
                 // Convert to km/h
                 currentSpeed *= 3.6;
@@ -39,6 +40,9 @@
                 // Check against maximum human running speed
                 if (currentSpeed > maxHumanSpeed) {
                     currentSpeed = 0;
+                } else if (currentSpeed >= SPRINT_THRESHOLD_SPEED) {
+                    // Add distance to sprintDistance if the user is sprinting
+                    sprintDistance += distanceCovered;
                 }
             } else {
                 // No movement detected, set speed to zero
@@ -245,7 +249,7 @@
     <!-- UI for displaying distance and average speed -->
     <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Distance:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{$distance} meters</p>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{$distance.toFixed(2)} meters</p>
     </a>
 
     <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -261,6 +265,11 @@
     <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Speed</h5>
         <p class="font-normal text-gray-700 dark:text-gray-400">{currentSpeed.toFixed(2)} km/h</p>
+    </a>
+
+    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Sprint distance</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{sprintDistance.toFixed(2) } km</p>
     </a>
 
     <!-- UI for controlling the activity -->
