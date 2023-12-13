@@ -4,7 +4,7 @@ import User from '../models/User.js';
 
 // Token blacklist (for logged-out users)
 const tokenBlacklist = [];
-
+let exportUser;
 function validateEmail(email) {
   var re = /\S+@\S+\.\S+/;
   return re.test(email);
@@ -45,6 +45,7 @@ async function login(req, res) {
       username: username,
       email: email
     }
+    exportUser = user.id;
     return res.status(200).json({ token, redirect: '/app/home', userid: user.id, userinfo: userinfo});
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
@@ -64,5 +65,21 @@ function logout(req, res) {
   return res.status(200).json({ message: 'Logout successful', redirect: '/'  });
 }
 
-export default { register, login, logout };
+async function getUserID(req, res) {
+  const token = req.header('Authorization');
+
+  if (!token) {
+    return res.status(401).json({ error: 'Access denied. Token not provided' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, 'secretKey');
+    const userId = decoded.userId;
+    return res.status(200).json({ userId });
+  } catch (error) {
+    return res.status(500).json({ error: 'Invalid Token or Internal Server Error' });
+  }
+}
+
+export default { register, login, logout, getUserId };
 export { tokenBlacklist }

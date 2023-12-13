@@ -2,9 +2,13 @@
   import ActivityManager from '../../../../components/ActivityManager.svelte';
   import Timer from '../../../../components/Timer.svelte';
   import SideMenu from '../../../../components/side-menu.svelte';
+  import { user } from '../../../../stores/user.js';
 
-  let userId = localStorage.getItem('userid'); // Replace with the actual user ID
-  console.log(localStorage.getItem('userid'));
+  let userId = '123';
+//   $: userId = $user && $user.id ? $user.id : null;
+
+  setTimeout(() => console.log(userId), 1000); // Delayed log
+  // console.log(localStorage.getItem('userid'));
   
   // Handler for when an activity starts
   function handleActivityStart(event) {
