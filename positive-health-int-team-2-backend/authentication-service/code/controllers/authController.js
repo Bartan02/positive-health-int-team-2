@@ -81,5 +81,5 @@ async function getUserID(req, res) {
   }
 }
 
-export default { register, login, logout, getUserId };
+export default { register, login, logout, getUserID };
 export { tokenBlacklist }
