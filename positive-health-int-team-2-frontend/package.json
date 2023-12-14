@@ -37,7 +37,6 @@
 		"firebase": "^10.7.0",
 		"flowbite": "^2.2.0",
 		"haversine-distance": "^1.2.1",
-		"ol": "^8.2.0",
 		"postcss": "^8.4.31",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",

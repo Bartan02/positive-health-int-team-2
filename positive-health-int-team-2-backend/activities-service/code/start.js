@@ -31,8 +31,8 @@ const app = express();
 // support json encoded and url-encoded bodies, mainly used for post and update
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: 'https://step-up-frontend-ced8cec1ddfe.herokuapp.com' }));
-
+app.use(cors());
+// { origin: 'https://step-up-frontend-ced8cec1ddfe.herokuapp.com' } -> inside the cors above
 app.use('/activities', cors(), activityRouter);
 
 app.set('port', process.env.PORT || 3015);
