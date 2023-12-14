@@ -1,5 +1,5 @@
 import express from 'express';
-import {authController, getUserId} from '../controllers/authController.js';
+import authController from '../controllers/authController.js';
 import authenticateMiddleware from '../middleware/authenticate.js';
 import notAuthenticateMiddleware from '../middleware/notAuthenticate.js';
 import userRetrieve from '../controllers/userRetrieve.js'
@@ -39,6 +39,6 @@ router.get('/auth/test', (req, res) => {
 
 router.get('/auth/user/:id', userRetrieve.findUser)
 
-router.get('/auth/getuserid', getUserId);
+router.get('/auth/getuserid', authController.getUserID);
 
 export default router;
