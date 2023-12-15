@@ -36,7 +36,6 @@
 		"daisyui": "^4.4.12",
 		"firebase": "^10.7.0",
 		"flowbite": "^2.2.0",
-		"haversine-distance": "^1.2.1",
 		"postcss": "^8.4.31",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
@@ -47,5 +46,6 @@
 		"haversine-distance": "^1.2.1",
 		"vitest": "^0.25.3",
 		"ol": "^8.2.0"
-	}
+	},
+	"proxy":"https://step-up-api-gateway-2639a76e4388.herokuapp.com"
 }

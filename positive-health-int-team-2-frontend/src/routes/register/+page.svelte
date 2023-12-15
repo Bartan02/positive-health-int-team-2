@@ -42,7 +42,8 @@
             const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify({ email: email, username: username, password: password }),
             });
