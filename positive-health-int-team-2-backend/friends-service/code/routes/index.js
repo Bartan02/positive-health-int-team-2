@@ -6,7 +6,7 @@ const router = express.Router();
 
 // routes
 router.get('/friends/findperson/:prompt', cors() ,findFriend.findPerson);
-router.get('/friends/findrelationship/:prompt', cors(), findFriend.findRelationship)
+router.get('/friends/findrelationships/:prompt', cors(), findFriend.findRelationships)
 
 
 export default router;
