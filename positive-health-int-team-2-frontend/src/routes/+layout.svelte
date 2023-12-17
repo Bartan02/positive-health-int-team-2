@@ -2,7 +2,7 @@
     import "../app.css";
     import { onMount } from 'svelte'
     //import { auth } from '../lib/firebase/firebase.client'
-	import { authStore } from "../stores/authStore.js";
+	// import { authStore } from "../stores/authStore.js";
 	import { browser } from "$app/environment";
     // onMount(() => {
     //   const unsubscribe = auth.onAuthStateChanged((user) => {

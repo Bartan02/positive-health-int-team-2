@@ -1,4 +1,5 @@
 <script>
+    import { user } from '../stores/user.js';
     import { fly } from 'svelte/transition';
     export let isOpen = false;
 
@@ -18,7 +19,9 @@
             });
             if (response.ok) {
                 const data = await response.json();
+                localStorage.clear();
                 window.location.href = data.redirect;
+                user.set({ id: null, token: null });
             }
         } catch (error) {
             console.error('Logout failed:', error);
@@ -61,7 +64,7 @@
                         </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <a href="" class="flex items-center">
+                        <a href="." class="flex items-center">
                             <img src="/Profile-icon.png" alt="Profile" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Profile 
                         </a>
                     </li>
@@ -76,7 +79,7 @@
                         </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <a href="" class="flex items-center">
+                        <a href="." class="flex items-center">
                             <img src="/Map-icon.png" alt="Discover" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Map 
                         </a>
                     </li>
@@ -92,6 +95,7 @@
                 <li class="hover:bg-orange-400 p-2 pl-10 flex items-center text-base">
                     <img src="/Settings-icon.png" alt="Settings" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Settings
                 </li>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <li on:click={logout} class="hover:bg-orange-400 p-2 pl-10 flex items-center text-base">
                    <img src="/Logout-icon.png" alt="Log Out" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Log Out
                 </li>

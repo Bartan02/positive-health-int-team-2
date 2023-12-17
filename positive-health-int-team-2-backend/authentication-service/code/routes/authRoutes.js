@@ -2,6 +2,7 @@ import express from 'express';
 import authController from '../controllers/authController.js';
 import authenticateMiddleware from '../middleware/authenticate.js';
 import notAuthenticateMiddleware from '../middleware/notAuthenticate.js';
+import userRetrieve from '../controllers/userRetrieve.js'
 
 const router = express.Router();
 
@@ -29,11 +30,15 @@ router.post('/auth/logout', authenticateMiddleware, authController.logout);
 
 // Example protected route
 router.get('/auth/logintest', authenticateMiddleware, (req, res) => {
-  res.json({ message: 'Profile accessed successfully',  redirect: '/logintest'});
+  res.json({ message: 'Profile accessed successfully',  redirect: '/logintest', userId: req.userId});
 });
 
 router.get('/auth/test', (req, res) => {
   res.status(200).send('it works!')
 })
+
+router.get('/auth/user/:id', userRetrieve.findUser)
+
+router.get('/auth/getuserid', authController.getUserID);
 
 export default router;

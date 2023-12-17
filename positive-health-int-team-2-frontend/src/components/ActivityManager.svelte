@@ -2,6 +2,7 @@
     import { onMount, onDestroy, createEventDispatcher } from 'svelte';
     import { writable, get } from 'svelte/store';
     import { startActivity, stopActivity, updateLocation } from '../lib/activityService.js';
+    import haversine from 'haversine-distance'; 
 
     export let userId;
     let activityId = null;
@@ -14,24 +15,47 @@
     let localStartTime; // Local variable to hold start time
     let maximumSpeed = 0; // maximumSpeed;
     let sprintDistance = 0;
-    let currentSpeed = 0;
+    let currentSpeed = writable(0); // Initialize as a Svelte store
     let previousLocation = null;
+    let speedUpdateIntervalId; 
+    const SPEED_UPDATE_INTERVAL = 50; // Adjust this to control how often the speed updates (in milliseconds)
+    const maxHumanSpeed = 28;
+    const SPRINT_THRESHOLD_SPEED = 24 * 1000 / 3600; // 24 km/h in meters per second
+    let totalDistance = 0; // Add this to keep track of the total distance
 
 
     function calculateSpeed(currentLocation) {
-    if (previousLocation) {
-        const timeDifference = Date.now() - lastUpdateTime; // time in milliseconds
-        const distance = haversine(previousLocation, currentLocation); // distance in meters
+        if (previousLocation) {
+            const timeDifference = Date.now() - lastUpdateTime;
 
-        // Speed in meters per second
-        currentSpeed = distance / (timeDifference / 1000); 
+            if (timeDifference > 0) {
+                const distanceCovered = haversine(previousLocation, currentLocation);
+                let speed = 0;
 
-        // Optionally, convert to km/h or mph as needed
-        currentSpeed = currentSpeed * 3.6; // for km/h
+                if (distanceCovered > 0) {
+                    speed = (distanceCovered / (timeDifference / 1000)) * 3.6;
+                    totalDistance += distanceCovered; // Accumulate distance
+
+                    if (speed > maxHumanSpeed) {
+                        speed = 0;
+                    } else if (speed >= SPRINT_THRESHOLD_SPEED) {
+                        sprintDistance += distanceCovered;
+                    }
+                }
+
+                currentSpeed.set(speed);
+                distance.set(totalDistance); // Update the distance store
+            } else {
+                currentSpeed.set(0);
+            }
+
+            lastUpdateTime = Date.now();
+            previousLocation = currentLocation;
+        } else {
+            previousLocation = currentLocation;
+            lastUpdateTime = Date.now();
+        }
     }
-
-    previousLocation = currentLocation; // update previousLocation for the next calculation
-}
 
     function getCurrentLocation() {
         return new Promise((resolve, reject) => {
@@ -82,18 +106,38 @@
     }
 
     function updateAverageSpeed() {
-        const elapsedParts = get(elapsedTime).split(':');
-        const elapsedHours = parseInt(elapsedParts[0]) + parseInt(elapsedParts[1]) / 60 + parseInt(elapsedParts[2]) / 3600;
-        
-        if (elapsedHours > 0) {
-             // Average speed in meters/hour
-            const avgSpeed = get(distance) / elapsedHours;
-            averageSpeed.set(avgSpeed);
-            if (maximumSpeed < avgSpeed) {
-                maximumSpeed = avgSpeed;
-            }
+    const elapsedParts = get(elapsedTime).split(':');
+    const elapsedHours = parseInt(elapsedParts[0]) + parseInt(elapsedParts[1]) / 60 + parseInt(elapsedParts[2]) / 3600;
+
+    // Ensure a minimum amount of time has elapsed (e.g., 1 minute) before calculating average speed
+    const MIN_ELAPSED_TIME_IN_HOURS = 1 / 60; // 1 minute in hours
+    if (elapsedHours > MIN_ELAPSED_TIME_IN_HOURS) {
+        // Convert distance from meters to kilometers and calculate average speed in km/h
+        const avgSpeedKmPerHour = (get(distance) / 1000) / elapsedHours;
+        averageSpeed.set(avgSpeedKmPerHour);
+    }
+}
+
+function updateCurrentSpeed() {
+        if (isActivityOngoing) {
+            getCurrentLocation().then(position => {
+                const currentLocation = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
+
+                calculateSpeed(currentLocation);
+
+                const currentSpeedValue = get(currentSpeed);
+                if (currentSpeedValue > maximumSpeed) {
+                    maximumSpeed = currentSpeedValue;
+                }
+            }).catch(error => {
+                console.error('Error getting current location for speed update:', error);
+            });
         }
     }
+
 
     
     let watchId;
@@ -144,6 +188,9 @@
                 }
             );
 
+            // Setup interval to update current speed
+            speedUpdateIntervalId = setInterval(updateCurrentSpeed, SPEED_UPDATE_INTERVAL);
+
             // Setup interval to update elapsed time every second
             intervalId = setInterval(() => {
                 if (localStartTime) {
@@ -168,6 +215,8 @@
         if (watchId) {
             navigator.geolocation.clearWatch(watchId);
         }
+        // Clear the speed update interval
+        clearInterval(speedUpdateIntervalId);
         clearInterval(intervalId); // Clear the interval timer when the component is destroyed
     });
 </script>
@@ -199,24 +248,29 @@
 
 <div class="flex flex-col justify-between">
     <!-- UI for displaying distance and average speed -->
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <a href="." class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Distance:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{$distance} meters</p>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{$distance.toFixed(2)} meters</p>
     </a>
 
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <a href="." class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Average Speed:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{$averageSpeed.toFixed(2)} meters/hour</p>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{$averageSpeed.toFixed(2)} km/hour</p>
     </a>
 
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum avg Speed:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{maximumSpeed.toFixed(2)} meters/hour</p>
+    <a href="." class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum Speed:</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{maximumSpeed.toFixed(2)} km/h</p>
     </a>
 
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <a href="." class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Speed</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{currentSpeed.toFixed(2)} km/h</p>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{$currentSpeed.toFixed(2)} km/h</p>
+    </a>
+
+    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Sprint distance</h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400">{sprintDistance.toFixed(2) } km</p>
     </a>
 
     <!-- UI for controlling the activity -->

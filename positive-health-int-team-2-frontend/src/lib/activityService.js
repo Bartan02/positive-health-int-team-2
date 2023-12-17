@@ -1,4 +1,5 @@
 // Function to start an activity
+// https://step-up-api-gateway-2639a76e4388.herokuapp.com   a link to hosted back end
 export async function startActivity(userId, startLocation) {
     const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/start/', {
         method: 'POST',
