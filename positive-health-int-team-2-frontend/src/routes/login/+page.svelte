@@ -48,40 +48,34 @@
         <span> {errorContent} </span>
     {/if}
 </div>
-<div class="flex justify-between flex-col w-screen h-screen">
-    <div class="h-20 w-full"></div>          
-    <div class="w-full h-full center flex-col">          
-        <div class="w-full h-1/3 center">
-            <img src="/logo.png" alt="StepUp!_logo" class="h-2/3">
-        </div>
-        <form on:submit={login}>
-        <div class="w-full h-2/3">
-            <div class=" w-80 center h-10 my-3">
-                <div class="w-2/3 h-full center border-b border-orange-400">
-                    <input type="email" bind:value={email} placeholder="Email" class="bg-transparent outline-none w-full">
+<div class="h-screen relative" style="background: linear-gradient(to right, #F65800, #FF0000C2);">
+    <!-- Positioning the white box absolutely to the bottom of the screen and specifying its height -->
+    <div class="absolute bottom-0 w-full" style="height: 84%; background: #F6F7FB; box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.25);border-radius: 20px 20px 0px 0px;"> <!-- Set the desired height here -->
+      <!-- White box with content -->
+      <div class="bg-white rounded-t-3xl p-8 overflow-auto" style="height: 100%;">
+        <div class="mt-20">
+            <div class="mb-6 flex justify-center">
+                <img src="/logo.png" alt="StepUp! logo" class="w-1/2"> <!-- Adjust width as needed -->
+              </div>
+              <form on:submit={login}>
+                <div class="mb-4">
+                  <input type="email" bind:value={email} placeholder="Username" class="bg-transparent w-full border-b-2 border-orange-400 py-2 px-4 focus:outline-none">
                 </div>
-            </div>
-            <div class="w-80 center h-10 my-3">
-                <div class="w-2/3 h-full center border-b border-orange-400">
-                    <input type="password" bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
-                </div>  
-            </div>    
-            <div class="w-full h-10 center">
-                <h2>Forgot password?</h2>
-            </div>
-            <div class="w-full h-20 center flex justify-evenly">
-                <a href="/register" class="w-1/3 h-3/5">
-                    <div class="w-full h-full border border-orange-500 center rounded-3xl">
-                        <h2 a href="/register">Register</h2>
-                    </div>
-                </a>
-                <span class="w-1/3 h-3/5">
-                    <button type="submit" class="w-full bg-orange-500 h-full border border-orange-500 center rounded-3xl text-white">
-                        <h2>Login</h2>
-                    </button>
-                </span>
-            </div>    
+                <div class="mb-6">
+                  <input type="password" bind:value={password} placeholder="Password" class="bg-transparent w-full border-b-2 border-orange-400 py-2 px-4 focus:outline-none">
+                </div>
+                <div class="mb-6">
+                  <button type="submit" class="bg-orange-500 w-full py-2 rounded-full text-white focus:outline-none hover:bg-orange-600">Login</button>
+                </div>
+                <div class="text-center mb-4">
+                  <a href="/forgot-password" class="text-orange-500 hover:text-orange-600">Forgot password?</a>
+                </div>
+              </form>
+              <div class="text-center">
+                <a href="/register" class="text-orange-500 hover:text-orange-600">Register</a>
+              </div>
         </div>
-        </form>
-    </div>  
-</div>
+      </div>
+    </div>
+  </div>
+  
