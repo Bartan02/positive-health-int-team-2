@@ -15,6 +15,11 @@
 
     let myInput, letter, capital, number, length, message, errorDisplay, errorContent;
 
+    let usernameError = '';
+    let emailError = '';
+    let passwordError = '';
+    let confirmPasswordError = '';
+
     // When the user clicks on the password field, show the message box
     function showMessageDisplay() {
         message.classList.remove("hidden");
@@ -35,10 +40,29 @@
     }
 
     const register = async () => {
+        // Reset errors
+        usernameError = '';
+        emailError = '';
+        passwordError = '';
+        confirmPasswordError = '';
+
         try {
-            if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
-            if (!checkPassword(password)) throw "Passsord does not fulfill safety requirements. ";
-            if (password != confirmPassword) throw "Passwords are not the same. Make sure they are the same.";
+            if (username.trim().length === 0) {
+                usernameError = "Username is required.";
+                throw new Error(usernameError);
+            }
+            if (!validateEmail(email)) {
+                emailError = "Typed email is invalid. Your email should look like this: email@domain.com";
+                throw new Error(emailError);
+            }
+            if (!checkPassword(password)) {
+                passwordError = "Password does not fulfill safety requirements.";
+                throw new Error(passwordError);
+            }
+            if (password !== confirmPassword) {
+                confirmPasswordError = "Passwords are not the same. Make sure they are the same.";
+                throw new Error(confirmPasswordError);
+            }
             const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/register', {
             method: 'POST',
             headers: {
@@ -55,15 +79,23 @@
             // Redirect to the specified route
                 window.location.href = data.redirect;
             } else {
-                let error = '';
-                await response.json().then((data) => {
-                    error = data.error;
-                });
-                throw error;
+                // If the email is taken or other registration errors occur
+                const data = await response.json();
+                if (data.error && data.error.includes("email")) {
+                    emailError = "This email is already taken.";
+                } else {
+                    emailError = "An unexpected error occurred. Please try again.";
+                }
+                throw new Error(data.error);
             }
         } catch (error) {
-            errorDisplay.classList.remove("hidden");
-            errorContent = error;
+            // If it is a network error or other non-server-related issue
+            if (typeof error === 'string') {
+                emailError = error;
+            } else {
+                errorDisplay.classList.remove("hidden");
+                errorContent = error.message || "An error occurred during registration.";
+            }
         }
     };
 
@@ -104,39 +136,37 @@
         }
         }
   </script>
-<div bind:this={errorDisplay} class="fixed bg-red-600 w-screen text-white p-3 hidden">
+<div bind:this={errorDisplay} class="fixed bg-red-600 w-screen text-white p-3 hidden z-20">
     {#if errorDisplay}
         <span> {errorContent} </span>
     {/if}
 </div>
-<div class="flex justify-between flex-col w-screen h-screen">
-    <div class="h-20 w-full"></div>          
-    <div class="w-full h-full center flex-col">          
-        <div class="w-full h-1/3 center">
-            <img src="/logo.png" alt="StepUp!_logo" class="h-2/3">
-        </div>
-        <form on:submit|preventDefault={register}>
-        <div class="w-full h-5/6">
-            <div class="center h-10 my-3">
-                <div class="w-80 h-full center border-b border-orange-400">
-                    <input type="text" bind:value={username} placeholder="Username" class="bg-transparent outline-none w-full">
-                </div>
+<div class="h-screen relative" style="background: linear-gradient(to right, #F65800, #FF0000C2);">
+    <div class="absolute bottom-0 w-full" style="height: 84%; background: #F6F7FB; box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.25);border-radius: 20px 20px 0px 0px;">
+      <div class="bg-white rounded-t-3xl p-8 overflow-auto" style="height: 100%;">
+        <div>
+          <div class="mb-10 mt-10 flex justify-center">
+            <img src="/logo.png" alt="StepUp!_logo" class="w-48 h-40">
+          </div>
+          <form on:submit|preventDefault={register}>
+            <div class="mb-4">
+              <input type="text" bind:value={username} placeholder="Username" class="bg-transparent w-full py-2 px-4 focus:outline-none" style="border: none; border-bottom: 3px solid #F65800; background-color: transparent;">
+              {#if usernameError}
+              <p class="text-red-500 text-xs italic">{usernameError}</p>
+          {/if}
             </div>
-            <div class="center h-10 my-3">
-                <div class="w-80 h-full center border-b border-orange-400">
-                    <input type="email" bind:value={email} placeholder="E-Mail" class="bg-transparent outline-none w-full">
-                </div>  
+            <div class="mb-4">
+              <input type="email" bind:value={email} placeholder="E-Mail" class="bg-transparent w-full py-2 px-4 focus:outline-none" style="border: none; border-bottom: 3px solid #F65800; background-color: transparent;">
+              {#if emailError}
+              <p class="text-red-500 text-xs italic">{emailError}</p>
+          {/if}
             </div>    
-            <div class="center h-10 my-3">
-                <div class="w-80 h-full center border-b border-orange-400">
-                    <input type="password" on:blur={hideMessageDisplay} on:focus={showMessageDisplay} on:keyup={checkPasswordDisplay} bind:this={myInput} bind:value={password} placeholder="Password" class="bg-transparent outline-none w-full">
-                </div>  
+            <div class="mb-4">
+              <input type="password" on:blur={hideMessageDisplay} on:focus={showMessageDisplay} on:keyup={checkPasswordDisplay} bind:this={myInput} bind:value={password} placeholder="Password" class="bg-transparent w-full py-2 px-4 focus:outline-none" style="border: none; border-bottom: 3px solid #F65800; background-color: transparent;">
+              {#if passwordError}
+              <p class="text-red-500 text-xs italic">{passwordError}</p>
+          {/if}
             </div>  
-            <div class="center h-10 my-3">
-                <div class="w-80 h-full center border-b border-orange-400">
-                    <input type="password" bind:value={confirmPassword} placeholder="Confirm Password" class="bg-transparent outline-none w-full">
-                </div>
-            </div>
             <div class="center mt-6">
                 <div class="w-full h-full border-2 border-red-500 p-4 mx-auto center rounded-lg hidden text-left" bind:this={message} id="message">
                         <h3 class="text-lg font-bold mb-2">Password must contain the following:</h3>
@@ -146,19 +176,18 @@
                         <p id="length" bind:this={length} class="text-red-400 text-left">Minimum <b>8 characters</b></p>
                 </div>
             </div>
-            <div class="w-full h-20 center flex justify-evenly mt-5">
-                <a href="/login" class="w-1/3 h-3/5">
-                    <div class="w-full h-full p-3 border border-orange-500 center text-center rounded-3xl">
-                        <h2 href="/login">Already a user?</h2>
-                    </div>
-                </a>
-                <span class="w-1/3 h-3/5">
-                    <button type="submit" class="w-full p-3 h-max border border-orange-500 bg-orange-500 center rounded-3xl text-white">
-                        <h2 >Join</h2>
-                    </button>
-                </span>
-            </div>    
+            <div class="mb-12">
+              <input type="password" bind:value={confirmPassword} placeholder="Confirm Password" class="bg-transparent w-full py-2 px-4 focus:outline-none" style="border: none; border-bottom: 3px solid #F65800; background-color: transparent;">
+              {#if confirmPasswordError}
+              <p class="text-red-500 text-xs italic">{confirmPasswordError}</p>
+          {/if}
+            </div>
+            <div class="flex justify-center mb-6 gap-10">
+                <button type="button" onclick="location.href='/login'" class="px-6 rounded-full text-white focus:outline-none hover:bg-orange-600 font-bold w-60 h-12" style="background: linear-gradient(to right, #F65800, #FF0000C2);">Already a user?</button>
+                <button type="submit" class="rounded-full text-white focus:outline-none hover:bg-orange-600 font-bold w-60 h-12" style="background: linear-gradient(to right, #F65800, #FF0000C2);">Login</button>
+            </div>
+          </form>
         </div>
-        </form>
-    </div>  
-</div>
+      </div>
+    </div>
+  </div>

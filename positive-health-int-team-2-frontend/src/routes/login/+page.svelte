@@ -43,39 +43,47 @@
   }
   </script>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+</style>
+
 <div bind:this={errorDisplay} class="fixed bg-red-600 w-screen text-white p-3 hidden">
     {#if errorDisplay}
         <span> {errorContent} </span>
     {/if}
 </div>
 <div class="h-screen relative" style="background: linear-gradient(to right, #F65800, #FF0000C2);">
-    <!-- Positioning the white box absolutely to the bottom of the screen and specifying its height -->
-    <div class="absolute bottom-0 w-full" style="height: 84%; background: #F6F7FB; box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.25);border-radius: 20px 20px 0px 0px;"> <!-- Set the desired height here -->
-      <!-- White box with content -->
-      <div class="bg-white rounded-t-3xl p-8 overflow-auto" style="height: 100%;">
-        <div class="mt-20">
-            <div class="mb-6 flex justify-center">
-                <img src="/logo.png" alt="StepUp! logo" class="w-1/2"> <!-- Adjust width as needed -->
-              </div>
-              <form on:submit={login}>
-                <div class="mb-4">
-                  <input type="email" bind:value={email} placeholder="Username" class="bg-transparent w-full border-b-2 border-orange-400 py-2 px-4 focus:outline-none">
-                </div>
-                <div class="mb-6">
-                  <input type="password" bind:value={password} placeholder="Password" class="bg-transparent w-full border-b-2 border-orange-400 py-2 px-4 focus:outline-none">
-                </div>
-                <div class="mb-6">
-                  <button type="submit" class="bg-orange-500 w-full py-2 rounded-full text-white focus:outline-none hover:bg-orange-600">Login</button>
-                </div>
-                <div class="text-center mb-4">
-                  <a href="/forgot-password" class="text-orange-500 hover:text-orange-600">Forgot password?</a>
-                </div>
-              </form>
-              <div class="text-center">
-                <a href="/register" class="text-orange-500 hover:text-orange-600">Register</a>
-              </div>
+  <div class="absolute bottom-0 w-full" style="height: 84%; background: #F6F7FB; box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.25);border-radius: 20px 20px 0px 0px;">
+    <div class="bg-white rounded-t-3xl p-8 overflow-auto" style="height: 100%;">
+      <div>
+        <div class="mb-10 mt-10 flex justify-center">
+          <img src="/logo.png" alt="StepUp! logo" class="w-48, h-40">
         </div>
+        <form on:submit={login}>
+          <div class="mb-4">
+            <input type="email" bind:value={email} placeholder="Username" class="bg-transparent w-full py-2 px-4 focus:outline-none" style="border: none; border-bottom: 3px solid #F65800; background-color: transparent;">
+          </div>
+
+          <div class="mb-6">
+            <input type="password" bind:value={password} placeholder="Password" class="p-0 bg-transparent w-full py-2 px-4 focus:outline-none" style="border: none; border-bottom: 3px solid #F65800; background-color: transparent;">
+          </div>
+
+          <div class="text-center mb-6">
+            <a href="/forgot-password" class="hover:text-orange-600" style="color: #213037;">Forgot password?</a>
+          </div>
+          <!-- Button container with flexbox -->
+          <div class="flex justify-center mb-6 gap-10">
+            <!-- Register Button -->
+            <button type="button" onclick="location.href='/register'" class="py-2 px-6 rounded-full text-white focus:outline-none hover:bg-orange-600 font-bold w-60 h-12" style="background: linear-gradient(to right, #F65800, #FF0000C2);">Register</button>
+            <!-- Login Button -->
+            <button type="submit" class="py-2 px-6 rounded-full text-white focus:outline-none hover:bg-orange-600 font-bold w-60 h-12" style="background: linear-gradient(to right, #F65800, #FF0000C2);">Login</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
+
+
   
