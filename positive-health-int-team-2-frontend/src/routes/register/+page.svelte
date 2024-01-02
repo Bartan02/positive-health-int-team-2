@@ -93,8 +93,8 @@
             if (typeof error === 'string') {
                 emailError = error;
             } else {
-                errorDisplay.classList.remove("hidden");
-                errorContent = error.message || "An error occurred during registration.";
+                // errorDisplay.classList.remove("hidden");
+                // errorContent = error.message || "An error occurred during registration.";
             }
         }
     };

@@ -3,7 +3,9 @@
 </script>
 
 <body>
-<div class="flex justify-between flex-col w-screen h-screen">
+<div class="flex justify-between flex-col w-screen h-screen" style="background: linear-gradient(180deg, #F65800 0%, rgba(255, 0, 0, 0.76) 100%);
+
+">
 	<SideMenu />
 	<div class="h-20 w-full" />
 
