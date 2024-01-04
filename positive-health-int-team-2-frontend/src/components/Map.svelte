@@ -7,7 +7,8 @@
 	import OSM from 'ol/source/OSM';
 	import Geolocation from 'ol/Geolocation';
 	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
-	import { createMeeting, getAllMeetings } from '../lib/mapService.js';
+	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, getUserData, joinMeeting, leaveMeeting } from '../lib/mapService.js';
+	import { containsCoordinate } from 'ol/extent.js';
 
 	/**
 	 * @type {Map}
@@ -109,6 +110,10 @@
 	});
 
 	/**
+	 * @type {number}
+	 */
+	let activityID
+	/**
 	 * @type {string}
 	 */
 	let activity
@@ -124,6 +129,32 @@
 	 * @type {string}
 	 */
 	let skill;
+	let userID = localStorage.getItem('userid');
+	console.log(userID);
+	/**
+	 * @type {any}
+	 */
+	let meetingPlayers = [];
+
+	/**
+	 * Sets the activity for the meeting
+	 * @param {string} userInfo
+	 * @type {{ username: string; email: string; password: string; profile_pic: string; date_of_birth: string; height: number; weight: number; sex: string; first_name: string; surname: string; }}
+	 */
+	let userInfo;
+
+	userInfo = {
+		"username": "Michael321",
+		"email": "mike@gmail.com",
+		"password": "12345678",
+		"profile_pic": "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
+		"date_of_birth": "",
+		"height": 180,
+		"weight": 80,
+		"sex": "male",
+		"first_name": "Michael",
+		"surname": "Jackson"
+	}
 
 	/**
 	 * Sets the activity for the meeting
@@ -164,7 +195,7 @@
 		getAllMeetings().then((meetings) => {
 			const meetingsArray = Object.values(meetings)[0];
 			console.log(meetingsArray);
-			meetingsArray.forEach((/** @type {{ activity: string; skillLevel: string; locationLatitude: number; locationLongitude: number; meetingStartTime: string | number | Date; meetingEndTime: string | number | Date; }} */ meeting) => {
+			meetingsArray.forEach((meeting) => {
 					const activityPointElement = document.createElement('img');
 					activityPointElement.style.width = '50px';
 					activityPointElement.id = `${meeting.activity}Point`;
@@ -178,21 +209,30 @@
 					});
 
 					map.addOverlay(activityPoint);
-
+					
 					activityPointElement.addEventListener('click', () => {
 						const meetingStartTime = new Date(meeting.meetingStartTime);
 						const meetingEndTime = new Date(meeting.meetingEndTime);
-
+						
 						activity = meeting.activity;
 						skill = meeting.skillLevel;
 						start = meetingStartTime.getUTCHours()
 						end = meetingEndTime.getUTCHours()
+						userID = meeting.makerUserID;
+						activityID = meeting.ID;
+						getMeetingPlayers(activityID).then((data) => {
+							meetingPlayers = [];
+							data.players.forEach(element => {
+								meetingPlayers.push(element.playerID);
+							});
+							console.log(meetingPlayers);
+						});
 						if (!popupIsVisible) {
 							toggleVisibilityPopupInfo();
 						}
 					});
 				}
-			);
+				);
 		});
 	}
 	function toggleVisibilityPopup() {
@@ -213,7 +253,7 @@
 		// @ts-ignore
 		let longitude = userPoint.getPosition()[1];
 
-		createMeeting(activity, start, end, latitude, longitude, skill);
+		createMeeting(activity, start, end, latitude, longitude, skill, userID);
 
 		toggleVisibilityPopup();
 
@@ -236,6 +276,25 @@
 		});
 		map.addOverlay(activityPoint);
 		userPoint.setPosition(undefined);
+	}
+
+	function joinMeetingButton() {
+		toggleVisibilityPopupInfo();
+		console.log('Joining meeting');
+		userID = localStorage.getItem('userid');
+		joinMeeting(activityID, userID);
+	}
+	function deleteMeeting() {
+		toggleVisibilityPopupInfo();
+		console.log('Deleting meeting')
+		deleteMeetingFromDB(activityID);
+		location.reload();
+	}
+	function leaveMeetingButton() {
+		toggleVisibilityPopupInfo();
+		console.log('Leaving meeting')
+		userID = localStorage.getItem('userid');
+		leaveMeeting(activityID, userID);
 	}
 </script>
 
@@ -272,12 +331,26 @@
 				<h2>{activity}</h2>
 			</div>
 		</div>
-		<div class="w-full h-full p-2 bg-gray-200 border border-gray-400">
-			<h2>Player 1</h2>
-			<h2>Player 2</h2>
+		<div class="w-full h-full p-2 bg-gray-200 border border-gray-400 center flex-col gap-2">
+			<div class="center justify-start bg-white p-2 gap-3 border-orange-500 border rounded-2xl">
+				<img src="{userInfo.profile_pic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+				<h2>{userInfo.username}</h2>
+			</div>
+			<div class="center justify-start bg-white p-2 gap-3 border-gray-300 border rounded-2xl">
+				<img src="{userInfo.profile_pic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+				<h2>{userInfo.username}</h2>
+			</div>
 		</div>
 		<div class="center w-full">
-			<button id="join" class="bg-orange-500 rounded-2xl p-2 mt-3 text-white text-semibold" on:click={() => toggleVisibilityPopupInfo()}>Join</button>
+			{#if meetingPlayers.includes(parseInt(localStorage.getItem('userid')))}
+				<button id="leave" class="bg-orange-500 rounded-2xl p-2 mt-3 text-white text-semibold" on:click={() => leaveMeetingButton()}>Leave</button>
+			{:else}
+				<button id="join" class="bg-orange-500 rounded-2xl p-2 mt-3 text-white text-semibold" on:click={() => joinMeetingButton()}>Join</button>
+			{/if}
+			<!-- <button id="join" class="bg-orange-500 rounded-2xl p-2 mt-3 text-white text-semibold" on:click={() => joinMeetingButton()}>Join</button> -->
+			{#if userID == localStorage.getItem('userid')}
+				<button id="delete" class="bg-orange-500 rounded-2xl p-2 mt-3 text-white text-semibold" on:click={() => deleteMeeting()}>Delete</button>
+			{/if}
 		</div>
 	</div>
 {/if}

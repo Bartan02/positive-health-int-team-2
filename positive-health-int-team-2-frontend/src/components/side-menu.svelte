@@ -77,7 +77,7 @@
                         </a>
                     </li>
                     <li class="hover:bg-orange-400 p-2 pl-10 flex items-center">
-                        <a href="" class="flex items-center">
+                        <a href="/app/map" class="flex items-center">
                             <img src="/Map-icon.png" alt="Discover" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Map 
                         </a>
                     </li>
