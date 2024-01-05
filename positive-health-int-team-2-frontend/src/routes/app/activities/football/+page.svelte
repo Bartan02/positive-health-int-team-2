@@ -1,7 +1,7 @@
 <script>
   import ActivityManager from '../../../../components/ActivityManager.svelte';
   import Timer from '../../../../components/Timer.svelte';
-  import SideMenu from '../../../../components/side-menu.svelte';
+  import SideMenu from '../../../../components/top-menu.svelte';
   import { user } from '../../../../stores/user.js';
   import { onMount } from 'svelte';
 

@@ -1,5 +1,5 @@
 <script>
-  import SideMenu from '../../../../components/side-menu.svelte';
+  import SideMenu from '../../../../components/top-menu.svelte';
   import CurrentSessionDistanceAverage from '../../../../components/CurrentSessionDistanceAverage.svelte';
   import CurrentSessionTopSpeed from '../../../../components/CurrentSessionTopSpeed.svelte';
 </script>

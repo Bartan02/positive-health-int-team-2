@@ -1,12 +1,12 @@
 <script>
-	import SideMenu from '../../../components/side-menu.svelte';
+	import TopMenu from '../../../components/top-menu.svelte';
 </script>
 
 <body>
 <div class="flex justify-between flex-col w-screen h-screen" style="background: linear-gradient(180deg, #F65800 0%, rgba(255, 0, 0, 0.76) 100%);
 
 ">
-	<SideMenu />
+	<TopMenu menuLabel="Home" />
 	<div class="h-20 w-full" />
 
 	<div class="flex flex-col items-center justify-center w-full max-w-sm mx-auto p-2">
