@@ -8,7 +8,7 @@ import indexRouter from './routes/index.js';
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173/",
+  origin: "*",
   methods: 'GET, POST, PUT, DELETE',
   optionsSuccessStatus: 200,
 };
