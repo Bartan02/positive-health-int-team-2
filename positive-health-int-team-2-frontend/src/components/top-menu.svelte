@@ -8,7 +8,11 @@
     export let isOpen = false;
     export let menuLabel = ''; // Add this line to create a 'menuLabel' prop
 
-    $: topPosition = isOpen ? '0px' : '-100%'; // This controls the top position of the menu
+    $: topPosition = isOpen ? '0px' : '-100%';
+
+    $: headerBackground = isOpen ? 'transparent' : 'linear-gradient(180deg, #F65800 0%, #F00 100%)';
+
+    $: headerShadow = isOpen ? 'none' : '0px 4px 4px rgba(0, 0, 0, 0.25)';
 
     // Reactive declaration for menuIcon
     $: menuIcon = isOpen ? '/hamburger-icon-open.png' : '/hamburger-icon-closed.png';
@@ -63,7 +67,7 @@
             text: 'Leaderboard',
             alt: 'Stats'
         },
-        {
+        {   
             href: '.', // Update link with map page
             icon: '/Map-icon.png',
             text: 'Map',
@@ -78,20 +82,33 @@
     ];
 </script>
 
-<!-- Single button to handle both open and close states -->
-<button on:click={toggleMenu} class="text-xl z-30 fixed top-0 left-0 right-0 p-4 flex items-center">
-    <img src={menuIcon} alt="Menu" class="transition-opacity duration-200"> <!-- Add margin-left to align the icon to the left -->
-    {#if isOpen}
-        <span class="text-white absolute left-1/2 transform -translate-x-1/2">{menuLabel}</span> <!-- Centered span -->
-    {/if}
-</button>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+    * {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+    }
+</style>
 
+<div class="fixed top-0 left-0 right-0 z-30 flex items-center justify-between p-4" style="border-radius: 0px 0px 20px 20px; 
+height: 10%; background: {headerBackground};
+box-shadow: {headerShadow}">
+    <!-- Menu button with only the hamburger icon clickable -->
+    <button on:click={toggleMenu} class="z-40">
+      <img src={menuIcon} alt="Menu">
+    </button>
+  
+    <!-- Menu label, styled but not clickable -->
+    <span class="text-white text-xl absolute left-1/2 transform -translate-x-1/2">{menuLabel}</span>
+</div>
+
+<!--transition-opacity duration-200-->
 
 {#if isOpen}
-<div transition:slide={{ y: -300, duration: 200 }} class="fixed inset-x-0 top-0 z-20"
-style="height: 80%; border-radius: 0px 0px 20px 20px;
-background: linear-gradient(180deg, #F65800 0%, #F00 100%);
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
+    <div transition:slide class="fixed inset-x-0 z-20"
+         style="height: 80vh; border-radius: 0px 0px 20px 20px;
+         background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
         <div class="flex flex-col h-full justify-between">
             <div>
                 <div class="flex flex-col items-center justify-center" style="margin-top: 20%">
@@ -121,5 +138,4 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
             </ul>
         </div>
     </div>
-{/if}
-  
+    {/if}
