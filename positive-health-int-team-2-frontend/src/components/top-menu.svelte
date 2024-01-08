@@ -87,21 +87,17 @@
     }
 </style>
 
-<div class="fixed top-0 left-0 right-0 z-30 flex flex-col items-center justify-start p-4"
-     style="border-radius: 0px 0px 20px 20px; background: {headerBackground};
-     box-shadow: {headerShadow};">
-    <!-- Menu button aligned with menuLabel text -->
+<div class="fixed top-0 left-0 right-0 z-30 p-4"
+     style="border-radius: 0px 0px 20px 20px; background: {headerBackground}; box-shadow: {headerShadow};">
     <div class="flex items-center justify-between w-full">
         <button on:click={toggleMenu} class="z-40">
             <img src={menuIcon} alt="Menu">
         </button>
         <span class="text-white text-xl">{menuLabel}</span>
-        <div style="width: 48px;"> <!-- Spacer div to keep the layout balanced -->
-        </div>
+        <div style="width: 48px;"></div>
     </div>
 
     {#if isHome && !isOpen}
-        <!-- Extended header content -->
         <div class="text-center text-white text-xl w-full mt-6">
             <span>Hi, <span>John</span>! 👋</span><br>
             <span style="color: #C5C5C5; font-size: 15px">Good morning</span>
@@ -109,16 +105,13 @@
     {/if}
 </div>
 
-
-
-
-<!--transition-opacity duration-200-->
-
 {#if isOpen}
-    <div transition:slide class="fixed inset-x-0 z-20"
-         style="height: 80vh; border-radius: 0px 0px 20px 20px;
-         background: linear-gradient(180deg, #F65800 0%, #F00 100%);
-         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
+<div in:slide={{ duration: 500 }}
+     out:slide={{ duration: 200 }}
+     class="absolute top-0 inset-x-0 z-20"
+     style="height: 80vh; border-radius: 0px 0px 20px 20px;
+            background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
         <div class="flex flex-col h-full justify-between">
             <div>
                 <div class="flex flex-col items-center justify-center" style="margin-top: 20%">

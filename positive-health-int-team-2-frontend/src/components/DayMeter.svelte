@@ -18,8 +18,8 @@
     }
 </script>
 
-<div class="flex justify-center" style="position: absolute; top: {verticalPosition}; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 70%; z-index: 10;">
-    {#each dates as dateObj, index (dateObj.date)}
+<div class="flex justify-center p-4 mx-auto" style="width: 70%; z-index: 10; margin-top: 146.6px">
+        {#each dates as dateObj, index (dateObj.date)}
         <!-- Add the line after '6' -->
         {#if index === 0}
             <div class="flex flex-col items-center flex-1">
