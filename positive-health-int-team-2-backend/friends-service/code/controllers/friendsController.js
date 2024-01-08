@@ -3,7 +3,7 @@ import Friendship from "../models/Friendship.js";
 
 async function findPerson(req,res){
   try{
-    const responsePeople = await fetch('http://api-gateway:3025/auth/user/'+req.params.prompt, {
+    const responsePeople = await fetch('http://authentication-service:3020/auth/user/'+req.params.prompt, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ async function findPerson(req,res){
       }
     });
     let result = await responsePeople.json();
-    if(!response.ok) throw "Not found!";
+    if(!responsePeople.ok) throw "Not found!";
     return res.status(200).json(result);
   } catch(error){
     return res.status(404).json(error.message);
@@ -19,7 +19,7 @@ async function findPerson(req,res){
   }
 
 async function findRelationships(req,res){
-    const yourUserId = req.params.yourUserId;
+    const yourUserId = req.params.prompt;
     let relationsArray = [];
     let allRelations = await Friendship.findAll({where: {[Op.or]: [{friend_one: yourUserId}, {friend_two: yourUserId}]}});
     allRelations.forEach(relation => {

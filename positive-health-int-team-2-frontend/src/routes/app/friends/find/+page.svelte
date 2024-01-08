@@ -1,4 +1,6 @@
 <script>
+	import { compute_slots } from "svelte/internal";
+
     let promiseSearchUsers = null;
 
     function triggerSearchUsers(){
@@ -15,8 +17,15 @@
                 'Access-Control-Allow-Origin': '*',
             }
         });
-        const foundUserRecords = await usersFetch.json();
-        const yourUserId = localStorage.getItem('userid');
+        let foundUserRecords = await usersFetch.json();
+        const yourUserId = Number(localStorage.getItem('userid'));
+        if(foundUserRecords.foundRecords.user !== null && foundUserRecords.foundRecords.user.id === yourUserId) foundUserRecords.foundRecords.user = null;
+        if(foundUserRecords.foundRecords.users !== null){
+            foundUserRecords.foundRecords.users = foundUserRecords.foundRecords.users.filter(user => {
+            if(user.id === yourUserId) return false;
+            return true;
+        });
+        }
         const relationsFetch = await fetch('http://localhost:3021/friends/findrelationships/'+yourUserId, {
             method: 'GET',
             headers: {
@@ -25,14 +34,24 @@
             },
         });
         let foundRelationsFetch = await relationsFetch.json();
-        foundRelationsFetch = foundRelationsFetch.relationsArray;
-        foundUserRecords.users.forEach(user => {
+        foundUserRecords.foundRecords.users.forEach(user => {
         if(foundRelationsFetch.includes({friend: user.id})){
           if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: user.id})].status === 1) user.friendStatus = "Pending request";
           else if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: user.id})].status === 2) user.friendStatus = "Friends";
         }else{
           user.friendStatus = "Strangers";
         }
+
+        console.log(foundUserRecords.foundRecords.user)
+        if(foundUserRecords.foundRecords.user !== null){
+            if(foundRelationsFetch.includes({friend: foundUserRecords.foundRecords.user.id})){
+            if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: foundUserRecords.foundRecords.user.id})].status === 1) foundUserRecords.foundRecords.user.friendStatus = "Pending request";
+            else if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: foundUserRecords.foundRecords.user.id})].status === 2) foundUserRecords.foundRecords.user.friendStatus = "Friends";
+            }else{
+                foundUserRecords.foundRecords.user.friendStatus = "Strangers";
+            }
+        }
+
     });
         if(usersFetch.ok && relationsFetch.ok) return foundUserRecords;
         else throw new Error("Problems with connection.")
@@ -60,11 +79,11 @@
             {#each data.foundRecords.users as users}
                     {#if data.foundRecords.user === null}
                         <ul> 
-                            <li> {users.username} | {users.email} | {data.foundRecords.user.friendStatus}</li>
+                            <li> {users.username} | {users.email} | {users.friendStatus}</li>
                         </ul>
                     {:else if data.foundRecords.user.username !== users.username}
                         <ul> 
-                            <li> {users.username} | {users.email} | {data.foundRecords.user.friendStatus}</li>
+                            <li> {users.username} | {users.email} | {users.friendStatus}</li>
                         </ul>
                     {/if}
             {/each}

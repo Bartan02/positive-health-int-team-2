@@ -147,10 +147,10 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: authentication-db
+      PMA_HOST: friends-db
       PMA_PORT: 3306
-      PMA_USER: example
-      PMA_PASSWORD: example
+      PMA_USER: example123
+      PMA_PASSWORD: example123
     ports:
       - '8080:80'
     depends_on:
