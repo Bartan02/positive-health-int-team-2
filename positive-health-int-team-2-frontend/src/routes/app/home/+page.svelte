@@ -1,5 +1,6 @@
 <script>
 	import TopMenu from '../../../components/top-menu.svelte';
+	import DayMeter from '../../../components/DayMeter.svelte';
 </script>
 
 <style>
@@ -13,6 +14,7 @@
 <body>
 	<div class="flex justify-between flex-col w-screen h-screen"
 		style="background: F6F7FB">
-		<TopMenu menuLabel="Home" />
+		<TopMenu menuLabel="Home" isHome = true />
+		<DayMeter />
 	</div>
 </body>

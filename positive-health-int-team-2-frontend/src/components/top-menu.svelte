@@ -1,20 +1,17 @@
 <script>
-    import {
-        user
-    } from '../stores/user.js';
-    import {
-        slide
-    } from 'svelte/transition';
-    export let isOpen = false;
-    export let menuLabel = ''; // Add this line to create a 'menuLabel' prop
+    import { user } from '../stores/user.js';
+    import { slide } from 'svelte/transition';
 
+    export let menuLabel = ''; // Add this line to create a 'menuLabel' prop
+    let isOpen = false;
+    export let isHome = false;
+    
     $: topPosition = isOpen ? '0px' : '-100%';
 
     $: headerBackground = isOpen ? 'transparent' : 'linear-gradient(180deg, #F65800 0%, #F00 100%)';
 
     $: headerShadow = isOpen ? 'none' : '0px 4px 4px rgba(0, 0, 0, 0.25)';
 
-    // Reactive declaration for menuIcon
     $: menuIcon = isOpen ? '/hamburger-icon-open.png' : '/hamburger-icon-closed.png';
 
     function toggleMenu() {
@@ -90,17 +87,30 @@
     }
 </style>
 
-<div class="fixed top-0 left-0 right-0 z-30 flex items-center justify-between p-4" style="border-radius: 0px 0px 20px 20px; 
-height: 10%; background: {headerBackground};
-box-shadow: {headerShadow}">
-    <!-- Menu button with only the hamburger icon clickable -->
-    <button on:click={toggleMenu} class="z-40">
-      <img src={menuIcon} alt="Menu">
-    </button>
-  
-    <!-- Menu label, styled but not clickable -->
-    <span class="text-white text-xl absolute left-1/2 transform -translate-x-1/2">{menuLabel}</span>
+<div class="fixed top-0 left-0 right-0 z-30 flex flex-col items-center justify-start p-4"
+     style="border-radius: 0px 0px 20px 20px; background: {headerBackground};
+     box-shadow: {headerShadow};">
+    <!-- Menu button aligned with menuLabel text -->
+    <div class="flex items-center justify-between w-full">
+        <button on:click={toggleMenu} class="z-40">
+            <img src={menuIcon} alt="Menu">
+        </button>
+        <span class="text-white text-xl">{menuLabel}</span>
+        <div style="width: 48px;"> <!-- Spacer div to keep the layout balanced -->
+        </div>
+    </div>
+
+    {#if isHome && !isOpen}
+        <!-- Extended header content -->
+        <div class="text-center text-white text-xl w-full mt-6">
+            <span>Hi, <span>John</span>! 👋</span><br>
+            <span style="color: #C5C5C5; font-size: 15px">Good morning</span>
+        </div>
+    {/if}
 </div>
+
+
+
 
 <!--transition-opacity duration-200-->
 
