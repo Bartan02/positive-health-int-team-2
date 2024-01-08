@@ -1,7 +1,7 @@
 <script>
     let currentDate = new Date();
     let dates = getDatesRange(currentDate);
-    let menuHeight = '20%'; // Height of the menu as a percentage of the viewport height
+    let verticalPosition = '20%'; // Height of the menu as a percentage of the viewport height
 
     function getDatesRange(date) {
         let range = [];
@@ -18,7 +18,7 @@
     }
 </script>
 
-<div class="flex justify-center p-4" style="position: absolute; top: {menuHeight}; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 70%; z-index: 10;">
+<div class="flex justify-center" style="position: absolute; top: {verticalPosition}; left: 0; right: 0; margin-left: auto; margin-right: auto; width: 70%; z-index: 10;">
     {#each dates as dateObj, index (dateObj.date)}
         <!-- Add the line after '6' -->
         {#if index === 0}
