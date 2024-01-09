@@ -152,3 +152,23 @@ export async function getAllData(req, res) {
           res.status(500).send('Server error occurred');
         }
 }
+
+//Retrieves last activity record by the user id 
+export async function getLastRecord(req, res) { 
+    const userId = req.body.userId;
+
+    // Validate userId
+    if (!userId) {
+        return res.status(400).send('User ID is required');
+    }
+
+    try {
+        const result = await db.query(
+            'SELECT * FROM activities WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1', [userId]
+        );
+        res.json(result);
+    } catch(error) {
+        console.error('Error fetching data from the database:', error);
+        res.status(500).send('Server error occurred');
+    }
+}
