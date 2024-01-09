@@ -47,7 +47,7 @@
             alt: 'Home'
         },
         {
-            href: '.', // Update link with profile page
+            href: '/app/profile', // Update link with profile page
             icon: '/Profile-icon.png',
             text: 'Profile',
             alt: 'Profile'
@@ -65,7 +65,7 @@
             alt: 'Stats'
         },
         {   
-            href: '.', // Update link with map page
+            href: '/app/map', // Update link with map page
             icon: '/Map-icon.png',
             text: 'Map',
             alt: 'Discover'
