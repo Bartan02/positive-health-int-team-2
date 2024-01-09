@@ -35,14 +35,14 @@ async function register(req, res) {
 
 async function login(req, res) {
   try {
-  const { email, username, password } = req.body;
+  const { email, password } = req.body;
     const user = await User.findOne({ where: { email } });
     if (user === null) return res.status(401).json({ error: 'Invalid username or password' });
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) return res.status(401).json({ error: 'Invalid username or password' });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
     const userinfo = {
-      username: username,
+      username: user.username,
       email: email
     }
     exportUser = user.id;

@@ -35,18 +35,17 @@
         });
         let foundRelationsFetch = await relationsFetch.json();
         foundUserRecords.foundRecords.users.forEach(user => {
-        if(foundRelationsFetch.includes({friend: user.id})){
-          if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: user.id})].status === 1) user.friendStatus = "Pending request";
-          else if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: user.id})].status === 2) user.friendStatus = "Friends";
+        if(foundRelationsFetch.some(obj => obj.friend === user.id)){
+          if(foundRelationsFetch[foundRelationsFetch.findIndex(obj => obj.friend === user.id)].status === 1) user.friendStatus = "Pending request";
+          else if(foundRelationsFetch[foundRelationsFetch.findIndex(obj => obj.friend === user.id)].status === 2) user.friendStatus = "Friends";
         }else{
           user.friendStatus = "Strangers";
         }
 
-        console.log(foundUserRecords.foundRecords.user)
         if(foundUserRecords.foundRecords.user !== null){
-            if(foundRelationsFetch.includes({friend: foundUserRecords.foundRecords.user.id})){
-            if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: foundUserRecords.foundRecords.user.id})].status === 1) foundUserRecords.foundRecords.user.friendStatus = "Pending request";
-            else if(foundRelationsFetch[foundRelationsFetch.indexOf({friend: foundUserRecords.foundRecords.user.id})].status === 2) foundUserRecords.foundRecords.user.friendStatus = "Friends";
+            if(foundRelationsFetch.includes(obj => obj.friend === foundUserRecords.foundRecords.user.id)){
+            if(foundRelationsFetch[foundRelationsFetch.findIndex(obj => obj.friend === foundUserRecords.foundRecords.user.id)].status === 1) foundUserRecords.foundRecords.user.friendStatus = "Pending request";
+            else if(foundRelationsFetch[foundRelationsFetch.findIndex(obj => obj.friend === foundUserRecords.foundRecords.user.id)].status === 2) foundUserRecords.foundRecords.user.friendStatus = "Friends";
             }else{
                 foundUserRecords.foundRecords.user.friendStatus = "Strangers";
             }
@@ -55,6 +54,28 @@
     });
         if(usersFetch.ok && relationsFetch.ok) return foundUserRecords;
         else throw new Error("Problems with connection.")
+    }
+
+    async function addFriend(friendId){
+        const yourUserId = Number(localStorage.getItem('userid'));
+        const addFriendProcess = await fetch('http://localhost:3021/friends/addFriend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+                friendId: friendId,
+                yourId: yourUserId
+            })
+        })
+        if(addFriendProcess.ok){
+            alert("good");
+            triggerSearchUsers();
+        }
+        else{
+            alert("Failure!");
+        }
     }
 </script>
 
@@ -68,7 +89,13 @@
     {:else}
         {#if data.foundRecords.user !== null && data.foundRecords.users.length !== 0}
             <ul>
-                <li class="font-bold"> {data.foundRecords.user.username} | {data.foundRecords.user.email} | {data.foundRecords.user.friendStatus} </li>
+                <li class="font-bold"> {data.foundRecords.user.username} | {data.foundRecords.user.email} |
+                    {#if data.foundRecords.user.friendStatus === "Strangers"}
+                                    <button on:click={() => addFriend(data.foundRecords.user.id)}> + </button>
+                                {:else}
+                                    {data.foundRecords.user.friendStatus}
+                                {/if}
+                </li>
             </ul>
         {/if}
         {#if data.foundRecords.users.length === 0}
@@ -79,11 +106,23 @@
             {#each data.foundRecords.users as users}
                     {#if data.foundRecords.user === null}
                         <ul> 
-                            <li> {users.username} | {users.email} | {users.friendStatus}</li>
+                            <li> {users.username} | {users.email} | 
+                                {#if users.friendStatus === "Strangers"}
+                                    <button on:click={() => addFriend(users.id)}> + </button>
+                                {:else}
+                                    {users.friendStatus}
+                                {/if}
+                            </li>
                         </ul>
                     {:else if data.foundRecords.user.username !== users.username}
                         <ul> 
-                            <li> {users.username} | {users.email} | {users.friendStatus}</li>
+                            <li> {users.username} | {users.email} | 
+                                {#if users.friendStatus === "Strangers"}
+                                <button on:click={() => addFriend(users.id)}> + </button>
+                            {:else}
+                                {users.friendStatus}
+                            {/if}
+                            </li>
                         </ul>
                     {/if}
             {/each}

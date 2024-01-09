@@ -6,7 +6,7 @@
 	import { error } from '@sveltejs/kit';
     import validateEmail from '../../lib/authverification.js';
     import { user } from '../../stores/user.js';
-    let email = '';
+    let email = ''; 
     let password = '';
     
 
@@ -25,10 +25,9 @@
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem('token', data.token);
-      localStorage.setItem('userid', JSON.stringify(data.userid));
-      localStorage.setItem('userinfo',data.userinfo);
+      localStorage.setItem('userid', data.userid);
+      localStorage.setItem('userinfo', JSON.stringify(data.userinfo));
       user.set({ id: data.userid, token: data.token });
-      console.log('Store updated with:', { id: data.userid, info: data.userinfo, token: data.token });
       // Redirect to the specified route
       window.location.href = data.redirect;
     } else {

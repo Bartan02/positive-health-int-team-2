@@ -42,15 +42,6 @@ const friendsProxy = createProxyMiddleware({
   }
 });
 
-// create a proxy for each microservice
-const friendsProxy = createProxyMiddleware({
-  target: 'http://friends-service:3021',
-  changeOrigin: true,
-  onProxyReq(proxyReq, req, res){
-    proxyReq.write(JSON.stringify(req.body));
-  }
-});
-
 router.use('/auth', cors(), authProxy);
 router.use('/activities', cors(), activitiesProxy);
 router.use('/friends', cors(), friendsProxy);

@@ -51,7 +51,7 @@
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userid', data.userid);
-                localStorage.setItem('userinfo',data.userinfo);
+                localStorage.setItem('userinfo', JSON.stringify(data.userinfo));
             // Redirect to the specified route
                 window.location.href = data.redirect;
             } else {
