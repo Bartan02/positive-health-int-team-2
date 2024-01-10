@@ -6,21 +6,15 @@
   import { onMount } from 'svelte';
 
 
-  let userId;
   let activityRunning = true; // Added reactive variable
   let lastRecord = [];
+  let userId;
 
   async function fetchLastRecord(userId) {
-    const url = 'http://localhost:3015/activities/lastrecord';
+    const url = `http://localhost:3015/activities/lastrecord?userId=${encodeURIComponent(userId)}`;
 
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId })
-        });
+        const response = await fetch(url); // GET request
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -30,7 +24,7 @@
         return data;
     } catch (error) {
         console.error('Error fetching last record:', error);
-        // Handle the error according to your application's needs
+        // Handle the error accordingly
     }
 }
 
@@ -49,7 +43,6 @@
     }
 
     // Any other code that needs to run after the component is mounted can go here
-    
   });
  
 
@@ -61,12 +54,25 @@
   }
 
   // Handler for when an activity stops
-  function handleActivityStop(event) {
-      // Logic to handle the stopping of an activity
-      console.log("Activity stopped:", event.detail);
-      // Additional UI update or state management logic here
-      activityRunning = false; // Update the activity state
-  }
+async function handleActivityStop(event) {
+    // Logic to handle the stopping of an activity
+    console.log("Activity stopped:", event.detail);
+    // Update the activity state
+    activityRunning = false;
+    
+    try {
+        // Await the async call to fetch the last record
+        const record = await fetchLastRecord(userId);
+        if (record && record[0] && record[0].length > 0) {
+            // Assuming the record is in the first array element
+            lastRecord = record[0][0];
+            console.log(lastRecord.activity_id);
+        }
+    } catch (error) {
+        console.error('Error fetching last record:', error);
+        // Handle the error accordingly, maybe set an error state
+    }
+}
 </script>
 
 <!-- Activity control button -->
@@ -95,14 +101,11 @@
 <!-- Render these elements only when the activity has stopped -->
 <div class="results-container">
   <!-- Your stats and results components here -->
-  <h1> SPACE TAG</h1>
-  <h1> SPACE TAG</h1>
-  <h1> SPACE TAG</h1>
-  <h1> SPACE TAG</h1>
-  <h1> SPACE TAG</h1>
-  <h1> SPACE TAG</h1>
-  <h1>Total time:</h1>
-  <h1>Total distance: </h1>
+  <h1 style="margin-top:20%"> Distance: { lastRecord.distance } meters </h1>
+  <h1>Maximum speed: { lastRecord.maximum_speed } km/h</h1>
+  <h1>Start time: { lastRecord.start_time }</h1>
+  <h1>Sprint distance: { lastRecord.sprintDistance} meters</h1>
+  <h1>Elapsed time: { lastRecord.elapsedTime }</h1>
 </div>
 <!-- <button class="finish-button" on:click={redirectToActivity}>Finish</button> -->
   {/if}

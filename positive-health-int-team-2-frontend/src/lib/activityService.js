@@ -17,8 +17,8 @@ export async function startActivity(userId, startLocation) {
 }
 
 // Function to stop an activity
-export async function stopActivity(activityId, maximumSpeed) {
-    console.log('Sending to backend:', { activityId, maximumSpeed });
+export async function stopActivity(activityId, maximumSpeed, distanceValue, sprintDistance, elapsedTimeValue, averageSpeedValue) {
+    console.log('Sending to backend:', { activityId, maximumSpeed, distanceValue, sprintDistance, elapsedTimeValue, averageSpeedValue });
     const response = await fetch('http://localhost:3015/activities/stop/', {
         method: 'POST',
         headers: {
@@ -26,7 +26,11 @@ export async function stopActivity(activityId, maximumSpeed) {
         },
         body: JSON.stringify({ 
             activityId,
-            maximumSpeed: maximumSpeed
+            maximumSpeed: maximumSpeed,
+            distanceValue,
+            sprintDistance,
+            elapsedTimeValue,
+            averageSpeedValue
         })
     });
 
