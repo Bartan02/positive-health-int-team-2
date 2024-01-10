@@ -38,7 +38,9 @@ router.get('/auth/test', (req, res) => {
   res.status(200).send('it works!')
 })
 
-router.get('/auth/user/:prompt', cors() ,userRetrieve.findUser)
+router.get('/auth/user/:prompt', cors() ,userRetrieve.findUser);
+
+router.post('/auth/getUsernamesFromTheirIds', cors(), userRetrieve.getUsernamesFromTheirIds)
 
 router.get('/auth/getuserid', authController.getUserID);
 

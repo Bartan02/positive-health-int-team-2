@@ -13,5 +13,49 @@ async function addFriend(req,res){
     });
 }
 
+async function getFriendRequests(req,res){
+    const yourUserId = Number(req.body.yourUserId);
+    let requestsArray = [];
+    let allRelations = await Friendship.findAll({where: {friend_two: yourUserId, status: 1}});
+    try{
+    const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+                allRetrievedRelations: allRelations
+            })
+        });
+        if(!getUsernamesFromTheirIdsFetch.ok) throw getUsernamesFromTheirIdsFetch.status;
+        const getUsernamesFromTheirIdsResult = await getUsernamesFromTheirIdsFetch.json();
+        return res.status(200).json({requestsArray: getUsernamesFromTheirIdsResult.allRetrievedRelations});
+    }catch(e){
+        return res.status(500).json(e.message);
+    }
+}
 
-export default { addFriend }
+async function acceptFriend(req,res){
+    const friendshipId = req.body.friendshipId;
+    await Friendship.update({status: 2}, {where: {friendship_id: friendshipId}})
+    .then(() => {
+        return res.status(200).send('ok');
+    })
+    .catch(e => {
+        return res.status(500).send('error');
+    });
+}
+
+async function rejectFriend(req,res){
+    const friendshipId = req.body.friendshipId;
+    await Friendship.destroy({where: {friendship_id: friendshipId}})
+    .then(() => {
+        return res.status(200).send('ok');
+    })
+    .catch(e => {
+        return res.status(500).send('error');
+    });
+}
+
+export default { addFriend, getFriendRequests, acceptFriend, rejectFriend }

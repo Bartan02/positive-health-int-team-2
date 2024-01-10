@@ -1,5 +1,5 @@
 import User from '../models/User.js';
-import { Op } from '@sequelize/core'
+import { Op, UnknownConstraintError } from '@sequelize/core'
 
 function isInteger(str) {
     // Remove leading and trailing whitespaces
@@ -36,4 +36,24 @@ async function findUser(req,res,next){
     }
 }
 
-export default { findUser }
+async function getUsernamesFromTheirIds(req,res,next){
+    let allRetrievedRelations = req.body.allRetrievedRelations;
+    let allRetrievedRelationsWithUsernames = []
+    for (const relation of allRetrievedRelations){
+        try{
+        const targetFriend = relation.friend_one;
+        const queryFindUserWithId = await User.findOne({where: {id: targetFriend}, attributes: ['id', 'username']});
+        allRetrievedRelationsWithUsernames.push({...relation, ...queryFindUserWithId.dataValues});
+        }catch(e){
+            return res.status(500).json(e.message);
+        }
+    }
+    // allRetrievedRelations.forEach(async(relation) => {
+    //         const targetFriend = relation.friend_one;
+    //         const queryFindUserWithId = await User.findOne({where: {id: targetFriend}, attributes: ['id', 'username']});
+    //         relation.username = queryFindUserWithId.username;
+    // });
+    return res.status(200).json({allRetrievedRelations: allRetrievedRelationsWithUsernames});
+}
+
+export default { findUser, getUsernamesFromTheirIds }
