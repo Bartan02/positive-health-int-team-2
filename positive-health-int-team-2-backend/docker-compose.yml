@@ -152,14 +152,14 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: authentication-db
+      PMA_HOST: activities-db
       PMA_PORT: 3306
-      PMA_USER: example
-      PMA_PASSWORD: example
+      PMA_USER: activity123
+      PMA_PASSWORD: activity123123
     ports:
       - '8080:80'
     depends_on:
-      - authentication-db
+      - activities-db
     networks:
       - positive-health
   api-gateway:

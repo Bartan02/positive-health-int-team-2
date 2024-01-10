@@ -91,7 +91,10 @@
 
     async function handleStopActivity() {
         try {
-            const response = await stopActivity(activityId, maximumSpeed);
+            const distanceValue = get(distance); // get the actual value from the store
+            const elapsedTimeValue = get(elapsedTime); // get the actual value from the store
+            const averageSpeedValue = get(averageSpeed); // get the actual speed value from the store
+            const response = await stopActivity(activityId, maximumSpeed, distanceValue, sprintDistance, elapsedTimeValue, averageSpeedValue);
             isActivityOngoing = false;
             activityId = null;
             dispatcher('activityStopped', response);
