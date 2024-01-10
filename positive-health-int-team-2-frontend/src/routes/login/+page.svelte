@@ -26,7 +26,7 @@
       const data = await response.json();
       localStorage.setItem('token', data.token);
       localStorage.setItem('userid', data.userid);
-      localStorage.setItem('userinfo',data.userinfo);
+      localStorage.setItem('userinfo', JSON.stringify(data.userinfo));
       user.set({ id: data.userid, token: data.token });
       console.log('Store updated with:', { id: data.userid, info: data.userinfo, token: data.token });
       // Redirect to the specified route

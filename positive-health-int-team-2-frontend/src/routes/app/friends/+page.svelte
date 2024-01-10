@@ -1,5 +1,5 @@
 <script>
-    import SideMenu from '../../../components/side-menu.svelte';
+    import SideMenu from '../../../components/side-menu.svelte'; 
 </script>
 
 <style>
@@ -30,7 +30,7 @@
     <div class="flex-container">
         <div class="main-content pt-16 p-4">
             <!-- Second container -->
-            <a href="">
+            <a href="/app/friends/chat">
                 <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto">
 
                     <!-- User avatar image on the top-left -->
