@@ -1,5 +1,28 @@
 <script>
     import SideMenu from '../../../components/side-menu.svelte';
+
+    // let promiseRetrieveFriends = retrieveFriends();
+
+    // function triggerPromiseRetrieveFriends(){
+    //     promiseRetrieveFriends = retrieveFriends();
+    // }
+
+    // async function retrieveFriends(){
+    //     const yourUserId = Number(localStorage.getItem('userid'));
+    //     let retrievedFriends = await fetch('http://localhost:3021/friends/getFriendsList', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Access-Control-Allow-Origin': '*',
+    //         },
+    //         body: JSON.stringify({
+    //             yourUserId: yourUserId
+    //         })
+    //     });
+    //     const retrievedFriendsa = await retrievedFriends.json();
+    //     return retrievedFriends;
+    // }
+    
 </script>
 
 <style>
@@ -58,6 +81,21 @@
     
                 </div>
             </a>
+
+
+            <!-- {#await promiseRetrieveFriends}
+                Loading...
+            {:then retrievedFriends} 
+                <ul>
+                {#each retrievedFriends as friend}
+                    <li>
+                        
+                    </li>
+                {/each}
+                </ul>
+            {/await} -->
+
+
         </div>
 
         <!-- Third container -->

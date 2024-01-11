@@ -15,7 +15,6 @@ async function addFriend(req,res){
 
 async function getFriendRequests(req,res){
     const yourUserId = Number(req.body.yourUserId);
-    let requestsArray = [];
     let allRelations = await Friendship.findAll({where: {friend_two: yourUserId, status: 1}});
     try{
     const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
@@ -58,4 +57,31 @@ async function rejectFriend(req,res){
     });
 }
 
-export default { addFriend, getFriendRequests, acceptFriend, rejectFriend }
+async function getFriendsList(req, res){
+    const yourUserId = Number(req.body.yourUserId);
+    let friendsList = [];
+    let yourFriendRelations = await Friendship.findAll({where: {[Op.or]: [{friend_one: yourUserId}, {friend_two: yourUserId}], status: 2}});
+    yourFriendRelations.forEach(relation => {
+        if(relation.friend_one === yourUserId){
+          const swapVar = relation.friend_one
+          relation.friend_one = relation.friend_two;
+          relation.friend_two = swapVar;
+        }
+        friendsList.push({friend: relation.friend_one, status: relation.status});
+      });
+      const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+                allRetrievedRelations: friendsList
+            })
+        });
+        const getUsernamesFromTheirIdsResult = await getUsernamesFromTheirIdsFetch.json();
+        friendsList = getUsernamesFromTheirIdsResult.allRetrievedRelations;
+      return res.status(200).json(friendsList);
+}
+
+export default { addFriend, getFriendRequests, acceptFriend, rejectFriend, getFriendsList }

@@ -48,11 +48,6 @@ async function getUsernamesFromTheirIds(req,res,next){
             return res.status(500).json(e.message);
         }
     }
-    // allRetrievedRelations.forEach(async(relation) => {
-    //         const targetFriend = relation.friend_one;
-    //         const queryFindUserWithId = await User.findOne({where: {id: targetFriend}, attributes: ['id', 'username']});
-    //         relation.username = queryFindUserWithId.username;
-    // });
     return res.status(200).json({allRetrievedRelations: allRetrievedRelationsWithUsernames});
 }
 

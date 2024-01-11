@@ -7,11 +7,12 @@ const router = express.Router();
 
 // routes
 router.get('/friends/findperson/:prompt', cors() ,findFriend.findPerson);
-router.get('/friends/findrelationships/:prompt', cors(), findFriend.findRelationships)
-router.post('/friends/addFriend', cors(), friend.addFriend)
-router.post('/friends/acceptFriend', cors(), friend.acceptFriend)
-router.post('/friends/rejectFriend', cors(), friend.rejectFriend)
-router.post('/friends/getFriendsRequests', cors(), friend.getFriendRequests)
+router.get('/friends/findrelationships/:prompt', cors(), findFriend.findRelationships);
+router.post('/friends/addFriend', cors(), friend.addFriend);
+router.post('/friends/acceptFriend', cors(), friend.acceptFriend);
+router.post('/friends/rejectFriend', cors(), friend.rejectFriend);
+router.post('/friends/getFriendsRequests', cors(), friend.getFriendRequests);
+router.post('/friends/getFriendsList', cors(), friend.getFriendsList);
 
 
 export default router;
