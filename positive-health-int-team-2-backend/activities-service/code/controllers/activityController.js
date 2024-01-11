@@ -151,16 +151,19 @@ export async function updateLocation(req, res) {
 
 // retrieves all the records from activities table
 export async function getAllData(req, res) {
+    const userId = req.query.userId; // Get userId from query parameters
+
     try { 
         const result = await db.query (
-          'SELECT * from activities'
-        )
+          'SELECT * from activities WHERE user_id = ?', [userId]
+        );
         res.json(result);
         } catch (error) {
           console.error('Error fetching data from the database:', error);
           res.status(500).send('Server error occurred');
         }
 }
+
 
 //Retrieves last activity record by the user id 
 export async function getLastRecord(req, res) {
