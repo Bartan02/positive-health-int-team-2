@@ -138,3 +138,17 @@ export async function updateLocation(req, res) {
         res.status(500).send('Database error');
     }
 };
+
+
+// retrieves all the records from activities table
+export async function getAllData(req, res) {
+    try { 
+        const result = await db.query (
+          'SELECT * from activities'
+        )
+        res.json(result);
+        } catch (error) {
+          console.error('Error fetching data from the database:', error);
+          res.status(500).send('Server error occurred');
+        }
+}

@@ -1,4 +1,4 @@
-FROM node:21.2.0
+FROM node:18.9.0
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -13,7 +13,7 @@ RUN npm install
 COPY code/ . 
 
 # Your application listens on a port (e.g., 3015). Expose it.
-EXPOSE 3025
+EXPOSE 3019
 
 # Start your app
 CMD ["node", "start.js"]

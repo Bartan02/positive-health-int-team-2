@@ -39,4 +39,6 @@ router.get('/auth/test', (req, res) => {
 
 router.get('/auth/user/:id', userRetrieve.findUser)
 
+router.get('/auth/getuserid', authController.getUserID);
+
 export default router;

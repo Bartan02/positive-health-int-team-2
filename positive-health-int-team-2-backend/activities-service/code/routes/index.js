@@ -6,7 +6,7 @@
 // GET /: A simple health check route to confirm the backend service is running.
 
 import express from 'express';
-import { startActivity, updateLocation, stopActivity } from '../controllers/activityController.js';
+import { startActivity, updateLocation, stopActivity, getAllData } from '../controllers/activityController.js';
 
 const router = express.Router();
 
@@ -39,5 +39,9 @@ router.post('/stop', stopActivity);
 router.get('/test', (req, res) => {
   res.json('Test route works!');
 });
+
+
+// Retrieves all the records from activities table
+router.get('/records', getAllData);
 
 export default router;

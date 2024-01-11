@@ -1,5 +1,5 @@
 <script>
-    import SideMenu from '../../../components/side-menu.svelte';
+    import SideMenu from '../../../components/top-menu.svelte';
 </script>
 
 <style>
