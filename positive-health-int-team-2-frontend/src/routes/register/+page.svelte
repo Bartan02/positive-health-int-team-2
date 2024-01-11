@@ -42,7 +42,8 @@
             const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify({ email: email, username: username, password: password }),
             });
@@ -50,7 +51,7 @@
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userid', data.userid);
-                localStorage.setItem('userinfo',data.userinfo);
+                localStorage.setItem('userinfo', JSON.stringify(data.userinfo));
             // Redirect to the specified route
                 window.location.href = data.redirect;
             } else {

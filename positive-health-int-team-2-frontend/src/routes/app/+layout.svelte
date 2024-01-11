@@ -5,7 +5,7 @@ import { onMount } from 'svelte';
 
   onMount(async () => {
     try {
-      const response = await fetch('http://localhost:3025/auth/logintest', {
+      const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/logintest', {
         method: 'GET',
         headers: { 
           'Authorization': localStorage.getItem('token')
@@ -28,7 +28,7 @@ import { onMount } from 'svelte';
 
   async function logout(){
     try {
-      const response = await fetch('http://localhost:3025/auth/logout', {
+      const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/logout', {
         method: 'POST',
         headers: { 
           'Authorization': localStorage.getItem('token'),
