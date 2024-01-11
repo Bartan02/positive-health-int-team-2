@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import '../ol/ol.css'; // Import OpenLayers styles
+	import 'ol/ol.css'; // Import OpenLayers styles
 	import Map from 'ol/Map';
 	import View from 'ol/View';
 	import TileLayer from 'ol/layer/Tile';
@@ -9,6 +9,7 @@
 	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
 	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, getUserData, joinMeeting, leaveMeeting } from '../lib/mapService.js';
 	import { containsCoordinate } from 'ol/extent.js';
+	import { getUserInfo } from '$lib/userprofileService.js';
 
 	/**
 	 * @type {Map}
@@ -23,6 +24,8 @@
 	let popupInfoIsVisible = false;
 
 	onMount(() => {
+		// @ts-ignore
+		userID = localStorage.getItem('userid');
 		// Initialize the map
 		map = new Map({
 			target: 'map',
@@ -62,24 +65,6 @@
 		// Event listener for map clicks
 		map.on('singleclick', (event) => {
 			if (document.getElementById('popup')) return;
-
-			// if (userPoint && userPoint.getPosition()) {
-			// 	const overlayPosition = userPoint.getPosition();
-			// 	const overlayPixel = map.getPixelFromCoordinate(overlayPosition);
-			// 	const clickPixel = event.pixel;
-
-			// 	overlayPixel[1] -= 25;
-
-			// 	const distance = Math.hypot(
-			// 		overlayPixel[0] - clickPixel[0],
-			// 		overlayPixel[1] - clickPixel[1]
-			// 	);
-
-			// 	if (distance <= 30) {
-			// 		toggleVisibilityPopup();
-			// 		return;
-			// 	}
-			// }
 
 			const coordinates = event.coordinate;
 
@@ -129,8 +114,10 @@
 	 * @type {string}
 	 */
 	let skill;
-	let userID = localStorage.getItem('userid');
-	console.log(userID);
+	/**
+	 * @type {number }
+	 */
+	let userID;
 	/**
 	 * @type {any}
 	 */
@@ -255,27 +242,28 @@
 
 		createMeeting(activity, start, end, latitude, longitude, skill, userID);
 
-		toggleVisibilityPopup();
+		location.reload();
+		// toggleVisibilityPopup();
 
-		const activityPointElement = document.createElement('img');
-		activityPointElement.style.width = '50px';
-		activityPointElement.id = `${activity}Point`;
-		activityPointElement.src = `../map-icons/${activity}/${activity}-${skill}.png`;
+		// const activityPointElement = document.createElement('img');
+		// activityPointElement.style.width = '50px';
+		// activityPointElement.id = `${activity}Point`;
+		// activityPointElement.src = `../map-icons/${activity}/${activity}-${skill}.png`;
 
-		activityPointElement.addEventListener('click', () => {
-			if (!popupIsVisible) {
-				toggleVisibilityPopupInfo();
-			}
-		});
+		// activityPointElement.addEventListener('click', () => {
+		// 	if (!popupIsVisible) {
+		// 		toggleVisibilityPopupInfo();
+		// 	}
+		// });
 
-		const activityPoint = new Overlay({
-			offset: [-25, -50],
-			position: [latitude, longitude],
-			element: activityPointElement,
-			stopEvent: false
-		});
-		map.addOverlay(activityPoint);
-		userPoint.setPosition(undefined);
+		// const activityPoint = new Overlay({
+		// 	offset: [-25, -50],
+		// 	position: [latitude, longitude],
+		// 	element: activityPointElement,
+		// 	stopEvent: false
+		// });
+		// map.addOverlay(activityPoint);
+		// userPoint.setPosition(undefined);
 	}
 
 	function joinMeetingButton() {
@@ -332,14 +320,33 @@
 			</div>
 		</div>
 		<div class="w-full h-full p-2 bg-gray-200 border border-gray-400 center flex-col gap-2">
-			<div class="center justify-start bg-white p-2 gap-3 border-orange-500 border rounded-2xl">
-				<img src="{userInfo.profile_pic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
-				<h2>{userInfo.username}</h2>
-			</div>
-			<div class="center justify-start bg-white p-2 gap-3 border-gray-300 border rounded-2xl">
-				<img src="{userInfo.profile_pic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
-				<h2>{userInfo.username}</h2>
-			</div>
+			{#if meetingPlayers.length > 0}
+				{#each meetingPlayers as player}
+					{#await getUserInfo(player)}
+						<div>
+							<p>Loading...</p>
+						</div>
+					{:then userInfo}
+						{#if player == localStorage.getItem('userid')}
+							<div class="center justify-start bg-white p-2 gap-3 border-orange-500 border rounded-2xl">
+								<img src="{userInfo.user.profilePic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+								<h2>{userInfo.user.firstName}</h2>
+							</div>
+						{:else}
+							<div class="center justify-start bg-white p-2 gap-3 border-gray-300 border rounded-2xl">
+								<img src="{userInfo.user.profilePic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+								<h2>{userInfo.user.firstName}</h2>
+							</div>
+						{/if}
+					{:catch error}
+						<p>Something went wrong: {error.message}</p>
+					{/await}
+				{/each}
+			{:else}
+				<div>
+					<p>Meeting is empty</p>
+				</div>
+			{/if}
 		</div>
 		<div class="center w-full">
 			{#if meetingPlayers.includes(parseInt(localStorage.getItem('userid')))}
