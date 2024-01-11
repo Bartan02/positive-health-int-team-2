@@ -16,6 +16,22 @@ services:
     depends_on:
       - map-db
 
+  userprofile-service:
+    container_name: userprofile-service
+    build: ./userprofile-service
+    volumes:
+      - ./userprofile-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3018:3018"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - userprofile-db
+
   activities-service:
     container_name: activities-service
     build: ./activities-service
@@ -118,6 +134,20 @@ services:
       - map-db:/var/lib/mysql
     networks:
       - positive-health
+    
+  userprofile-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: userprofile_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3303:3306'
+    volumes:
+      - userprofile-db:/var/lib/mysql
+    networks:
+      - positive-health
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -153,3 +183,4 @@ volumes:
   appointments-db:
   authentication-db:
   map-db:
+  userprofile-db:

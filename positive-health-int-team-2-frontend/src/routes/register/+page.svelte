@@ -3,6 +3,7 @@
 </svelte:head>
 
 <script>
+    import { createUserProfile } from '$lib/userprofileService';
     import validateEmail from '../../lib/authverification.js';
     import { onMount } from 'svelte';
     let username = '';
@@ -64,30 +65,31 @@
                 throw new Error(confirmPasswordError);
             }
             const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-            },
-            body: JSON.stringify({ email: email, username: username, password: password }),
-            });
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('userid', data.userid);
-                localStorage.setItem('userinfo',data.userinfo);
-            // Redirect to the specified route
-                window.location.href = data.redirect;
-            } else {
-                // If the email is taken or other registration errors occur
-                const data = await response.json();
-                if (data.error && data.error.includes("email")) {
-                    emailError = "This email is already taken.";
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({ email: email, username: username, password: password }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userid', data.userid);
+                    localStorage.setItem('userinfo',data.userinfo);
+                // Redirect to the specified route
+                    window.location.href = data.redirect;
                 } else {
-                    emailError = "An unexpected error occurred. Please try again.";
-                }
+                    // If the email is taken or other registration errors occur
+                    const data = await response.json();
+                    if (data.error && data.error.includes("email")) {
+                        emailError = "This email is already taken.";
+                    } else {
+                        emailError = "An unexpected error occurred. Please try again.";
+                    }
                 throw new Error(data.error);
             }
+            createUserProfile(localStorage.getItem('userid'));
         } catch (error) {
             // If it is a network error or other non-server-related issue
             if (typeof error === 'string') {

@@ -1,6 +1,8 @@
 <script>
     import { user } from '../stores/user.js';
     import { slide } from 'svelte/transition';
+	import { getUserInfo } from '$lib/userprofileService.js';
+	import { onMount } from 'svelte';
 
     export let menuLabel = ''; // Add this line to create a 'menuLabel' prop
     let isOpen = false;
@@ -17,6 +19,26 @@
     function toggleMenu() {
         isOpen = !isOpen;
     }
+
+    /**
+	 * @type {any}
+	 */
+    let firstName
+    /**
+	 * @type {any}
+	 */
+    let lastName
+    /**
+	 * @type {any}
+	 */
+    let profilePic;
+    onMount(async () => {
+        const userInfo = await getUserInfo(localStorage.getItem('userid'));
+        firstName = userInfo.user.firstName;
+        lastName = userInfo.user.lastName;
+        profilePic = userInfo.user.profilePic;
+        console.log(profilePic)
+    });
 
     async function logout() {
         try {
@@ -47,7 +69,7 @@
             alt: 'Home'
         },
         {
-            href: '.', // Update link with profile page
+            href: '/app/profile', // Update link with profile page
             icon: '/Profile-icon.png',
             text: 'Profile',
             alt: 'Profile'
@@ -65,7 +87,7 @@
             alt: 'Stats'
         },
         {   
-            href: '.', // Update link with map page
+            href: '/app/map', // Update link with map page
             icon: '/Map-icon.png',
             text: 'Map',
             alt: 'Discover'
@@ -99,7 +121,7 @@
 
     {#if isHome && !isOpen}
         <div class="text-center text-white text-xl w-full mt-6">
-            <span>Hi, <span>John</span>! 👋</span><br>
+            <span>Hi, <span>{firstName}</span>! 👋</span><br>
             <span style="color: #C5C5C5; font-size: 15px">Good morning</span>
         </div>
     {/if}
@@ -115,8 +137,8 @@
         <div class="flex flex-col h-full justify-between">
             <div>
                 <div class="flex flex-col items-center justify-center" style="margin-top: 20%">
-                    <img src="/profilepicture.jpg" alt="" class="rounded-full" style="width: 70px; height: 70px;">
-                    <h1 class="text-white">*NAME*</h1>
+                    <img src="{profilePic}" alt="" class="rounded-full" style="width: 70px; height: 70px;">
+                    <h1 class="text-white">{firstName}</h1>
                 </div>
                 <ul class="space-y-2 text-white mt-10">
                     {#each menuItems as menuItem}
