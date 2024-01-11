@@ -7,7 +7,7 @@
 	import OSM from 'ol/source/OSM';
 	import Geolocation from 'ol/Geolocation';
 	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
-	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, getUserData, joinMeeting, leaveMeeting } from '../lib/mapService.js';
+	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, joinMeeting, leaveMeeting } from '../lib/mapService.js';
 	import { containsCoordinate } from 'ol/extent.js';
 	import { getUserInfo } from '$lib/userprofileService.js';
 
@@ -240,9 +240,10 @@
 		// @ts-ignore
 		let longitude = userPoint.getPosition()[1];
 
-		createMeeting(activity, start, end, latitude, longitude, skill, userID);
+		createMeeting(activity, start, end, latitude, longitude, skill, userID).then((data) => {
+			location.reload();
+		})
 
-		location.reload();
 		// toggleVisibilityPopup();
 
 		// const activityPointElement = document.createElement('img');
@@ -275,8 +276,9 @@
 	function deleteMeeting() {
 		toggleVisibilityPopupInfo();
 		console.log('Deleting meeting')
-		deleteMeetingFromDB(activityID);
-		location.reload();
+		deleteMeetingFromDB(activityID).then (() => {
+			location.reload();
+		})
 	}
 	function leaveMeetingButton() {
 		toggleVisibilityPopupInfo();
