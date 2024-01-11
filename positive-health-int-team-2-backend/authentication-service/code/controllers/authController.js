@@ -24,7 +24,7 @@ async function register(req, res) {
     const user = await User.create({ email, username, password: hashedPassword });
     const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
     const userinfo = {
-      username: username,
+      username: user.username,
       email: email
     }
     return res.status(200).json({ token, redirect: '/app/home', userinfo: userinfo, userid: user.id });
