@@ -67,13 +67,13 @@ async function getFriendsList(req, res){
           relation.friend_one = relation.friend_two;
           relation.friend_two = swapVar;
         }
-        friendsList.push({friend: relation.friend_one, status: relation.status});
+        friendsList.push({friend_one: relation.friend_one, status: relation.status});
       });
       const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
                 allRetrievedRelations: friendsList
@@ -81,7 +81,7 @@ async function getFriendsList(req, res){
         });
         const getUsernamesFromTheirIdsResult = await getUsernamesFromTheirIdsFetch.json();
         friendsList = getUsernamesFromTheirIdsResult.allRetrievedRelations;
-      return res.status(200).json(friendsList);
+      return res.status(200).json({friendsList: friendsList});
 }
 
 export default { addFriend, getFriendRequests, acceptFriend, rejectFriend, getFriendsList }

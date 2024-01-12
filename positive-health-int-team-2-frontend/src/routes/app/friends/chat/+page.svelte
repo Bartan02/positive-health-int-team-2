@@ -3,47 +3,6 @@
 	import { none } from "ol/centerconstraint";
 	import { get } from "ol/proj";
 
-</script>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat App</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Person selector: this contains buttons for user to select whether to chat as Me or OtherUser -->
-    <div class="person-selector">
-      <button class="button person-selector-button active-person" id="Me-selector"></button>
-      <button class="button person-selector-button" id="OtherUser-selector">OtherUser</button>
-    </div>
-    <div class="chat-container">
-      <h2 class="chat-header"></h2>
-
-    
-      <div class="chat-messages">
-        <div class="message blue-bg">
-          <div class="message-sender"></div>
-          <div class="message-text"></div>
-          <div class="message-timestamp"></div>
-        </div>
-        <div class="message gray-bg">
-          <div class="message-sender"></div>
-          <div class="message-text"></div>
-          <div class="message-timestamp"></div>
-        </div>
-      </div>
-
-      <form class="chat-input-form">
-        <input type="text" class="chat-input" required placeholder="Type here" />
-        <button type="submit" class="button send-button">Send</button>
-      </form>
-      <button class="button clear-chat-button">Clear Chat</button>
-    </div>
-
-    <script>
-      // @ts-nocheck
 
 
 const MeSelectorBtn = document.querySelector('#Me-selector')
@@ -127,9 +86,41 @@ clearChatBtn.addEventListener('click', () => {
   chatMessages.innerHTML = ''
 })
 
+</script>
 
+<svelte:head>
+  <title> ChatApp </title>
+</svelte:head>
 
-    </script>
+    <!-- Person selector: this contains buttons for user to select whether to chat as Me or OtherUser -->
+    <div class="person-selector">
+      <button class="button person-selector-button active-person" id="Me-selector"></button>
+      <button class="button person-selector-button" id="OtherUser-selector">OtherUser</button>
+    </div>
+    <div class="chat-container">
+      <h2 class="chat-header"></h2>
+
+    
+      <div class="chat-messages">
+        <div class="message blue-bg">
+          <div class="message-sender"></div>
+          <div class="message-text"></div>
+          <div class="message-timestamp"></div>
+        </div>
+        <div class="message gray-bg">
+          <div class="message-sender"></div>
+          <div class="message-text"></div>
+          <div class="message-timestamp"></div>
+        </div>
+      </div>
+
+      <form class="chat-input-form">
+        <input type="text" class="chat-input" required placeholder="Type here" />
+        <button type="submit" class="button send-button">Send</button>
+      </form>
+      <button class="button clear-chat-button">Clear Chat</button>
+    </div>
+
     <style>
       body {
   background-image: linear-gradient(
@@ -279,8 +270,6 @@ clearChatBtn.addEventListener('click', () => {
 }
 
     </style>
-  </body>
-</html>
 
 
 

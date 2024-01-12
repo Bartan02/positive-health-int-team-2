@@ -1,27 +1,34 @@
 <script>
+	import { onMount } from 'svelte';
     import SideMenu from '../../../components/side-menu.svelte';
 
-    // let promiseRetrieveFriends = retrieveFriends();
+    let promiseRetrieveFriends = new Promise(() => {});
 
-    // function triggerPromiseRetrieveFriends(){
-    //     promiseRetrieveFriends = retrieveFriends();
-    // }
+    onMount(() => {
+        triggerPromiseRetrieveFriends();
+    }); 
 
-    // async function retrieveFriends(){
-    //     const yourUserId = Number(localStorage.getItem('userid'));
-    //     let retrievedFriends = await fetch('http://localhost:3021/friends/getFriendsList', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Access-Control-Allow-Origin': '*',
-    //         },
-    //         body: JSON.stringify({
-    //             yourUserId: yourUserId
-    //         })
-    //     });
-    //     const retrievedFriendsa = await retrievedFriends.json();
-    //     return retrievedFriends;
-    // }
+    function triggerPromiseRetrieveFriends(){
+        promiseRetrieveFriends = retrieveFriends();
+    }
+
+    async function retrieveFriends(){
+        const yourUserId = localStorage.getItem('userid');
+        let retrievedFriends = await fetch('http://localhost:3021/friends/getFriendsList/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                yourUserId: yourUserId
+            })
+        });
+        retrievedFriends = await retrievedFriends.json();
+        // @ts-ignore
+        retrievedFriends = retrievedFriends.friendsList;
+        return retrievedFriends;
+    }
     
 </script>
 
@@ -54,7 +61,7 @@
         <div class="main-content pt-16 p-4">
             <!-- Second container -->
             <a href="/app/friends/chat">
-                <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto">
+                <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mb-2">
 
                     <!-- User avatar image on the top-left -->
                     <div class="mr-3">
@@ -83,17 +90,42 @@
             </a>
 
 
-            <!-- {#await promiseRetrieveFriends}
+            {#await promiseRetrieveFriends}
                 Loading...
             {:then retrievedFriends} 
-                <ul>
                 {#each retrievedFriends as friend}
-                    <li>
-                        
-                    </li>
+                <a href="/">
+                    <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mb-2">
+    
+                        <!-- User avatar image on the top-left -->
+                        <div class="mr-3">
+                            <img src="/profilepicture.jpg" class="w-16 h-16 rounded-full">
+                        </div>
+        
+                        <!-- Text content -->
+                        <div class="ml-3">
+                            <p class="text-gray-800 font-bold text-lg"> { friend.username } </p>
+                            <p class="text-gray-800">LATEST MESSAGE</p>
+                            <div class="flex items-end mt-2">
+                                <span class="text-xs text-gray-500">00:00</span>
+                                <span class="ml-2 text-xs text-gray-500">READ STATUS</span>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <span
+                                class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                USER STATUS
+                            </span>
+                        </div>
+        
+                    </div>
+                </a>
                 {/each}
-                </ul>
-            {/await} -->
+            {:catch error}
+                <span> {error.message} </span>
+            {/await}
 
 
         </div>
