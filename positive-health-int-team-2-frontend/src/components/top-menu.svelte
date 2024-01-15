@@ -4,7 +4,8 @@
 
     export let menuLabel = ''; // Add this line to create a 'menuLabel' prop
     let isOpen = false;
-    export let isHome = false;
+    export let isHome = false; // True if it's for the home page
+    export let subHeader = ''; // Text for the subheader
     
     $: topPosition = isOpen ? '0px' : '-100%';
 
@@ -101,6 +102,12 @@
         <div class="text-center text-white text-xl w-full mt-6">
             <span>Hi, <span>John</span>! 👋</span><br>
             <span style="color: #C5C5C5; font-size: 15px">Good morning</span>
+        </div>
+    {/if}
+
+    {#if subHeader.length !== 0 && !isOpen && !isHome}
+        <div class="text-center text-white text-xl w-full mt-6">
+            <span>{subHeader}</span>
         </div>
     {/if}
 </div>

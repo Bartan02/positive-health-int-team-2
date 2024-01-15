@@ -1,6 +1,6 @@
 <script>
     export let buttonText = "Welcome";
-    export let subText = "Let's start an activity?";
+    export let subText = "";
     export let iconUrl = "";
 </script>
 
