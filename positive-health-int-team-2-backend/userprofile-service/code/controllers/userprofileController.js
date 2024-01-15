@@ -20,7 +20,12 @@ export async function createUserProfile(req, res) {
     try {
         const userId = req.body.userid;
         console.log('Creating user profile for user:', userId);
-        const [rows] = await db.query('INSERT INTO Users (userid) VALUES (?)', userId);
+
+        const createUserQuery = `
+            INSERT INTO Users (userid, firstName, lastName, profilePic, height, weight, gender, dateOfBirth, favoriteSports, location) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const [rows] = await db.query(createUserQuery, [userId, '', '', 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png', 0, 0, '', '2020-01-01', '', '']);
+        console.log(rows);
     }catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Something went wrong' });

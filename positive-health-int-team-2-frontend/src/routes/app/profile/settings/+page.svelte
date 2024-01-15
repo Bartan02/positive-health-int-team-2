@@ -72,7 +72,7 @@
         height = document.getElementById("height")?.value;
         // @ts-ignore
         weight = document.getElementById("weight")?.value;
-        // @ts-ignore
+        // @ts-ignore   
         gender = document.getElementById("gender")?.value;
         // @ts-ignore
         dateOfBirth = document.getElementById("dateOfBirth")?.value;
@@ -103,7 +103,11 @@
             {#await getUserInfo(userid)}
                 <p>Loading...</p>
             {:then data} 
-                <img src="{data.user.profilePic}" alt="Profile" class="aspect-ratio-1 rounded-full mx-auto w-1/2 h-1/2 object-cover">
+                {#if data.user.profilePic == null}
+                    <img src="https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" alt="Profile" class="aspect-ratio-1 rounded-full mx-auto w-1/2 h-1/2 object-cover">
+                {:else}
+                    <img src="{data.user.profilePic}" alt="Profile" class="aspect-ratio-1 rounded-full mx-auto w-1/2 h-1/2 object-cover">
+                {/if}
 
                 <h2>First Name:</h2>
                 <input id="firstName" type="text" value={data.user.firstName} />
@@ -134,78 +138,40 @@
                 <h2>Weight:</h2>
                 <input id="weight" type="text" value={data.user.weight} />
 
-                <h2>Date of Birth:</h2>
-                <input id="dateOfBirth" type="date" value={data.user.dateOfBirth.toString().substring(0, 10)} />
-
+                {#if data.user.dateOfBirth == null}
+                    <h2>Date of Birth:</h2>
+                    <input id="dateOfBirth" type="date" value="2000-01-01" />
+                {:else}
+                    <h2>Date of Birth:</h2>
+                    <input id="dateOfBirth" type="date" value={data.user.dateOfBirth.toString().substring(0, 10)} />
+                {/if}
                 <h2>Favorite sports:</h2>
                 <div class="grid grid-cols-2 ">
                     <!-- I apologise for this monstrosity but i couldnt find another way to do it -->
-                    {#if data.user.favoriteSports.includes('running')}    
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="running" name="running" value="running" checked/>
-                            <label for="running">Running</label><br />
-                        </div>
-                    {:else}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="running" name="running" value="running" />
-                            <label for="running">Running</label><br />
-                        </div>
-                    {/if}
-                    {#if data.user.favoriteSports.includes('cycling')}    
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="cycling" name="cycling" value="cycling" checked/>
-                            <label for="cycling">Cycling</label><br />
-                        </div>
-                    {:else}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="cycling" name="cycling" value="cycling" />
-                            <label for="cycling">Cycling</label><br />
-                        </div>
-                    {/if}
-                    {#if data.user.favoriteSports.includes('swimming')}    
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="swimming" name="swimming" value="swimming" checked/>
-                            <label for="swimming">Swimming</label><br />
-                        </div>
-                    {:else}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="swimming" name="swimming" value="swimming" />
-                            <label for="swimming">Swimming</label><br />
-                        </div>
-                    {/if}
-                    {#if data.user.favoriteSports.includes('football')}    
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="football" name="football" value="football" checked/>
-                            <label for="football">Football</label><br />
-                        </div>
-                    {:else}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="football" name="football" value="football" />
-                            <label for="football">Football</label><br />
-                        </div>
-                    {/if}
-                    {#if data.user.favoriteSports.includes('basketball')}    
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="basketball" name="basketball" value="basketball" checked/>
-                            <label for="basketball">Basketball</label><br />
-                        </div>
-                    {:else}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="basketball" name="basketball" value="basketball" />
-                            <label for="basketball">Basketball</label><br />
-                        </div>
-                    {/if}
-                    {#if data.user.favoriteSports.includes('tennis')}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="tennis" name="tennis" value="tennis" checked/>
-                            <label for="tennis">Tennis</label><br />
-                        </div>
-                    {:else}
-                        <div>
-                            <input class="favoriteSports" type="checkbox" id="tennis" name="tennis" value="tennis" />
-                            <label for="tennis">Tennis</label><br />
-                        </div>
-                    {/if}
+                    <div>
+                        <input class="favoriteSports" type="checkbox" id="running" name="running" value="running" checked={data.user.favoriteSports.includes('running')}/>
+                        <label for="running">Running</label><br />
+                    </div>   
+                    <div>
+                        <input class="favoriteSports" type="checkbox" id="cycling" name="cycling" value="cycling" checked={data.user.favoriteSports.includes('cycling')}/>
+                        <label for="cycling">Cycling</label><br />
+                    </div>   
+                    <div>
+                        <input class="favoriteSports" type="checkbox" id="swimming" name="swimming" value="swimming" checked={data.user.favoriteSports.includes('swimming')}/>
+                        <label for="swimming">Swimming</label><br />
+                    </div>   
+                    <div>
+                        <input class="favoriteSports" type="checkbox" id="football" name="football" value="football" checked={data.user.favoriteSports.includes('football')}/>
+                        <label for="football">Football</label><br />
+                    </div>    
+                    <div>
+                        <input class="favoriteSports" type="checkbox" id="basketball" name="basketball" value="basketball" checked={data.user.favoriteSports.includes('basketball')}/>
+                        <label for="basketball">Basketball</label><br />
+                    </div>
+                    <div>
+                        <input class="favoriteSports" type="checkbox" id="tennis" name="tennis" value="tennis" checked={data.user.favoriteSports.includes('tennis')}/>
+                        <label for="tennis">Tennis</label><br />
+                    </div>
                 </div>
                 <h2>Location:</h2>
                 <input id="location" type="text" value={data.user.location}/>

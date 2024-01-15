@@ -22,6 +22,7 @@ export async function getUserInfo(userid) {
  */
 export async function createUserProfile(userid){
     const response = await fetch('https://userprofile-service-329f9e3f251a.herokuapp.com/userInfo/createUserProfile', {
+    // const response = await fetch('http://localhost:3018/userInfo/createUserProfile', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

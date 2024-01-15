@@ -36,7 +36,11 @@
     let profilePic;
     onMount(async () => {
         const userInfo = await getUserInfo(localStorage.getItem('userid'));
-        firstName = userInfo.user.firstName;
+        if(userInfo.userinfo == null){
+            firstName = "User";
+        }else{
+            firstName = userInfo.user.firstName;
+        }
         lastName = userInfo.user.lastName;
         profilePic = userInfo.user.profilePic;
         console.log(profilePic)
