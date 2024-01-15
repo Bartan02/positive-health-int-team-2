@@ -37,7 +37,8 @@
 			view: new View({
 				center: [0, 0],
 				zoom: 2
-			})
+			}),
+			controls: []
 		});
 
 		// Get user's location using Geolocation API
@@ -129,19 +130,6 @@
 	 * @type {{ username: string; email: string; password: string; profile_pic: string; date_of_birth: string; height: number; weight: number; sex: string; first_name: string; surname: string; }}
 	 */
 	let userInfo;
-
-	userInfo = {
-		"username": "Michael321",
-		"email": "mike@gmail.com",
-		"password": "12345678",
-		"profile_pic": "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
-		"date_of_birth": "",
-		"height": 180,
-		"weight": 80,
-		"sex": "male",
-		"first_name": "Michael",
-		"surname": "Jackson"
-	}
 
 	/**
 	 * Sets the activity for the meeting
@@ -243,28 +231,6 @@
 		createMeeting(activity, start, end, latitude, longitude, skill, userID).then((data) => {
 			location.reload();
 		})
-
-		// toggleVisibilityPopup();
-
-		// const activityPointElement = document.createElement('img');
-		// activityPointElement.style.width = '50px';
-		// activityPointElement.id = `${activity}Point`;
-		// activityPointElement.src = `../map-icons/${activity}/${activity}-${skill}.png`;
-
-		// activityPointElement.addEventListener('click', () => {
-		// 	if (!popupIsVisible) {
-		// 		toggleVisibilityPopupInfo();
-		// 	}
-		// });
-
-		// const activityPoint = new Overlay({
-		// 	offset: [-25, -50],
-		// 	position: [latitude, longitude],
-		// 	element: activityPointElement,
-		// 	stopEvent: false
-		// });
-		// map.addOverlay(activityPoint);
-		// userPoint.setPosition(undefined);
 	}
 
 	function joinMeetingButton() {
@@ -422,12 +388,4 @@
 	</div>
 {/if}
 
-<div id="map" class="h-screen w-screen" />
-
-<style>
-	/* Custom styles for the map container if needed */
-	#map {
-		/* Custom styles */
-		height: 91vh;
-	}
-</style>
+<div id="map" class="h-full w-full" />
