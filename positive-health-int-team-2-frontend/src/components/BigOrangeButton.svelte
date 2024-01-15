@@ -13,7 +13,6 @@
     export let activityName = "";
 </script>
 
-
 {#if isHome}
 <a href="/app/activities" style="text-decoration: none;">
     <button class="flex items-center justify-between text-white rounded shadow-lg mx-auto"
