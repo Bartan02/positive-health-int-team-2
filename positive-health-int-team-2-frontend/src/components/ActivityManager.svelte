@@ -236,9 +236,8 @@ function updateCurrentSpeed() {
 	}
 </style>
 
-<div class="flex flex-col items-center justify-center py-6" style="z-index: 0; margin-top: 146.6px;">
     <!-- Timer -->
-    <div class="text-6xl font-bold text-black mb-4">{$elapsedTime}</div>
+    <div class="text-6xl font-bold text-black mb-4 text-center">{$elapsedTime}</div>
 
     <!-- Squares with stats -->
     <div class="grid grid-cols-2 gap-4" style="padding-top: 16px;">
@@ -265,4 +264,3 @@ function updateCurrentSpeed() {
         <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStartActivity()}>Start</button>
         <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStopActivity}>STOP</button>
     </div>
-</div>
