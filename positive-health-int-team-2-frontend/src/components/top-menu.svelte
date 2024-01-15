@@ -23,27 +23,13 @@
     }
 
     /**
-	 * @type {any}
+	 * @type {string | null}
 	 */
-    let firstName
-    /**
-	 * @type {any}
-	 */
-    let lastName
-    /**
-	 * @type {any}
-	 */
-    let profilePic;
-    onMount(async () => {
-        const userInfo = await getUserInfo(localStorage.getItem('userid'));
-        if(userInfo.userinfo == null){
-            firstName = "User";
-        }else{
-            firstName = userInfo.user.firstName;
-        }
-        lastName = userInfo.user.lastName;
-        profilePic = userInfo.user.profilePic;
-        console.log(profilePic)
+    let userid;
+    
+    onMount(() => {
+        // @ts-ignore
+        userid = localStorage.getItem('userid');
     });
 
     async function logout() {
@@ -126,7 +112,15 @@
 
     {#if isHome && !isOpen}
         <div class="text-center text-white text-xl w-full mt-6">
-            <span>Hi, <span>{firstName}</span>! 👋</span><br>
+            {#await getUserInfo(userid)}
+                    <p>Loading...</p>
+            {:then data}
+                {#if data.user.firstName == ""}
+                    <span>Hi, <span>User</span>! 👋</span><br>
+                {:else}
+                    <span>Hi, <span>{data.user.firstName}</span>! 👋</span><br>
+                {/if}
+            {/await}
             <span style="color: #C5C5C5; font-size: 15px">Good morning</span>
         </div>
     {/if}
@@ -148,8 +142,16 @@
         <div class="flex flex-col h-full justify-between">
             <div>
                 <div class="flex flex-col items-center justify-center" style="margin-top: 20%">
-                    <img src="{profilePic}" alt="" class="rounded-full" style="width: 70px; height: 70px;">
-                    <h1 class="text-white">{firstName}</h1>
+                    {#await getUserInfo(userid)}
+                        <p>Loading...</p>
+                    {:then data}
+                        <img src="{data.user.profilePic}" alt="" class="rounded-full" style="width: 70px; height: 70px;">
+                        {#if data.user.firstName == ""}
+                            <h1 class="text-white">Anonymous User</h1>
+                        {:else}
+                            <h1 class="text-white">{data.user.firstName}</h1>
+                        {/if}
+                    {/await}
                 </div>
                 <ul class="space-y-2 text-white mt-10">
                     {#each menuItems as menuItem}
