@@ -1,69 +1,78 @@
 <script>
-
-	import { none } from "ol/centerconstraint";
-	import { get } from "ol/proj";
-
-
-
-const MeSelectorBtn = document.querySelector('#Me-selector')
-const OtherUserSelectorBtn = document.querySelector('#OtherUser-selector')
-const chatHeader = document.querySelector('.chat-header')
-const chatMessages = document.querySelector('.chat-messages')
-const chatInputForm = document.querySelector('.chat-input-form')
-const chatInput = document.querySelector('.chat-input')
-const clearChatBtn = document.querySelector('.clear-chat-button')
-
-const messages = JSON.parse(localStorage.getItem('messages')) || []
-
-const username = JSON.parse(localStorage.getItem('userinfo')).username
-MeSelectorBtn.innerText = username
+	import { onMount } from "svelte";
+	import ActivityManager from "../../../../components/ActivityManager.svelte";
+  let chatHeader, chatMessages, chatInputForm, chatInput, messages, username;
 
 
+//////MESSAGE.SENDER SHOULD COMPARE YOUR USER ID
 const createChatMessageElement = (message) => `
   <div class="message ${message.sender === 'Me' ? 'blue-bg' : 'gray-bg'}">
     <div class="message-sender">${message.sender}</div>
     <div class="message-text">${message.text}</div>
     <div class="message-timestamp">${message.timestamp}</div>
   </div>
-`
+`;
 
-window.onload = () => {
+onMount(() => {
+  // let messageSender = 'Me';
+
+  //////FETCH MESSAGES FROM CHAT DATABASE BY FETCH
+  messages = JSON.parse(localStorage.getItem('messages')) || [];
+
+  //////USERINFO WILL BE ALREADY TRANSFERRED FROM FRIENDS PAGE AFTER CLICKING ONE OF THE FRIENDS
+  username = JSON.parse(localStorage.getItem('userinfo')).username;
+  
+  //////DISPLAY THE USERNAME YOU ARE CURRENTLY CHATTING
+  // MeSelector.innerText = username;
+
+  //////DISPLAY MESSAGES ON CHAT
   messages.forEach((message) => {
     chatMessages.innerHTML += createChatMessageElement(message)
-  })
-}
+  });
 
-let messageSender = 'Me'
+  chatInputForm.addEventListener('submit', sendMessage);
 
-const updateMessageSender = (name) => {
-  messageSender = name
-  chatInput.placeholder = `Type here`
+  // clearChatBtn.addEventListener('click', () => {
+  //   localStorage.clear()
+  //   chatMessages.innerHTML = ''
+  // });
 
-  if (name === 'Me') {
-    MeSelectorBtn.classList.add('active-person')
-    OtherUserSelectorBtn.classList.remove('active-person')
-  }
-  if (name === 'OtherUser') {
-    OtherUserSelectorBtn.classList.add('active-person')
-    MeSelectorBtn.classList.remove('active-person')
-  }
+  // MeSelectorBtn.addEventListener ('click', () => updateMessageSender('Me'))
+  // OtherUserSelectorBtn.addEventListener ('click', () => updateMessageSender('OtherUser'));
 
-  /* auto-focus the input field */
-  chatInput.focus()
-}
+  /////////REFRESH THE MESSAGES IN 0.5-1 SEC
+});
 
-MeSelectorBtn.onclick = () => updateMessageSender('Me')
-OtherUserSelectorBtn.onclick = () => updateMessageSender('OtherUser')
+
+
+// const updateMessageSender = (name) => {
+//   messageSender = name
+//   chatInput.placeholder = `Type here`
+
+//   if (name === 'Me') {
+//     MeSelectorBtn.classList.add('active-person')
+//     OtherUserSelectorBtn.classList.remove('active-person')
+//   }
+//   if (name === 'OtherUser') {
+//     OtherUserSelectorBtn.classList.add('active-person')
+//     MeSelectorBtn.classList.remove('active-person')
+//   }
+
+//   /* auto-focus the input field */
+//   chatInput.focus()
+// }
 
 const sendMessage = (e) => {
   e.preventDefault()
 
   const timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
   const message = {
-    sender: messageSender,
+    sender: 'Me',
     text: chatInput.value,
     timestamp,
   }
+
+  ///////PUSH THE MESSAGE TO THE CHAT DATABASE
 
   /* Save message to local storage */
   messages.push(message)
@@ -78,31 +87,22 @@ const sendMessage = (e) => {
   /*  Scroll to bottom of chat messages */
   chatMessages.scrollTop = chatMessages.scrollHeight
 }
-
-chatInputForm.addEventListener('submit', sendMessage)
-
-clearChatBtn.addEventListener('click', () => {
-  localStorage.clear()
-  chatMessages.innerHTML = ''
-})
-
 </script>
 
 <svelte:head>
-  <title> ChatApp </title>
+  <title> Chat with ... </title>
 </svelte:head>
 
     <!-- Person selector: this contains buttons for user to select whether to chat as Me or OtherUser -->
-    <div class="person-selector">
-      <button class="button person-selector-button active-person" id="Me-selector"></button>
-      <button class="button person-selector-button" id="OtherUser-selector">OtherUser</button>
-    </div>
+    <!-- <div class="person-selector">
+      <button class="button person-selector-button active-person" bind:this={MeSelectorBtn}></button>
+      <button class="button person-selector-button" bind:this={OtherUserSelectorBtn}>OtherUser</button>
+    </div> -->
     <div class="chat-container">
-      <h2 class="chat-header"></h2>
-
+      <h2 class="chat-header" bind:this={chatHeader}> BACK Friend username</h2>
     
-      <div class="chat-messages">
-        <div class="message blue-bg">
+      <div class="chat-messages"  bind:this={chatMessages}>
+        <!-- <div class="message blue-bg">
           <div class="message-sender"></div>
           <div class="message-text"></div>
           <div class="message-timestamp"></div>
@@ -111,14 +111,14 @@ clearChatBtn.addEventListener('click', () => {
           <div class="message-sender"></div>
           <div class="message-text"></div>
           <div class="message-timestamp"></div>
-        </div>
+        </div> -->
       </div>
 
-      <form class="chat-input-form">
-        <input type="text" class="chat-input" required placeholder="Type here" />
+      <form class="chat-input-form" bind:this={chatInputForm}>
+        <input type="text" class="chat-input" bind:this={chatInput} required placeholder="Type here" />
         <button type="submit" class="button send-button">Send</button>
       </form>
-      <button class="button clear-chat-button">Clear Chat</button>
+      <!-- <button class="button clear-chat-button" bind:this={clearChatBtn}>Clear Chat</button> -->
     </div>
 
     <style>
@@ -133,7 +133,7 @@ clearChatBtn.addEventListener('click', () => {
     hsl(197deg 100% 30%) 98%,
     hsl(183deg 79% 36%) 100%
   );
-  height: 100vh;
+  height: auto;
 }
 
 
@@ -173,19 +173,17 @@ clearChatBtn.addEventListener('click', () => {
 }
 
 .chat-container {
-  background: #15202b;
+  background: #ffffff;
   font-family: 'Roboto', sans-serif;
-  border-radius: 0.5em;
   padding: 0.5em 1.25em;
   margin: auto;
   max-width: 37.5em;
-  height: 37.5em;
-  box-shadow: 0 0 1.25em 0.5em #c3c3c333;
+  height: 100vh;
 }
 
 .chat-header {
   margin-bottom: 1em;
-  color: #fff;
+  color: #f39c39;
 }
 
 .chat-header h2 {
@@ -228,11 +226,11 @@ clearChatBtn.addEventListener('click', () => {
 }
 
 .blue-bg {
-  background-color: #1c9bef;
+  background-color: rgb(245, 146, 65);
 }
 
 .gray-bg {
-  background-color: #3d5365;
+  background-color: #de9f4c;
 }
 
 .chat-input-form {
@@ -253,7 +251,7 @@ clearChatBtn.addEventListener('click', () => {
 }
 
 .send-button {
-  background-color: #1c9bef;
+  background-color: #e59b33;
   color: #fff;
   font-size: 1em;
   font-weight: bold;

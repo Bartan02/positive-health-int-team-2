@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: 'variables.env' });
 import cors from 'cors';
 import indexRouter from './routes/index.js';
+import sequelize from './connection/connection.js'
 
 const app = express();
 
