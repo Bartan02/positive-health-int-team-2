@@ -1,9 +1,8 @@
 <script>
-	import TopMenu from '../../../components/top-menu.svelte';
-	import DayMeter from '../../../components/DayMeter.svelte';
 	import { getUserInfo, createUserProfile, updateUserProfile } from '$lib/userprofileService';
 	import { onMount } from 'svelte';
-
+	import TopMenu from '../../../components/top-menu.svelte';
+	import { user } from '../../../stores/user';
 
     /**
 	 * @type {number}
@@ -37,33 +36,23 @@
 	 * @type {Date}
 	 */
     let dateOfBirth;
+    /**
+     * @type {string}
+     */
+    let favoriteSports;
+    /**
+     * @type {string[]}
+     */
+    let favoriteSportsArray;
+    /**
+     * @type {string}
+     */
+    let location;
 
     onMount(() => {
+        // @ts-ignore
         userid = localStorage.getItem('userid');
-        getUserInfoButton();
     });
-    
-    function getUserInfoButton(){
-        getUserInfo(localStorage.getItem('userid')).then((data) => {
-            firstName = data.user.firstName;
-            lastName = data.user.lastName;
-            profilePic = data.user.profilePic;
-            height = data.user.height;
-            weight = data.user.weight;
-            gender = data.user.gender;
-            dateOfBirth = data.user.dateOfBirth.toString().substring(0, 10);
-            console.log(data);
-        });
-        console.log("Fetching user info");
-    }
-    function createUserProfileButton(){
-        createUserProfile(localStorage.getItem('userid'));
-        console.log("Creating user profile");
-    }
-    function updateUserProfileButton(){
-        updateUserProfile(localStorage.getItem('userid'), firstName, lastName, profilePic, height, weight, gender, dateOfBirth)
-        console.log("Updating user profile");
-    }
 </script>
 
 <style>
@@ -80,31 +69,24 @@
 
 <body>
     <div class="min-h-screen" style="background: F6F7FB;">
-		<TopMenu menuLabel="Home" isHome={true} />
+            <TopMenu menuLabel="Home" isHome={false} />
         <!-- Frame for all components, setting the width to 90% of the viewport -->
-        <div class="w-full mx-auto" style="width: 90%;">
-            <DayMeter />
-            <div>
-                <h2>First Name:</h2>
-                <input type="text" bind:value={firstName} />
-                <h2>Last Name:</h2>
-                    <input type="text" bind:value={lastName} />
-                    <h2>Gender:</h2>
-                    <select bind:value={gender}>
-                        <option value="" disabled hidden selected>Choose gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    <h2>Height:</h2>
-                    <input type="text" bind:value={height} />
-                    <h2>Weight:</h2>
-                    <input type="text" bind:value={weight} />
-                    <h2>Date of Birth:</h2>
-                    <input type="date" bind:value={dateOfBirth} />
-            </div>
-            <div class='mt-10 grid gap-5'>
-                <h1 on:click={updateUserProfileButton}>UPDATE PROFILE</h1>
-            </div>
+        <div class="w-full mx-auto mt-20" style="width: 90%;">
+            {#await getUserInfo(userid)}
+                <p>Loading...</p>
+            {:then data} 
+                <img src="{data.user.profilePic}" alt="Profile" class="aspect-ratio-1 rounded-full mx-auto w-1/2 h-1/2 object-cover">
+                <h2>First Name: {data.user.firstName}</h2>
+                <h2>Last Name: {data.user.lastName}</h2>
+                <h2>Height: {data.user.height}</h2>
+                <h2>Weight: {data.user.weight}</h2>
+                <h2>Gender: {data.user.gender}</h2>
+                <h2>Date of Birth: {data.user.dateOfBirth}</h2>
+                <h2>Favorite Sports: {data.user.favoriteSports}</h2>
+                <h2>Location: {data.user.location}</h2>
+            {:catch error}
+                <p>{error.message}</p>
+            {/await}
         </div>
     </div>
 </body>

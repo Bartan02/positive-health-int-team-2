@@ -48,8 +48,10 @@ export async function createUserProfile(userid){
  * @param {any} weight
  * @param {any} gender
  * @param {any} dateOfBirth
+ * @param {any} favoriteSports
+ * @param {any} location
  */
-export async function updateUserProfile(userid, firstName, lastName, profilePic, height, weight, gender, dateOfBirth){
+export async function updateUserProfile(userid, firstName, lastName, profilePic, height, weight, gender, dateOfBirth, favoriteSports, location){
     const response = await fetch('https://userprofile-service-329f9e3f251a.herokuapp.com/userInfo/updateUserProfile', {
         method: 'POST',
         headers: {
@@ -63,7 +65,9 @@ export async function updateUserProfile(userid, firstName, lastName, profilePic,
             height: height,
             weight: weight,
             gender: gender,
-            dateOfBirth: dateOfBirth
+            dateOfBirth: dateOfBirth,
+            favoriteSports: favoriteSports,
+            location: location
         })
     });
 }
