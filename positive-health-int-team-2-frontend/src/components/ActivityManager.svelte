@@ -5,6 +5,7 @@
     import haversine from 'haversine-distance'; 
 
     export let userId;
+    export let activityName;
     let activityId = null;
     let isActivityOngoing = false;
     const distance = writable(0); // Total distance
@@ -75,7 +76,7 @@
                 longitude: position.coords.longitude
             };
 
-            const response = await startActivity(userId, startLocation);
+            const response = await startActivity(userId, startLocation, activityName);
             activityId = response.activityId;
             isActivityOngoing = true;
             dispatcher('activityStarted', { activityId });
@@ -261,6 +262,6 @@ function updateCurrentSpeed() {
     </div>
 
     <div class="flex justify-center gap-4 mt-6">
-        <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStartActivity()}>Start</button>
+        <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStartActivity}>Start</button>
         <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStopActivity}>STOP</button>
     </div>

@@ -29,6 +29,7 @@ export async function createUserProfile(req, res) {
 
 export async function updateUserProfile(req, res) {
     try{
+        console.log(req.body);
         const userId = req.body.userid;
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
@@ -37,18 +38,21 @@ export async function updateUserProfile(req, res) {
         const weight = req.body.weight;
         const gender = req.body.gender;
         const dateOfBirth = req.body.dateOfBirth;
+        const favoriteSports = req.body.favoriteSports;
+        const location = req.body.location;
         console.log('Updating user profile for user:', userId);
-        
         const updateQuery = `
             UPDATE Users 
             SET 
                 firstName = ?,
-                lastName = ?,
+                lastName = ?,   
                 profilePic = ?,
                 height = ?,
                 weight = ?,
                 gender = ?,
-                dateOfBirth = ?
+                dateOfBirth = ?,
+                favoriteSports = ?,
+                location = ?
             WHERE userid = ?
         `;
 
@@ -60,6 +64,8 @@ export async function updateUserProfile(req, res) {
             weight,
             gender,
             dateOfBirth,
+            favoriteSports,
+            location,
             userId
         ]);
 
