@@ -13,6 +13,7 @@ router.post('/friends/acceptFriend', cors(), friend.acceptFriend);
 router.post('/friends/rejectFriend', cors(), friend.rejectFriend);
 router.post('/friends/getFriendsRequests', cors(), friend.getFriendRequests);
 router.post('/friends/getFriendsList', cors(), friend.getFriendsList);
+router.post('/friends/getRelationship', cors(), findFriend.getRelationship);
 
 
 export default router;

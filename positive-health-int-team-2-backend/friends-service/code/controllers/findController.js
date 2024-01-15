@@ -33,4 +33,16 @@ async function findRelationships(req,res){
     return res.status(200).json(relationsArray);
 }
 
-export default { findPerson, findRelationships }
+async function getRelationship(req,res){
+  const friendshipId = req.body.friendshipId;
+  const yourUserId = req.body.yourUserId;
+  const friendship = await Friendship.findOne({where: {friendship_id: friendshipId}});
+  if(friendship.friend_two === yourUserId){
+    const swapVar = friendship.friend_two
+    friendship.friend_two = friendship.friend_one;
+    friendship.friend_one = swapVar;
+  }
+  return res.status(200).json(friendship);
+}
+
+export default { findPerson, findRelationships, getRelationship }

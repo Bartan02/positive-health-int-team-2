@@ -42,6 +42,8 @@ router.get('/auth/user/:prompt', cors() ,userRetrieve.findUser);
 
 router.post('/auth/getUsernamesFromTheirIds', cors(), userRetrieve.getUsernamesFromTheirIds)
 
+router.post('/auth/getUsernameFromTheirId', cors(), userRetrieve.getUsernameFromTheirId)
+
 router.get('/auth/getuserid', authController.getUserID);
 
 export default router;

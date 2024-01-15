@@ -30,6 +30,26 @@
         return retrievedFriends;
     }
     
+    async function displayChat(friendshipId){
+        await fetch('http://localhost:3090/chat/redirectToChat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                friendshipId: friendshipId
+        })
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location.href = data.redirect;
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+    }
+
 </script>
 
 <style>
@@ -94,12 +114,12 @@
                 Loading...
             {:then retrievedFriends} 
                 {#each retrievedFriends as friend}
-                <a href="/">
+                <div on:click={displayChat(friend.friendship_id)}>
                     <div class="flex bg-white rounded-lg p-4 shadow-md w-full max-w-md mx-auto mb-2">
     
                         <!-- User avatar image on the top-left -->
-                        <div class="mr-3">
-                            <img src="/profilepicture.jpg" class="w-16 h-16 rounded-full">
+                        <div class="mr-3 w-16 h-16 flex items-center justify-center bg-amber-500 rounded-full">
+                            <p class="text-white text-big">{ (friend.username[0]).toUpperCase() }</p>
                         </div>
         
                         <!-- Text content -->
@@ -121,7 +141,7 @@
                         </div>
         
                     </div>
-                </a>
+                </div>
                 {/each}
             {:catch error}
                 <span> {error.message} </span>

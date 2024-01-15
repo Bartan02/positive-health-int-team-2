@@ -67,7 +67,7 @@ async function getFriendsList(req, res){
           relation.friend_one = relation.friend_two;
           relation.friend_two = swapVar;
         }
-        friendsList.push({friend_one: relation.friend_one, status: relation.status});
+        friendsList.push({friend_one: relation.friend_one, status: relation.status, friendship_id: relation.friendship_id});
       });
       const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
             method: 'POST',
