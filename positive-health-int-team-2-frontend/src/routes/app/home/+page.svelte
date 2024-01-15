@@ -22,7 +22,7 @@
         <!-- Frame for all components, setting the width to 90% of the viewport -->
         <div class="w-full mx-auto" style="width: 90%;">
             <DayMeter />
-            <BigOrangeButton buttonText="Welcome" subText="Let's start an activity?" iconUrl="/Running-icon-white.png" />
+            <BigOrangeButton isHome={true} buttonText="Welcome" subText="Let's start an activity?" iconUrl="/Running-icon-white.png" />
 
 
             <h3 style="margin-top: 16px; background: linear-gradient(180deg, #F65800 0%, #F00 100%);

@@ -4,6 +4,7 @@
     import BigOrangeButton from '../../../../components/BigOrangeButton.svelte';
 
     let activity = $page.url.searchParams.get('activity');
+    console.log(activity);
 </script>
 
 <style>
@@ -16,6 +17,7 @@
 	.aspect-ratio-1 {
   		aspect-ratio: 1 / 1;
 	}
+    
 </style>
 
 <body>
@@ -24,7 +26,7 @@
         <!-- Frame for all components, setting the width to 90% of the viewport -->
         <div class="w-full mx-auto" style="width: 90%;">
             <div style="margin-top:146.6px"></div> <!--spacer for the Top menu-->
-            <BigOrangeButton buttonText="Start the activity" iconUrl="/Running-icon-white.png" />
+            <BigOrangeButton buttonText="Start the activity" iconUrl="/Sports/Empty/{activity}-icon-empty.png" activityName="{activity}"/>
 
             <div class="grid grid-cols-2 grid-rows-1 gap-4" style="padding-top: 16px;">
                 <!-- Four empty white boxes -->
