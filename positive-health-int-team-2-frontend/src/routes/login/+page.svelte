@@ -6,6 +6,7 @@
 	import { error } from '@sveltejs/kit';
     import validateEmail from '../../lib/authverification.js';
     import { user } from '../../stores/user.js';
+    import { getUserInfo, createUserProfile } from '$lib/userprofileService';
     let email = '';
     let password = '';
 
@@ -45,7 +46,15 @@
             user.set({ id: data.userid, token: data.token });
             console.log('Store updated with:', { id: data.userid, info: data.userinfo, token: data.token });
             window.location.href = data.redirect;
-        } else {
+            try{ getUserInfo(localStorage.getItem('userid')).then((data) => {
+                console.log(data);
+                if(data.userinfo == null){
+                    createUserProfile(localStorage.getItem('userid'));
+                }});
+              }
+            catch(error){
+              console.log(error);
+            }
             // Handle failed login
             if (response.status === 401) {
                 emailError = 'Your email and password are incorrect. Check if you included a typo in your credentials.';
