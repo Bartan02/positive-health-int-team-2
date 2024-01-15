@@ -237,31 +237,37 @@ function updateCurrentSpeed() {
 	}
 </style>
 
-    <!-- Timer -->
-    <div class="text-6xl font-bold text-black mb-4 text-center">{$elapsedTime}</div>
-
-    <!-- Squares with stats -->
-    <div class="grid grid-cols-2 gap-4" style="padding-top: 16px;">
-        <!-- Four white boxes with stats -->
-        <div class="bg-white rounded-lg p-6 shadow-lg" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            <h5 class="text-xl font-bold text-gray-900">Current Speed:</h5>
-            <p class="text-lg text-gray-700">{$currentSpeed.toFixed(2)} km/h</p>
-        </div>
-        <div class="bg-white rounded-lg p-6 shadow-lg" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            <h5 class="text-xl font-bold text-gray-900">Average Speed:</h5>
-            <p class="text-lg text-gray-700">{$averageSpeed.toFixed(2)} km/h</p>
-        </div>
-        <div class="bg-white rounded-lg p-6 shadow-lg" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            <h5 class="text-xl font-bold text-gray-900">Distance:</h5>
-            <p class="text-lg text-gray-700">{$distance.toFixed(2)} km</p>
-        </div>
-        <div class="bg-white rounded-lg p-6 shadow-lg" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-            <h5 class="text-xl font-bold text-gray-900">Sprint Distance:</h5>
-            <p class="text-lg text-gray-700">{sprintDistance.toFixed(2) } km</p>
-        </div>
-    </div>
+    <!--
 
     <div class="flex justify-center gap-4 mt-6">
         <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStartActivity}>Start</button>
         <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStopActivity}>STOP</button>
+    </div> -->
+
+    <h1 class="text-4xl font-bold text-center bg-clip-text text-transparent" style="margin-top: 81px; background-image: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        {$elapsedTime}
+      </h1>
+      
+    
+    <div class="grid grid-cols-2 grid-rows-2 gap-4" style="padding-top: 16px;">
+        <!-- Four empty white boxes -->
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Current speed: <br> {$currentSpeed.toFixed(2)} km/h
+        </div>
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Average speed: <br> {$averageSpeed.toFixed(2)} km/h
+        </div>
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Distance: <br> {$distance.toFixed(2)} km
+        </div>
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Sprint distance: <br> {sprintDistance.toFixed(2) } km
+        </div>
+
+        <div class="col-span-2 text-center mt-4">
+            <button href="/app/activities" class="inline-block px-10 py-3 text-xl font-bold text-white rounded-full bg-gradient-to-br from-orange-500 to-red-600 shadow-lg hover:bg-orange-600 focus
+            :outline-none focus:ring-2 focus:ring-orange-300" role="button" on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}>
+            {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
+        </button>
+        </div>
     </div>
