@@ -13,8 +13,8 @@
         page
     } from '$app/stores';
 
-    let activity = $page.url.searchParams.get('activity');
-    console.log(activity);
+    let activityName = $page.url.searchParams.get('activity');
+    console.log(activityName);
 
 
     let activityRunning = true; // Added reactive variable
@@ -92,11 +92,12 @@
 
 <body>
     <div class="min-h-screen" style="background: F6F7FB;">
-        <TopMenu noMenu={true} menuLabel={activity} />
+        <TopMenu noMenu={true} menuLabel={activityName} />
         <div class="w-full mx-auto" style="width: 90%;">
             {#if activityRunning}
                 <ActivityManager 
                     userId={userId} 
+                    activityName={activityName}
                     on:activityStarted={handleActivityStart} 
                     on:activityStopped={handleActivityStop}
                 />

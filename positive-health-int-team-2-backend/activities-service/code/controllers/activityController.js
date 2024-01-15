@@ -37,6 +37,7 @@ function generateUniqueId() {
 export const startActivity = async (req, res) => {
     const userId = req.body.userId;
     const startLocation = req.body.startLocation;
+    const activityName = req.body.activityName;
 
     if (!userId || !startLocation) {
         return res.status(400).send('Missing user Data');
@@ -45,8 +46,8 @@ export const startActivity = async (req, res) => {
     const activityId = generateUniqueId();
     try {
         const [rows, fields] = await db.execute(
-            'INSERT INTO activities (activity_id, user_id, start_time, start_location, distance) VALUES (?, ?, NOW(), ?, 0)',
-            [activityId, userId, JSON.stringify(startLocation)]
+            'INSERT INTO activities (activity_id, user_id, start_time, start_location, distance, activity_name) VALUES (?, ?, NOW(), ?, 0, ?)',
+            [activityId, userId, JSON.stringify(startLocation), activityName]
         );
         res.json({ activityId, message: 'Activity successfully started' });
     } catch (error) {
@@ -67,7 +68,14 @@ export async function stopActivity(req, res) {
     const elapsedTime = req.body.elapsedTimeValue;
     const averageSpeed = req.body.averageSpeedValue;
 
-    console.log('Received in backend:', req.body);
+    function calculateCalories(distance) {
+        const caloriesPerKm = 80;
+        return distance * caloriesPerKm;
+    };
+
+    const caloriesBurned = calculateCalories(distance);
+
+    console.log('Received in backend:', req.body, caloriesBurned);
     try {
         // Retrieve the activity data from the database
         const [activityRows] = await db.query(
@@ -83,10 +91,10 @@ export async function stopActivity(req, res) {
         // Update maximum speed only if the activity exists
         const updateQuery = `
             UPDATE activities 
-            SET maximum_speed = ?, distance = ?, sprintDistance = ?, elapsedTime = ?, averageSpeed = ? 
+            SET maximum_speed = ?, distance = ?, sprintDistance = ?, elapsedTime = ?, averageSpeed = ?, calories_burned = ? 
             WHERE activity_id = ?`;
         
-        await db.query(updateQuery, [maximumSpeed, distance, sprintDistance, elapsedTime, averageSpeed, activityId]);
+        await db.query(updateQuery, [maximumSpeed, distance, sprintDistance, elapsedTime, averageSpeed, caloriesBurned, activityId]);
 
         const activity = activityRows[0];
         const endTime = new Date();

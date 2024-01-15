@@ -1,12 +1,12 @@
 // Function to start an activity
 // https://step-up-api-gateway-2639a76e4388.herokuapp.com   a link to hosted back end
-export async function startActivity(userId, startLocation) {
+export async function startActivity(userId, startLocation, activityName) {
     const response = await fetch('http://localhost:3015/activities/start/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, startLocation })
+        body: JSON.stringify({ userId, startLocation, activityName })
     });
 
     if (!response.ok) {
