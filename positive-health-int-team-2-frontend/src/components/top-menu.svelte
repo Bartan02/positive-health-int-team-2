@@ -8,6 +8,7 @@
     let isOpen = false;
     export let isHome = false; // True if it's for the home page
     export let subHeader = ''; // Text for the subheader
+    export let noMenu = false; // True if there is no menu
     
     $: topPosition = isOpen ? '0px' : '-100%';
 
@@ -81,12 +82,6 @@
             text: 'Activities',
             alt: 'Favorites'
         },
-        {
-            href: '.', // Update link with leaderboard page
-            icon: '/Leaderboard-icon.png',
-            text: 'Leaderboard',
-            alt: 'Stats'
-        },
         {   
             href: '/app/map', // Update link with map page
             icon: '/Map-icon.png',
@@ -113,9 +108,14 @@
 <div class="fixed top-0 left-0 right-0 z-30 p-4"
      style="border-radius: 0px 0px 20px 20px; background: {headerBackground}; box-shadow: {headerShadow};">
     <div class="flex items-center justify-between w-full">
+        {#if !noMenu}
         <button on:click={toggleMenu} class="z-40">
             <img src={menuIcon} alt="Menu">
         </button>
+        {/if}
+        {#if noMenu}
+        <div style="height: 33px; width:47px"></div>
+        {/if}
         <span class="text-white text-xl">{menuLabel}</span>
         <div style="width: 48px;"></div>
     </div>
