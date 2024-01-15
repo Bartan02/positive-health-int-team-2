@@ -31,23 +31,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - activities-db
-
-  appointments:
-    container_name: sample-service
-    build: ./sample-service
-    volumes:
-      - ./sample-service/code:/usr/src/app
-    networks:
-      - positive-health
-    ports:
-      - "3010:3010"
-    working_dir: /usr/src/app
-    command: npm run dev
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - appointments-db
-
   authentication-service:
     container_name: authentication-service
     build: ./authentication-service
@@ -115,6 +98,32 @@ services:
       - appointments-db:/var/lib/mysql
     networks:
       - positive-health
+  chat-service:
+    container_name: chat-service
+    build: ./chat-service
+    volumes:
+      - ./chat-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3090:3090"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  chat-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: chat_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3304:3306'
+    volumes:
+      - chat-db:/var/lib/mysql
+    networks:
+      - positive-health
   
   authentication-db:
     image: mysql:latest
@@ -179,3 +188,4 @@ volumes:
   authentication-db:
   map-db:
   friends-db:
+  chat-db:
