@@ -16,7 +16,7 @@
 {#if isHome}
 <a href="/app/activities" style="text-decoration: none;">
     <button class="flex items-center justify-between text-white rounded shadow-lg mx-auto"
-            style="font-weight: 900; border-radius: 20px; width: 100%; height:100px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); background: linear-gradient(180deg, #F65800 0%, #F00 100%);">
+            style="border-radius: 20px; width: 100%; height:100px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); background: linear-gradient(180deg, #F65800 0%, #F00 100%);">
         <h1 style="text-align:left; font-weight:bolder; padding-left: 10px">
             {buttonText}<br>
             <small>{subText}</small>

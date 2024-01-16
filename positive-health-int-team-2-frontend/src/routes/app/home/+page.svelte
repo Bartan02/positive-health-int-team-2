@@ -92,10 +92,9 @@
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;500;600;700&display=swap');      
     * {
         font-family: 'Montserrat', sans-serif;
-        font-weight: bold;
     }
 
 	.aspect-ratio-1 {
@@ -107,6 +106,7 @@
     <div class="min-h-screen" style="background: F6F7FB;">
 		<TopMenu menuLabel="Home" isHome={true} />
         <!-- Frame for all components, setting the width to 90% of the viewport -->
+        <div style="padding-top: 146.6px;"></div>
         <div class="w-full mx-auto" style="width: 90%;">
             <DayMeter />
             <BigOrangeButton isHome={true} buttonText="Welcome" subText="Let's start an activity?" iconUrl="/Running-icon-white.png" />
@@ -120,17 +120,22 @@
             <!-- Grid container for the boxes -->
             <div class="grid grid-cols-2 grid-rows-2 gap-4" style="padding-top: 16px;">
                 <!-- Four empty white boxes -->
-                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                    
+                <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center" style="background:linear-gradient(180deg, #F65800 0%, #F00 100%); box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    <a href="/app/friends"><img src="/Friends-icon.png" alt="Friends" style="height: 50px; width: 50px"></a>
                 </div>
-                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                    <h1>Past week:</h1>
-                    <h2>Steps: {(weeklyDistance * 1.31).toFixed(0)}</h2>
-                    <h2>Calories burned: {weeklyCaloriesBurned}</h2>
-                    <h2>Total time: {weeklyElapsedTime.toFixed(2)} hours</h2>
-                </div>
+                <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center shadow-custom" style="max-width: 200px; max-height: 200px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    <h1 class="font-bold" style="font-size: 4vw; background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+                    -webkit-background-clip: text;
+                    color: transparent;
+                    background-clip: text;">Past week:</h1>
+                    <p style="font-size: 3vw;">Steps: {(weeklyDistance * 1.31).toFixed(0)}</p>
+                    <p style="font-size: 3vw;">Calories burned: {weeklyCaloriesBurned}</p>
+                    <p style="font-size: 3vw;">Total time: {weeklyElapsedTime.toFixed(2)} hours</p>
+                </div>                
                 <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
-                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
+                <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center" style="background:linear-gradient(180deg, #F65800 0%, #F00 100%); box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    <a href="/app/map"><img src="/Map-icon.png" alt="Map" style="height: 50px; width: 50px"></a>
+                </div>            
             </div>
         </div>
     </div>

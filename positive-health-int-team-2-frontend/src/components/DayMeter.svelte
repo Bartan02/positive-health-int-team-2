@@ -18,7 +18,7 @@
     }
 </script>
 
-<div class="flex justify-center p-4 mx-auto" style="width: 70%; z-index: 10; margin-top: 146.6px">
+<div class="flex justify-center p-4 mx-auto" style="width: 70%; z-index: 10;">
         {#each dates as dateObj, index (dateObj.date)}
         <!-- Add the line after '6' -->
         {#if index === 0}

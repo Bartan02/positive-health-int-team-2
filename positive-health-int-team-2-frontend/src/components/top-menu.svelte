@@ -88,10 +88,9 @@
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;500;600;700&display=swap');      
     * {
         font-family: 'Montserrat', sans-serif;
-        font-weight: bold;
     }
 </style>
 
@@ -106,12 +105,12 @@
         {#if noMenu}
         <div style="height: 33px; width:47px"></div>
         {/if}
-        <span class="text-white text-xl">{menuLabel}</span>
+        <span class="text-white text-xl font-bold">{menuLabel}</span>
         <div style="width: 48px;"></div>
     </div>
 
     {#if isHome && !isOpen}
-        <div class="text-center text-white text-xl w-full mt-6">
+        <div class="text-center text-white text-xl w-full mt-6 font-bold">
             {#await getUserInfo(userid)}
                     <p>Loading...</p>
             {:then data}
@@ -135,7 +134,7 @@
 {#if isOpen}
 <div in:slide={{ duration: 500 }}
      out:slide={{ duration: 200 }}
-     class="absolute top-0 inset-x-0 z-20"
+     class="absolute top-0 inset-x-0 z-20 font-bold"
      style="height: 80vh; border-radius: 0px 0px 20px 20px;
             background: linear-gradient(180deg, #F65800 0%, #F00 100%);
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">

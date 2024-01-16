@@ -109,10 +109,9 @@
   </script>
 
   <style>
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
-      * {
+    @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;500;600;700&display=swap');      
+    * {
           font-family: 'Montserrat', sans-serif;
-          font-weight: bold;
       }
 
       .aspect-ratio-1 {
@@ -125,7 +124,7 @@
     <TopMenu menuLabel="Activities" />
     <div class="w-11/12 mx-auto">
       {#if showFavoritesHeading}
-      <h3 style="margin-top: 81px; background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+      <h3 style="padding-top:81px; background: linear-gradient(180deg, #F65800 0%, #F00 100%);
           -webkit-background-clip: text;
           color: transparent;
           background-clip: text;">
@@ -137,7 +136,10 @@
           <div class="relative bg-white rounded-lg shadow-lg flex flex-col items-center justify-center p-4 aspect-ratio-1">
             <img src={activity.starImg} alt="Star" class="absolute top-0 right-0" style="height:60px; width:30px" on:click={() => toggleFavored(activity)} />
             <a href="/app/activities/options?activity={activity.name}" class="flex flex-col items-center justify-center">
-              <h4 class="text-lg font-semibold mb-2">{activity.name}</h4>
+              <h4 class="text-lg font-semibold mb-2" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+              -webkit-background-clip: text;
+              color: transparent;
+              background-clip: text;">{activity.name}</h4>
               <img src={activity.img} alt={activity.name} style="height:40px; width:40px"/>
             </a>
           </div>
@@ -155,7 +157,10 @@
           <div class="relative bg-white rounded-lg shadow-lg flex flex-col items-center justify-center p-4 aspect-ratio-1">
             <img src={activity.starImg} alt="Star" class="absolute top-0 right-0" style="height:60px; width:30px" on:click={() => toggleFavored(activity)} />
             <a href="/app/activities/options?activity={activity.name}" class="flex flex-col items-center justify-center">
-              <h4 class="text-lg font-semibold mb-2">{activity.name}</h4>
+              <h4 class="text-lg font-semibold mb-2" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+              -webkit-background-clip: text;
+              color: transparent;
+              background-clip: text;">{activity.name}</h4>
               <img src={activity.img} alt={activity.name} style="height:40px; width:40px"/>
             </a>
           </div>
