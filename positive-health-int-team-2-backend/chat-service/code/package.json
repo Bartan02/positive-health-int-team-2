@@ -5,14 +5,13 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "./node_modules/nodemon/bin/nodemon.js start.js",
-        "dev win": "./node_modules/.bin/nodemon start.js"
+      "dev": "./node_modules/nodemon/bin/nodemon.js start.js",
+      "dev win": "./node_modules/.bin/nodemon start.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@sequelize/core": "^7.0.0-alpha.29",
-        "bcrypt": "^5.1.1",
+      "bcrypt": "^5.1.1",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "dotenv": "^16.0.2",
@@ -23,4 +22,5 @@
         "nodemon": "^3.0.2",
         "sequelize": "^6.35.1"
     }
-}
+  }
+  
