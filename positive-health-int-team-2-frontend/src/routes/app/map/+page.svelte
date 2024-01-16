@@ -4,10 +4,10 @@
 </script>
 
 <div class="flex justify-start flex-col w-screen h-screen">
-	<div style="background-color: #F65800;" class="h-20 w-full center">
+	<div>
 		<TopMenu menuLabel="Map"/>
 	</div>
-	<div class="center bg-blue-200">
+	<div class="bg-blue-200 w-screen h-screen center">
 		<Map />
 	</div>
 </div>
