@@ -2,6 +2,93 @@
 	import TopMenu from '../../../components/top-menu.svelte';
 	import DayMeter from '../../../components/DayMeter.svelte';
 	import BigOrangeButton from '../../../components/BigOrangeButton.svelte';
+    import { onMount } from 'svelte';
+
+    let userId;
+	let activities = [];
+    let weeklyDistance = 0;
+    let weeklyCaloriesBurned = 0;
+    let weeklyElapsedTime = 0; // Use this to accumulate total seconds
+
+	async function fetchAllRecords(userId) {
+		const url = `http://localhost:3015/activities/records?userId=${encodeURIComponent(userId)}`;
+
+		try {
+			const response = await fetch(url); // GET request
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			return data[0];
+		} catch (error) {
+			console.error('Error fetching last record:', error);
+			// Handle the error accordingly
+		}
+	}
+
+    function convertToHours(timeString) {
+        const [hours, minutes, seconds] = timeString.split(':').map(Number);
+        return hours + minutes / 60 + seconds / 3600;
+    }
+
+	function loadActivities() {
+		// This function remains synchronous
+		const userid = localStorage.getItem('userid');
+		userId = userid;
+		if (userid) {
+			console.log(JSON.parse(userid));
+			userId = JSON.parse(userid); // Update userId if retrieved from localStorage
+		} else {
+			console.log('No user ID found in localStorage.');
+			userId = 'defaultUserId'; // This is just an example; adjust as needed.
+		}
+
+		// Call the async function without awaiting it
+		fetchAllRecords(userId)
+        .then((records) => {
+            activities = records;
+            console.log(activities);
+
+            // Filter activities for the past week
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            const activitiesPastWeek = activities.filter(activity => {
+                const activityDate = new Date(activity.start_time); // Replace 'activity_date' with your actual date field name
+                return activityDate >= oneWeekAgo;
+            });
+
+              // Calculate the total distance for the past week
+        weeklyDistance = activitiesPastWeek.reduce((total, activity) => {
+            return total + (activity.distance || 0); // Assuming 'distance' is a numeric field
+        }, 0);
+
+        // Calculate the total calories burned for the past week
+        weeklyCaloriesBurned = activitiesPastWeek.reduce((total, activity) => {
+                return total + (activity.calories_burned || 0); // Assuming 'calories_burned' is a numeric field
+            }, 0);
+
+         // Calculate the total elapsed time for the past week in hours
+         weeklyElapsedTime = activitiesPastWeek.reduce((total, activity) => {
+            return total + (activity.elapsedTime ? convertToHours(activity.elapsedTime) : 0);
+        }, 0);
+        // Format weeklyElapsedTime to show hours and minutes
+        const hours = Math.floor(weeklyElapsedTime);
+        const minutes = Math.round((weeklyElapsedTime - hours) * 60);
+
+        console.log(`Weekly Distance: ${weeklyDistance} units`); // Replace 'units' with the actual unit of distance
+    })
+    .catch((error) => {
+        console.error('Error fetching activities:', error);
+    });
+	}
+
+	onMount(() => {
+		loadActivities(); // Call the load function inside onMount
+	});
+
 </script>
 
 <style>
@@ -33,8 +120,15 @@
             <!-- Grid container for the boxes -->
             <div class="grid grid-cols-2 grid-rows-2 gap-4" style="padding-top: 16px;">
                 <!-- Four empty white boxes -->
-                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
-                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
+                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    
+                </div>
+                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    <h1>Past week:</h1>
+                    <h2>Steps: {(weeklyDistance * 1.31).toFixed(0)}</h2>
+                    <h2>Calories burned: {weeklyCaloriesBurned}</h2>
+                    <h2>Total time: {weeklyElapsedTime.toFixed(2)} hours</h2>
+                </div>
                 <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
                 <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
             </div>

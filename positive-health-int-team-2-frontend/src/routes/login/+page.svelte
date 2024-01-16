@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script>
-	import { error } from '@sveltejs/kit';
+	  import { error } from '@sveltejs/kit';
     import validateEmail from '../../lib/authverification.js';
     import { user } from '../../stores/user.js';
     import { getUserInfo, createUserProfile } from '$lib/userprofileService';
@@ -22,52 +22,31 @@
     passwordError = '';
 
     try {
-        // Validate email format
-        if (!validateEmail(email)) {
-            emailError = "Typed email is invalid. Your email should look like this: email@domain.com";
-            throw new Error(emailError);
-        }
-
-        // Make the login request
-        const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: email, password: password }),
-        });
-
-        if (response.ok) {
-            // Handle successful login
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('userid', JSON.stringify(data.userid));
-            localStorage.setItem('userinfo', data.userinfo);
-            try{getUserInfo(localStorage.getItem('userid')).then((data) => {
-                console.log(data);
-                if(data.userinfo == null){
-                    createUserProfile(localStorage.getItem('userid'));
-                }});
-              }
-            catch(error){
-              console.log(error);
-            }
-            user.set({ id: data.userid, token: data.token });
-            console.log('Store updated with:', { id: data.userid, info: data.userinfo, token: data.token });
-            window.location.href = data.redirect;
-            // Handle failed login
-            if (response.status === 401) {
-                emailError = 'Your email and password are incorrect. Check if you included a typo in your credentials.';
-                throw new Error(emailError);
-            } else if (response.status === 500) {
-                emailError = 'There are some problems with our server. If the problem still persists, please contact us.';
-                throw new Error(emailError);
-            }
-        }
-    } catch (error) {
-        // Handle any other errors
-        console.error('Error during login:', error.message);
+    if (!validateEmail(email)) throw "Typped email is invalid. Your email should look like this: email@domain.com";
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userid', data.userid);
+      localStorage.setItem('userinfo', JSON.stringify(data.userinfo));
+      user.set({ id: data.userid, token: data.token });
+      // Redirect to the specified route
+      window.location.href = data.redirect;
+    } else {
+        if(response.status == 401) throw 'Your email and password are incorrect. Check if you included a typo in your credentials.';
+        else if(response.status == 500) throw 'There are some problems with our server. If the problem still persists, please contact us.';
     }
+  } catch (error) {
+            console.error('Error during login:', error);
+            errorDisplay.classList.remove("hidden");
+            errorContent = error;
+      }
 };
 
   </script>

@@ -1,5 +1,5 @@
 <script>
-	import { getUserInfo, createUserProfile, updateUserProfile } from '$lib/userprofileService';
+	import { getUserInfo, getUserInfoAuth} from '$lib/userprofileService';
 	import { onMount } from 'svelte';
 	import TopMenu from '../../../components/top-menu.svelte';
 	import { user } from '../../../stores/user';
@@ -100,6 +100,12 @@
                 </div>
                 {:catch error}
                 <p>{error.message}</p>
+            {/await}
+            {#await getUserInfoAuth(userid)}
+                <p>Loading...</p>
+            {:then data}
+                <h2>Username: {data.foundRecords.user.username}</h2>
+                <h2>email: {data.foundRecords.user.email}</h2>
             {/await}
         </div>
     </div>

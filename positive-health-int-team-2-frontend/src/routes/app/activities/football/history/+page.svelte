@@ -16,7 +16,7 @@
 			}
 
 			const data = await response.json();
-			return data;
+			return data[0].filter(activity => activity.activity_name === 'Football');
 		} catch (error) {
 			console.error('Error fetching last record:', error);
 			// Handle the error accordingly
@@ -37,14 +37,14 @@
 
 		// Call the async function without awaiting it
 		fetchAllRecords(userId)
-			.then((records) => {
-				// Use the records here
-				activities = records[0]; // If records is an array
-				console.log(activities);
-			})
-			.catch((error) => {
-				console.error('Error fetching activities:', error);
-			});
+        .then((records) => {
+            // Use the filtered records here
+            activities = records;
+            console.log(activities);
+        })
+        .catch((error) => {
+            console.error('Error fetching activities:', error);
+        });
 	}
 
 	onMount(() => {
@@ -54,25 +54,28 @@
 
 <SideMenu />
 
-<table>
+<table style="margin-top:5%">
 	<thead>
 		<tr>
+			<th>Activity name</th>
 			<th>Activity ID</th>
-			<th>User ID</th>
 			<th>Start Time</th>
 			<th>Start Location</th>
-			<th>Distance</th>
 			<th>Last Location</th>
+			<th>Distance</th>
 			<th>Maximum Speed</th>
+			<th>Sprint Distance</th>
+			<th>Total time</th>
+			<th>Calories Burned</th>
 		</tr>
 	</thead>
 	<tbody>
 		{#each activities as activity}
 			<tr>
+				<td>{activity.activity_name}</td>
 				<td>{activity.activity_id}</td>
-				<td>{activity.user_id}</td>
 				<td>{activity.start_time}</td>
-				<td>{activity.distance}</td>
+				<td>{activity.start_location}</td>
 				<td>
 					{#if activity.last_location}
 						Lat: {activity.last_location.latitude}, Lon: {activity.last_location.longitude}
@@ -80,7 +83,11 @@
 						N/A
 					{/if}
 				</td>
+				<td>{activity.distance}</td>
 				<td>{activity.maximum_speed || 'N/A'}</td>
+				<td>{activity.sprintDistance}</td>
+				<td>{activity.elapsedTime}</td>
+				<td>{activity.calories_burned}</td>
 			</tr>
 		{/each}
 	</tbody>
