@@ -8,7 +8,6 @@
 	import Geolocation from 'ol/Geolocation';
 	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
 	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, joinMeeting, leaveMeeting } from '../lib/mapService.js';
-	import { containsCoordinate } from 'ol/extent.js';
 	import { getUserInfo } from '$lib/userprofileService.js';
 
 	/**
