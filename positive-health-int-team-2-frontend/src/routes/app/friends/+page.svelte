@@ -93,12 +93,12 @@
     <div class="p-4 mt-auto">
         <div class="flex justify-end space-x-4">
             <!-- Button 1 -->
-            <div class="bg-orange-500 rounded-full p-2">
-                <a href="/app/friends/find"><img src="/Plus-icon.png" alt="Add friend" class="w-12 h-12"></a>
+            <div class="bg-orange-500 rounded-full p-2" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);">
+                <a href="/app/friends/requests"><img src="/Plus-icon.png" alt="Add friend" class="w-12 h-12"></a>
             </div>
 
             <!-- Button 2 -->
-            <div class="bg-orange-500 rounded-full p-2">
+            <div class="bg-orange-500 rounded-full p-2" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);">
                 <a href="/app/friends/find"><img src="/Search-icon.png" alt="Search" class="w-12 h-12"></a>
             </div>
         </div>

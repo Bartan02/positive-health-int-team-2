@@ -103,7 +103,7 @@
 </style>
 
 <body>
-    <div class="min-h-screen" style="background: F6F7FB;">
+    <div class="min-h-screen bg-[#F6F7FB]">
 		<TopMenu menuLabel="Home" isHome={true} />
         <!-- Frame for all components, setting the width to 90% of the viewport -->
         <div style="padding-top: 146.6px;"></div>

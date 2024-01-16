@@ -165,9 +165,12 @@
             </div>
 
             <ul class="space-y-2 text-white" style="margin-bottom: 10%">
-                <li class="hover:bg-orange-400 p-2 flex text-base" style="padding-left: 35%;">
-                    <img src="/Settings-icon.png" alt="Settings" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Settings
-                </li>
+                <a href="/app/profile/settings">
+                    <li class="hover:bg-orange-400 p-2 flex text-base" style="padding-left: 35%;">
+                        <img src="/Settings-icon.png" alt="Settings" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Settings
+                    </li>
+                </a>
+
                 <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <li on:click={logout} class="hover:bg-orange-400 p-2 flex text-base" style="padding-left: 35%;">
                    <img src="/Logout-icon.png" alt="Log Out" class="mr-2" style="width: 16px; height: 16px; margin-right: 16px;"> Log Out

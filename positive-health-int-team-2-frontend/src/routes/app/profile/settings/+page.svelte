@@ -97,7 +97,7 @@
 
 <body>
     <div class="min-h-screen" style="background: F6F7FB;">
-        <TopMenu menuLabel="Home" isHome={false} />
+        <TopMenu menuLabel="Settings" />
         <!-- Frame for all components, setting the width to 90% of the viewport -->
         <div class="w-full mx-auto mt-20" style="width: 90%;">    
             {#await getUserInfo(userid)}
