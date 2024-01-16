@@ -5,6 +5,7 @@
     import haversine from 'haversine-distance'; 
 
     export let userId;
+    export let activityName;
     let activityId = null;
     let isActivityOngoing = false;
     const distance = writable(0); // Total distance
@@ -75,7 +76,7 @@
                 longitude: position.coords.longitude
             };
 
-            const response = await startActivity(userId, startLocation);
+            const response = await startActivity(userId, startLocation, activityName);
             activityId = response.activityId;
             isActivityOngoing = true;
             dispatcher('activityStarted', { activityId });
@@ -91,7 +92,10 @@
 
     async function handleStopActivity() {
         try {
-            const response = await stopActivity(activityId, maximumSpeed);
+            const distanceValue = get(distance); // get the actual value from the store
+            const elapsedTimeValue = get(elapsedTime); // get the actual value from the store
+            const averageSpeedValue = get(averageSpeed); // get the actual speed value from the store
+            const response = await stopActivity(activityId, maximumSpeed, distanceValue, sprintDistance, elapsedTimeValue, averageSpeedValue);
             isActivityOngoing = false;
             activityId = null;
             dispatcher('activityStopped', response);
@@ -221,186 +225,49 @@ function updateCurrentSpeed() {
     });
 </script>
 
-<div class="flex flex-row justify-center">
-    <div class="outer-circle flex justify-center items-center">
-        <div class="absolute tick right"></div>
-        <div class="absolute tick left"></div>
-        <div class="absolute tick top"></div>
-        <div class="absolute tick bottom"></div>
-
-        <div class="inner-1 flex justify-center items-center">
-            <div class="inner-2 flex justify-center items-center">
-                <div class="inner-3 flex justify-center items-center">
-                    <div class="inner-4 flex justify-center items-center">
-                        <div class="w-2 h-2 bg-white rounded-full flex justify-center items-center">
-                            <div class="absolute needle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="flex flex-row justify-center py-6" style="z-index: 0">
-    <span class="app-font-big font-bold text-black">{$elapsedTime}</span>
-</div>
-
-<div class="flex flex-col justify-between">
-    <!-- UI for displaying distance and average speed -->
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Distance:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{$distance.toFixed(2)} meters</p>
-    </a>
-
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Average Speed:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{$averageSpeed.toFixed(2)} km/hour</p>
-    </a>
-
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Maximum Speed:</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{maximumSpeed.toFixed(2)} km/h</p>
-    </a>
-
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Speed</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{$currentSpeed.toFixed(2)} km/h</p>
-    </a>
-
-    <a href="#" class="mb-4 max-w-sm p-6 bg-orange-200 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Sprint distance</h5>
-        <p class="font-normal text-gray-700 dark:text-gray-400">{sprintDistance.toFixed(2) } km</p>
-    </a>
-
-    <!-- UI for controlling the activity -->
-    <div class="text-center mt-2">
-        <button class="inline-flex items-center justify-center px-5 py-3 text-2xl font-bold text-center  text-white border border-orange-500 rounded-lg shadow-sm cursor-pointer hover:text-white bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600"
-            on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}><svg class="w-8 h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
-        </button>
-    </div>
-    
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+    * {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+    }
 
-body {
-    font-family: 'Spartan', sans-serif;
-}
-
-div.container {
-    width: 300px;
-    background: linear-gradient(to bottom, #353378 50%,#242c44 100%);
-    height: 430px;
-}
-
-div.outer-circle {
-    width: 150px;
-    height: 150px;
-    background: linear-gradient(to bottom, #302d67, #2c2d5c);
-    border-radius: 50%;
-}
-
-div.tick {
-    width: 10px;
-    height: 2px;
-    background: white;
-    border-radius: 2px;
-}
-
-div.right {
-    transform: rotate(0deg) translateX(72px);
-}
-
-div.left {
-    transform: rotate(180deg) translateX(72px);
-}
-
-div.top {
-    transform: rotate(270deg) translateX(72px);
-}
-
-div.bottom {
-    transform: rotate(90deg) translateX(72px);
-}
-
-div.inner-1 {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: conic-gradient(from -45deg at center, transparent, rgb(255,255,255,0.3));
-}
-
-div.inner-2 {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: conic-gradient(from -45deg at center, transparent, rgb(255,255,255,0.5));
-}
-
-div.inner-3 {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: conic-gradient(from -45deg at center, transparent, rgb(255,255,255,0.2));
-}
-
-div.inner-4 {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(to bottom, #302d65, #2d2d62);
-}
-
-div.needle {
-    width: 150px;
-    height: 2px;
-    background: white;
-    transform: rotate(225deg) translateX(30px);
-    border-radius: 5px;
-}
-
-div.slant-1 {
-    height: 350px;
-    width: 350px;
-    background: linear-gradient(to bottom, #ff4647 25%, #b53c85 100%);
-    transform: rotate(45deg);
-    position: absolute;
-    right: -90px;
-    bottom: -150px;
-    opacity: 0.5;
-}
-
-div.slant-2 {
-    height: 420px;
-    width: 360px;
-    background: linear-gradient(to bottom, #ff4647 25%, #b53c85 100%);
-    transform: rotate(45deg);
-    position: absolute;
-    right: -130px;
-    bottom: -200px;
-    
-}
-
-.app-font-small {
-    font-size: 12px;
-}
-
-.app-bg-yellow {
-    background: #F1FE3D;
-}
-
-.app-shadow {
-    box-shadow: 0 25px 30px 0px rgb(0, 0, 0,0.75);
-}
-
-.app-font-big {
-    font-size: 36px;
-}
-
-.app-color-blue {
-    color: #2A2C52;
-}
+	.aspect-ratio-1 {
+  		aspect-ratio: 1 / 1;
+	}
 </style>
 
-</div>
+    <!--
+
+    <div class="flex justify-center gap-4 mt-6">
+        <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStartActivity}>Start</button>
+        <button class="px-10 py-4 text-lg font-bold text-white rounded shadow-lg bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 focus:outline-none" on:click={handleStopActivity}>STOP</button>
+    </div> -->
+
+    <h1 class="text-4xl font-bold text-center bg-clip-text text-transparent" style="margin-top: 81px; background-image: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        {$elapsedTime}
+      </h1>
+      
+    
+    <div class="grid grid-cols-2 grid-rows-2 gap-4" style="padding-top: 16px;">
+        <!-- Four empty white boxes -->
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Current speed: <br> {$currentSpeed.toFixed(2)} km/h
+        </div>
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Average speed: <br> {$averageSpeed.toFixed(2)} km/h
+        </div>
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Distance: <br> {$distance.toFixed(2)} km
+        </div>
+        <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Sprint distance: <br> {sprintDistance.toFixed(2) } km
+        </div>
+
+        <div class="col-span-2 text-center mt-4">
+            <button href="/app/activities" class="inline-block px-10 py-3 text-xl font-bold text-white rounded-full bg-gradient-to-br from-orange-500 to-red-600 shadow-lg hover:bg-orange-600 focus
+            :outline-none focus:ring-2 focus:ring-orange-300" role="button" on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}>
+            {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
+        </button>
+        </div>
+    </div>

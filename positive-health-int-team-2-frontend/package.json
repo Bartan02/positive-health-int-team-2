@@ -36,17 +36,18 @@
 		"daisyui": "^4.4.12",
 		"firebase": "^10.7.0",
 		"flowbite": "^2.2.0",
+		"haversine-distance": "^1.2.1",
+		"ol": "^8.2.0",
 		"postcss": "^8.4.31",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
 		"svelte-navigator": "^3.2.2",
+		"svelte-spa-router": "^4.0.1",
 		"tailwindcss": "^3.3.5",
 		"talkjs": "^0.18.0",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.0",
-		"haversine-distance": "^1.2.1",
-		"vitest": "^0.25.3",
-		"ol": "^8.2.0"
+		"vitest": "^0.25.3"
 	},
-	"proxy":"https://step-up-api-gateway-2639a76e4388.herokuapp.com"
+	"proxy": "https://step-up-api-gateway-2639a76e4388.herokuapp.com"
 }

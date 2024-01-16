@@ -49,7 +49,6 @@
             console.log(error.message);
         })
     }
-
 </script>
 
 <style>

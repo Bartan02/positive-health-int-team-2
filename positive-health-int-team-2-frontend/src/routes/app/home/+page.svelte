@@ -1,94 +1,44 @@
 <script>
-	import SideMenu from '../../../components/side-menu.svelte';
+	import TopMenu from '../../../components/top-menu.svelte';
+	import DayMeter from '../../../components/DayMeter.svelte';
+	import BigOrangeButton from '../../../components/BigOrangeButton.svelte';
 </script>
 
-<body>
-<div class="flex justify-between flex-col w-screen h-screen">
-	<SideMenu />
-	<div class="h-20 w-full" />
-
-	<div class="flex flex-col items-center justify-center w-full max-w-sm mx-auto p-2">
-		<div class="w-full h-64 bg-gray-300 bg-center bg-cover rounded-lg shadow-md" style="background-image: url(https://images.unsplash.com/photo-1521903062400-b80f2cb8cb9d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80)"></div>
-	
-		<div class="w-56 -mt-10 overflow-hidden bg-white rounded-lg shadow-lg md:w-64 dark:bg-gray-800">
-			<h3 class="py-2 font-bold tracking-wide text-center text-gray-800 uppercase dark:text-white">Welcome!</h3>
-	
-			<div class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700">
-				<span class="font-bold text-gray-800 dark:text-gray-200"></span>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="h-full w-full px-3 pb-20 gap-5 grid grid-cols-2 grid-rows-2">
-       
-		<a href="/app/activities">
-		<div class="bg-gray-200 h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
-			<div class="bg-stone-800 h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
-				<h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-red-500 from-orange-400">Activities</span></h1>
-				<h3 class="text-xs text-white">Today</h3>
-			</div>
-			<div class="center flex-col center mt-10">
-				<h2 class="text-orange-500 text-xl font-bold">StepUp!</h2>
-				<h3 class="text-center">You have not done any activities yet.</h3>
-			</div>
-		</div>
-		</a>
-	
-        <a href="/app/stats">
-		<div class="bg-gray-200 h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
-			<div class="bg-stone-800  h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
-				<h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-red-500 from-orange-400">Daily Stats</span></h1>
-			</div>
-			<div class="center flex-col gap-2 p-2">
-				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
-					<img class="w-8 h-8 ml-2" src="/cal.png">
-					<h2 class="mr-2 text-orange-500 text-xl">95</h2>
-				</div>
-				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
-					<img class="w-8 h-8 ml-2" src="/footsteps.png">
-					<h2 class="mr-2 text-orange-500 text-xl">10150</h2>
-				</div>
-				<div class="flex justify-between w-full h-10 bg-white rounded-3xl center">
-					<img class="w-8 h-8 ml-2" src="/calories.png">
-					<h2 class="mr-2 text-orange-500 text-xl">349</h2>
-				</div>
-			</div>
-		</div>
-		</a>
-
-		<a href="/app/friends">
-		<div class="bg-white h-full w-full border-b-2 border-x-2 border-orange-500 rounded-3xl">
-			<div class="bg-stone-800  h-1/4 w-full center flex-col border-2 border-orange-500 rounded-3xl">
-				<h1 class="text-xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-red-500 from-orange-400">Recent Chat</span></h1>
-			</div>
-
-			<div class="flex flex-col gap-2 p-2">
-				<div class="flex items-center gap-4 bg-gray-300 rounded-lg">
-					<div>
-		                <img class="w-10 h-10 rounded-full" src="/profilepicture.jpg" alt="">
-		                <span class="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
-	                </div>
-                <div class="font-medium dark:text-white">
-                        <div>Jese Leos</div>
-                        <div class="text-xs text-gray-700 dark:text-gray-400">Where ya at bro?</div>
-	            </div>
-            </div>
-         </div>
-	</div>
-	</a>
-
-		<div class="bg-emerald-200 h-full w-full border border-orange-500 rounded-3xl" />
-	</div>
-
-</div>
-</body>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+    * {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+    }
 
-body {
-    font-family: 'Spartan', sans-serif;
-}
+	.aspect-ratio-1 {
+  		aspect-ratio: 1 / 1;
+	}
 </style>
 
+<body>
+    <div class="min-h-screen" style="background: F6F7FB;">
+		<TopMenu menuLabel="Home" isHome={true} />
+        <!-- Frame for all components, setting the width to 90% of the viewport -->
+        <div class="w-full mx-auto" style="width: 90%;">
+            <DayMeter />
+            <BigOrangeButton isHome={true} buttonText="Welcome" subText="Let's start an activity?" iconUrl="/Running-icon-white.png" />
 
+
+            <h3 style="margin-top: 16px; background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+           -webkit-background-clip: text;
+           color: transparent;
+           background-clip: text;">Shortcuts: </h3>
+
+            <!-- Grid container for the boxes -->
+            <div class="grid grid-cols-2 grid-rows-2 gap-4" style="padding-top: 16px;">
+                <!-- Four empty white boxes -->
+                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
+                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
+                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
+                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
+            </div>
+            
+        </div>
+    </div>
+</body>
