@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-    import SideMenu from '../../../components/side-menu.svelte';
+    import SideMenu from '../../../components/top-menu.svelte';
 
     let promiseRetrieveFriends = new Promise(() => {});
 

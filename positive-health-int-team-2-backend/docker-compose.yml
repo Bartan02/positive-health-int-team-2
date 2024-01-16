@@ -15,7 +15,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - map-db
-
   userprofile-service:
     container_name: userprofile-service
     build: ./userprofile-service
@@ -31,7 +30,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - userprofile-db
-
   activities-service:
     container_name: activities-service
     build: ./activities-service
@@ -61,20 +59,6 @@ services:
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
-
-  activities-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: activities_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
-    ports:
-      - '3307:3306'
-    volumes:
-      - activities-db:/var/lib/mysql
-    networks:
-      - positive-health
   friends-service:
     container_name: friends-service
     build: ./friends-service
@@ -88,32 +72,6 @@ services:
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
-  friends-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: friends_db
-      MYSQL_USER: example123
-      MYSQL_PASSWORD: example123
-      MYSQL_ROOT_PASSWORD: 123
-    ports:
-      - '3305:3306'
-    volumes:
-      - friends-db:/var/lib/mysql
-    networks:
-      - positive-health
-  appointments-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: appointments_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
-    ports:
-      - '3308:3306'
-    volumes:
-      - appointments-db:/var/lib/mysql
-    networks:
-      - positive-health
   chat-service:
     container_name: chat-service
     build: ./chat-service
@@ -123,6 +81,19 @@ services:
       - positive-health
     ports:
       - "3090:3090"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    volumes:
+      - ./api-gateway/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3025:3025"
     working_dir: /usr/src/app
     command: npm run dev
     environment:
@@ -140,7 +111,45 @@ services:
       - chat-db:/var/lib/mysql
     networks:
       - positive-health
-  
+  friends-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: friends_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3305:3306'
+    volumes:
+      - friends-db:/var/lib/mysql
+    networks:
+      - positive-health
+  activities-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: activities_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3307:3306'
+    volumes:
+      - activities-db:/var/lib/mysql
+    networks:
+      - positive-health
+  appointments-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: appointments_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3308:3306'
+    volumes:
+      - appointments-db:/var/lib/mysql
+    networks:
+      - positive-health
   authentication-db:
     image: mysql:latest
     environment:
@@ -154,7 +163,6 @@ services:
       - authentication-db:/var/lib/mysql
     networks:
       - positive-health
-  
   map-db:
     image: mysql:latest
     environment:
@@ -168,7 +176,6 @@ services:
       - map-db:/var/lib/mysql
     networks:
       - positive-health
-    
   userprofile-db:
     image: mysql:latest
     environment:
@@ -182,7 +189,6 @@ services:
       - userprofile-db:/var/lib/mysql
     networks:
       - positive-health
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -196,19 +202,6 @@ services:
       - activities-db
     networks:
       - positive-health
-  api-gateway:
-    container_name: api-gateway
-    build: ./api-gateway
-    volumes:
-      - ./api-gateway/code:/usr/src/app
-    networks:
-      - positive-health
-    ports:
-      - "3025:3025"
-    working_dir: /usr/src/app
-    command: npm run dev
-    environment:
-      - CHOKIDAR_USEPOLLING=true
 networks:
   positive-health:
     driver: bridge
@@ -217,6 +210,6 @@ volumes:
   appointments-db:
   authentication-db:
   map-db:
+  userprofile-db:
   friends-db:
   chat-db:
-  userprofile-db:

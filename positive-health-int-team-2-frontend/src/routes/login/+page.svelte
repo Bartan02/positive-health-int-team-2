@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script>
-	import { error } from '@sveltejs/kit';
+	  import { error } from '@sveltejs/kit';
     import validateEmail from '../../lib/authverification.js';
     import { user } from '../../stores/user.js';
     import { getUserInfo, createUserProfile } from '$lib/userprofileService';
@@ -46,11 +46,7 @@
             console.error('Error during login:', error);
             errorDisplay.classList.remove("hidden");
             errorContent = error;
-        }
-    } catch (error) {
-        // Handle any other errors
-        console.error('Error during login:', error.message);
-    }
+      }
 };
 
   </script>
