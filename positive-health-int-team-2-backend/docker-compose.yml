@@ -47,23 +47,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - activities-db
-
-  appointments:
-    container_name: sample-service
-    build: ./sample-service
-    volumes:
-      - ./sample-service/code:/usr/src/app
-    networks:
-      - positive-health
-    ports:
-      - "3010:3010"
-    working_dir: /usr/src/app
-    command: npm run dev
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - appointments-db
-
   authentication-service:
     container_name: authentication-service
     build: ./authentication-service
@@ -92,7 +75,32 @@ services:
       - activities-db:/var/lib/mysql
     networks:
       - positive-health
-
+  friends-service:
+    container_name: friends-service
+    build: ./friends-service
+    volumes:
+      - ./friends-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3021:3021"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  friends-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: friends_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3305:3306'
+    volumes:
+      - friends-db:/var/lib/mysql
+    networks:
+      - positive-health
   appointments-db:
     image: mysql:latest
     environment:
@@ -104,6 +112,32 @@ services:
       - '3308:3306'
     volumes:
       - appointments-db:/var/lib/mysql
+    networks:
+      - positive-health
+  chat-service:
+    container_name: chat-service
+    build: ./chat-service
+    volumes:
+      - ./chat-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3090:3090"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  chat-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: chat_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3304:3306'
+    volumes:
+      - chat-db:/var/lib/mysql
     networks:
       - positive-health
   
@@ -183,4 +217,6 @@ volumes:
   appointments-db:
   authentication-db:
   map-db:
+  friends-db:
+  chat-db:
   userprofile-db:
