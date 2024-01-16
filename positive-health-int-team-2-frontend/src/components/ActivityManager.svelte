@@ -266,7 +266,7 @@ function updateCurrentSpeed() {
 
         <div class="col-span-2 text-center mt-4">
             <button href="/app/activities" class="inline-block px-10 py-3 text-xl font-bold text-white rounded-full bg-gradient-to-br from-orange-500 to-red-600 shadow-lg hover:bg-orange-600 focus
-            :outline-none focus:ring-2 focus:ring-orange-300" role="button" on:click={isActivityOngoing ? handleStopActivity : handleStartActivity}>
+            :outline-none focus:ring-2 focus:ring-orange-300" role="button" on:click={isActivityOngoing ? handleStopActivity : handleStartActivity} style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
             {isActivityOngoing ? 'Stop Activity' : 'Start Activity'}
         </button>
         </div>

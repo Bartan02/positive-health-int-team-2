@@ -69,22 +69,36 @@
 
 <body>
     <div class="min-h-screen" style="background: F6F7FB;">
-            <TopMenu menuLabel="Home" isHome={false} />
+        <TopMenu menuLabel="Profile" isHome={false} />
         <!-- Frame for all components, setting the width to 90% of the viewport -->
-        <div class="w-full mx-auto mt-20" style="width: 90%;">
+        <div class="w-full mx-auto" style="width: 90%;">
             {#await getUserInfo(userid)}
                 <p>Loading...</p>
-            {:then data} 
-                <img src="{data.user.profilePic}" alt="Profile" class="aspect-ratio-1 rounded-full mx-auto w-1/2 h-1/2 object-cover">
-                <h2>First Name: {data.user.firstName}</h2>
-                <h2>Last Name: {data.user.lastName}</h2>
-                <h2>Height: {data.user.height}</h2>
-                <h2>Weight: {data.user.weight}</h2>
-                <h2>Gender: {data.user.gender}</h2>
-                <h2>Date of Birth: {data.user.dateOfBirth}</h2>
-                <h2>Favorite Sports: {data.user.favoriteSports}</h2>
-                <h2>Location: {data.user.location}</h2>
-            {:catch error}
+            {:then data}
+                <!-- Profile Picture and User Information Section -->
+                <div class="flex flex-col items-center" style="margin-top:81px; background: linear-gradient(180deg, #F65800 0%, #F00 100%); padding-bottom:10px; padding-top:10px; border-radius: 20px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                    <img src="{data.user.profilePic}" alt="Profile" class="rounded-full w-32 h-32 object-cover shadow-md mb-4">
+                    <h2 class="text-lg font-bold text-white">{data.user.firstName} {data.user.lastName} <span class="text-blue-500">✓</span></h2>
+                    <p class="text-sm text-gray-600">{data.user.location}</p>
+                </div>
+                
+                <!-- Personal Information Section -->
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                        <p>Age: {data.user.dateOfBirth}</p>
+                        <p>Height: {data.user.height} cm</p>
+                        <p>Weight: {data.user.weight} kg</p>
+                    </div>
+                    <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                        <p>Favorite Sports: {data.user.favoriteSports}</p>
+                    </div>
+                </div>
+
+                <!-- Running Statistics Section -->
+                <div class="grid grid-cols-2 gap-4 mt-4">
+
+                </div>
+                {:catch error}
                 <p>{error.message}</p>
             {/await}
         </div>
