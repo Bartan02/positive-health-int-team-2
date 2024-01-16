@@ -72,3 +72,21 @@ export async function updateUserProfile(userid, firstName, lastName, profilePic,
         })
     });
 }
+
+/**
+ * @param {any} userid
+ */
+export async function getUserInfoAuth(userid){
+    const response = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/user/${userid}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+}
