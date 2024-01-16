@@ -1,6 +1,6 @@
 <script>
 	import { compute_slots } from "svelte/internal";
-
+    import TopMenu from '../../../../components/top-menu.svelte';
     let promiseSearchUsers = null;
 
     function triggerSearchUsers(){
@@ -9,7 +9,8 @@
 
     async function searchUsers(){
         const prompt = document.getElementById('user').value;
-        if(prompt.length === 0) throw new Error("Start typing sth...")
+        if(prompt.length === 0) throw new Error("Type to find friends");
+
         const usersFetch = await fetch('http://localhost:3021/friends/findperson/'+prompt, {
             method: 'GET',
             headers: {
@@ -19,21 +20,32 @@
         });
         let foundUserRecords = await usersFetch.json();
         const yourUserId = Number(localStorage.getItem('userid'));
-        if(foundUserRecords.foundRecords.user !== null && foundUserRecords.foundRecords.user.id === yourUserId) foundUserRecords.foundRecords.user = null;
-        if(foundUserRecords.foundRecords.users !== null){
-            foundUserRecords.foundRecords.users = foundUserRecords.foundRecords.users.filter(user => {
-            if(user.id === yourUserId) return false;
-            return true;
-        });
+
+        // Filter out the current user
+        if(foundUserRecords.foundRecords.user !== null && foundUserRecords.foundRecords.user.id === yourUserId) {
+            foundUserRecords.foundRecords.user = null;
         }
+        if(foundUserRecords.foundRecords.users !== null){
+            foundUserRecords.foundRecords.users = foundUserRecords.foundRecords.users.filter(user => user.id !== yourUserId);
+        }
+
+        // Check if any users were found
+        if(!foundUserRecords.foundRecords.user && (!foundUserRecords.foundRecords.users || foundUserRecords.foundRecords.users.length === 0)) {
+            throw new Error("No users found");
+        }
+
+        // Fetch relationships
         const relationsFetch = await fetch('http://localhost:3021/friends/findrelationships/'+yourUserId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
             },
+
         });
+
         let foundRelationsFetch = await relationsFetch.json();
+        
         foundUserRecords.foundRecords.users.forEach(user => {
         if(foundRelationsFetch.some(obj => obj.friend === user.id)){
           if(foundRelationsFetch[foundRelationsFetch.findIndex(obj => obj.friend === user.id)].status === 1) user.friendStatus = "Pending request";
@@ -79,56 +91,54 @@
     }
 </script>
 
-<input on:keyup={triggerSearchUsers} type="text" placeholder="Search for person" name="user" id="user">
-<div>
-{#await promiseSearchUsers}
-    <span> Loading...</span>
-{:then data}
-    {#if promiseSearchUsers === null}
-        <span> Start typing sth... </span>
-    {:else}
-        {#if data.foundRecords.user !== null && data.foundRecords.users.length !== 0}
-            <ul>
-                <li class="font-bold"> {data.foundRecords.user.username} | {data.foundRecords.user.email} |
-                    {#if data.foundRecords.user.friendStatus === "Strangers"}
-                                    <button on:click={() => addFriend(data.foundRecords.user.id)}> + </button>
-                                {:else}
-                                    {data.foundRecords.user.friendStatus}
-                                {/if}
-                </li>
-            </ul>
-        {/if}
-        {#if data.foundRecords.users.length === 0}
-            {#if data.foundRecords.user === null}
-                <span> No user can be found</span>
-            {/if}
-        {:else}
-            {#each data.foundRecords.users as users}
-                    {#if data.foundRecords.user === null}
-                        <ul> 
-                            <li> {users.username} | {users.email} | 
-                                {#if users.friendStatus === "Strangers"}
-                                    <button on:click={() => addFriend(users.id)}> + </button>
-                                {:else}
-                                    {users.friendStatus}
-                                {/if}
-                            </li>
-                        </ul>
-                    {:else if data.foundRecords.user.username !== users.username}
-                        <ul> 
-                            <li> {users.username} | {users.email} | 
-                                {#if users.friendStatus === "Strangers"}
-                                <button on:click={() => addFriend(users.id)}> + </button>
+<body>
+    <div class="min-h-screen bg-[#F6F7FB]">
+        <TopMenu menuLabel="Find friends" />
+        <div style="padding-top: 81px;"></div>
+        <div class="flex justify-center">
+            <input on:keyup={triggerSearchUsers} type="text" placeholder="Search for person" name="user" id="user" class="border-none rounded-full p-4" style="margin-bottom: 16px; width: 90%; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); background: white;">
+        </div>
+        <div class="w-full mx-auto" style="width: 90%;">
+            {#await promiseSearchUsers}
+            <span class="block text-center">Loading...</span>
+            {:then data}
+                {#if data && data.foundRecords}
+                    {#if data.foundRecords.user}
+                        <div class="flex justify-between items-center bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                            <div>
+                                <p class="font-bold">{data.foundRecords.user.username}</p>
+                                <p>{data.foundRecords.user.email}</p>
+                            </div>
+                            {#if data.foundRecords.user.friendStatus === "Strangers"}
+                            <button class="text-white p-2 rounded-full" on:click={() => addFriend(user.id)} style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);;">
+                                <img src="/Plus-icon.png" alt="" style="height: 20px; width: 20px;">
+                            </button>
                             {:else}
-                                {users.friendStatus}
+                                <p>{data.foundRecords.user.friendStatus}</p>
                             {/if}
-                            </li>
-                        </ul>
+                        </div>
                     {/if}
-            {/each}
-        {/if}
-    {/if}
-{:catch error}
-    <span> {error.message} </span>
-{/await}
-</div>
+                    {#each data.foundRecords.users as user}
+                        <div class="flex justify-between items-center bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                            <div>
+                                <p class="font-bold">{user.username}</p>
+                                <p>{user.email}</p>
+                            </div>
+                            {#if user.friendStatus === "Strangers"}
+                            <button class="text-white p-2 rounded-full" on:click={() => addFriend(user.id)} style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);;">
+                                <img src="/Plus-icon.png" alt="" style="height: 20px; width: 20px;">
+                            </button>
+                            {:else}
+                                <p>{user.friendStatus}</p>
+                            {/if}
+                        </div>
+                    {/each}
+                {:else}
+                    <span>No user can be found</span>
+                {/if}
+            {:catch error}
+                <span class="block text-center">{error.message}</span>
+            {/await}
+        </div>
+    </div>
+</body>
