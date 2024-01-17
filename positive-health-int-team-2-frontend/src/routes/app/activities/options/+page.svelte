@@ -5,6 +5,13 @@
 
     let activity = $page.url.searchParams.get('activity');
     console.log(activity);
+
+    import Router from 'svelte-spa-router';
+    import ActivityOptions from '../records/+page.svelte';
+      
+  const routes = {
+      '/app/activities/records': ActivityOptions,
+  };
 </script>
 
 <style>
@@ -29,15 +36,18 @@
             <BigOrangeButton buttonText="Start the activity" iconUrl="/Sports/Empty/{activity}-icon-empty.png" activityName="{activity}"/>
 
             <div class="grid grid-cols-2 grid-rows-1 gap-4" style="padding-top: 16px;">
+                <a href="/app/activities/records?activity={activity}">
+                    <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                        History
+                    </div>
+                </a>
                 <!-- Four empty white boxes -->
-                <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                History
-                </div>
+
                 
                 <a href="/app/map">
                     <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
                         Search for companions
-                        </div>
+                    </div>
                 </a> 
             </div>
         </div>

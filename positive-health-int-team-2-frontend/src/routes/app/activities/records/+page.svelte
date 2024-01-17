@@ -1,6 +1,10 @@
 <script>
-	import TopMenu from '../../../../../components/top-menu.svelte';
+    import { page } from '$app/stores';
+	import TopMenu from '../../../../components/top-menu.svelte';
 	import { onMount } from 'svelte';
+
+    let activityName = $page.url.searchParams.get('activity');
+    console.log(activityName);
 
 	let userId;
 	let activities = [];
@@ -16,7 +20,7 @@
 			}
 
 			const data = await response.json();
-			return data[0].filter(activity => activity.activity_name === 'Football');
+			return data[0].filter(activity => activity.activity_name === activityName);
 		} catch (error) {
 			console.error('Error fetching last record:', error);
 		}
@@ -53,9 +57,9 @@
 
 <body>
     <div class="min-h-screen bg-[#F6F7FB]">
-        <TopMenu menuLabel="History"/>
+        <TopMenu menuLabel="History" subHeader="{activityName}" />
         <div class="w-full mx-auto" style="width: 90%;">
-            <div style="padding-top: 81px; max-width: md; margin-left: auto; margin-right: auto;">
+            <div style="padding-top: 146.6px; max-width: md; margin-left: auto; margin-right: auto;">
                 {#each activities as activity}
                     <div class="flex flex-col justify-between bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
                         <div>{activity.activity_name}</div>
