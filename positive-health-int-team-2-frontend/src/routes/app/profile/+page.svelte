@@ -106,7 +106,12 @@
                     </div>
                     <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center shadow-custom" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
                         {#if data.user.favoriteSports}
-                            <p>Favorite Sports: {data.user.favoriteSports}</p>
+                            <div class='hidden'>
+                                {favoriteSportsArray = data.user.favoriteSports.split(",")}
+                            </div>
+                            {#each favoriteSportsArray as sport}
+                                <p class="text-lg font-bold text-gray-600">{sport}</p>
+                            {/each}
                         {:else}
                             <p>Favorite Sports: Not specified</p>
                         {/if}
