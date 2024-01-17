@@ -134,14 +134,14 @@
                         <p class="text-xl">{(weeklyDistance * 1.31).toFixed(0)}</p>
                     </div>
                 
-                    <div class="flex items-center space-x-3 mt-2">
+                    <div class="flex items-center space-x-3 mt-1">
                         <img src="/calorieshome.png" alt="Flame" class="h-6 w-6"/> <!-- Flame logo for calories -->
                         <p class="text-xl">{weeklyCaloriesBurned}</p>
                     </div>
                 
-                    <div class="flex items-center space-x-3 mt-2">
+                    <div class="flex items-center space-x-3 mt-1">
                         <img src="/clockhome.png" alt="Clock" class="h-6 w-6"/> <!-- Clock logo for total time -->
-                        <p class="text-xl">{weeklyElapsedTime.toFixed(2)} hours</p>
+                        <p class="text-xl">{weeklyElapsedTime.toFixed(2)}</p>
                     </div>
                 </div>
                      
