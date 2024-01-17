@@ -123,15 +123,28 @@
                 <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center" style="background:linear-gradient(180deg, #F65800 0%, #F00 100%); box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
                     <a href="/app/friends"><img src="/Friends-icon.png" alt="Friends" style="height: 50px; width: 50px"></a>
                 </div>
-                <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center shadow-custom" style="max-width: 200px; max-height: 200px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                    <h1 class="font-bold" style="font-size: 4vw; background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+                <div class="aspect-ratio-1 bg-white rounded-lg p-4 flex flex-col justify-around items-left shadow-custom" style="max-width: 200px; max-height: 200px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
+                    <h1 class="font-bold text-xl mb-1" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);
                     -webkit-background-clip: text;
                     color: transparent;
                     background-clip: text;">Past week:</h1>
-                    <p style="font-size: 3vw;">Steps: {(weeklyDistance * 1.31).toFixed(0)}</p>
-                    <p style="font-size: 3vw;">Calories burned: {weeklyCaloriesBurned}</p>
-                    <p style="font-size: 3vw;">Total time: {weeklyElapsedTime.toFixed(2)} hours</p>
-                </div>                
+                
+                    <div class="flex items-center space-x-3">
+                        <img src="/stepshome.png" alt="Foot" class="h-6 w-6"/> <!-- Foot logo for steps -->
+                        <p class="text-xl">{(weeklyDistance * 1.31).toFixed(0)}</p>
+                    </div>
+                
+                    <div class="flex items-center space-x-3 mt-2">
+                        <img src="/calorieshome.png" alt="Flame" class="h-6 w-6"/> <!-- Flame logo for calories -->
+                        <p class="text-xl">{weeklyCaloriesBurned}</p>
+                    </div>
+                
+                    <div class="flex items-center space-x-3 mt-2">
+                        <img src="/clockhome.png" alt="Clock" class="h-6 w-6"/> <!-- Clock logo for total time -->
+                        <p class="text-xl">{weeklyElapsedTime.toFixed(2)} hours</p>
+                    </div>
+                </div>
+                     
                 <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);"></div>
                 <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center" style="background:linear-gradient(180deg, #F65800 0%, #F00 100%); box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
                     <a href="/app/map"><img src="/Map-icon.png" alt="Map" style="height: 50px; width: 50px"></a>
