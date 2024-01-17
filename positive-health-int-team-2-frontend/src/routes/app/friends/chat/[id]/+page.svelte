@@ -41,7 +41,7 @@ const createChatMessageElement = (message) => {
 */
 async function getFriendshipInformation(friendshipId){
   const yourUserId = Number(localStorage.getItem('userid'));
-  const getFriendshipInformationResponse = await fetch('http://localhost:3021/friends/getRelationship',{
+  const getFriendshipInformationResponse = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/getRelationship',{
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ async function getFriendshipInformation(friendshipId){
     throw new Error("Error retrieving friendship!");
   }
   let friendshipInformation = await getFriendshipInformationResponse.json();
-  const getFriendUsernameResponse = await fetch('http://localhost:3020/auth/getUsernameFromTheirId',{
+  const getFriendUsernameResponse = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/getUsernameFromTheirId',{
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ async function getFriendshipInformation(friendshipId){
   Function that retrieves conversation
 */
 async function getChatConversation(friendshipId){
-  const getChatConversationResponse = await fetch('http://localhost:3090/chat/getChatConversation',{
+  const getChatConversationResponse = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/chat/getChatConversation',{
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const sendMessage = (async(e) => {
     sent_datetime: timestamp,
     friendship_id: friendshipId
   }
-  await fetch('http://localhost:3090/chat/sendMessage',{
+  await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/chat/sendMessage',{
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

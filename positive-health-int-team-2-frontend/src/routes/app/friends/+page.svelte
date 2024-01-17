@@ -14,7 +14,7 @@
 
     async function retrieveFriends(){
         const yourUserId = localStorage.getItem('userid');
-        let retrievedFriends = await fetch('http://localhost:3021/friends/getFriendsList/', {
+        let retrievedFriends = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/getFriendsList/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +31,7 @@
     }
     
     async function displayChat(friendshipId){
-        await fetch('http://localhost:3090/chat/redirectToChat', {
+        await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/chat/redirectToChat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

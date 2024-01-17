@@ -11,7 +11,7 @@
   let userId;
 
   async function fetchLastRecord(userId) {
-    const url = `http://localhost:3015/activities/lastrecord?userId=${encodeURIComponent(userId)}`;
+    const url = `https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/lastrecord?userId=${encodeURIComponent(userId)}`;
 
     try {
         const response = await fetch(url); // GET request
@@ -33,11 +33,9 @@
     const userid = localStorage.getItem('userid');
     userId = userid;
     if (userid) {
-      console.log(JSON.parse(userid));
       userId = JSON.parse(userid); // Update userId if retrieved from localStorage
     } else {
       // Handle the case where there is no userid in localStorage
-      console.log("No user ID found in localStorage.");
       // You might want to set a default value or perform some other action here
       userId = 'defaultUserId'; // This is just an example; adjust as needed.
     }
@@ -49,14 +47,12 @@
   // Handler for when an activity starts
   function handleActivityStart(event) {
       // Logic to handle the start of an activity
-      console.log("Activity started with ID:", event.detail.activityId);
       // Additional UI update or state management logic here
   }
 
   // Handler for when an activity stops
 async function handleActivityStop(event) {
     // Logic to handle the stopping of an activity
-    console.log("Activity stopped:", event.detail);
     // Update the activity state
     activityRunning = false;
     
@@ -66,7 +62,6 @@ async function handleActivityStop(event) {
         if (record && record[0] && record[0].length > 0) {
             // Assuming the record is in the first array element
             lastRecord = record[0][0];
-            console.log(lastRecord.activity_id);
         }
     } catch (error) {
         console.error('Error fetching last record:', error);

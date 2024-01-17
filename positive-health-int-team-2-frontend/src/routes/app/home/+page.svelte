@@ -11,7 +11,7 @@
     let weeklyElapsedTime = 0; // Use this to accumulate total seconds
 
 	async function fetchAllRecords(userId) {
-		const url = `http://localhost:3015/activities/records?userId=${encodeURIComponent(userId)}`;
+		const url = `https://step-up-api-gateway-2639a76e4388.herokuapp.com/activities/records?userId=${encodeURIComponent(userId)}`;
 
 		try {
 			const response = await fetch(url); // GET request

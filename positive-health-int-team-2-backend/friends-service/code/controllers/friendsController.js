@@ -17,7 +17,7 @@ async function getFriendRequests(req,res){
     const yourUserId = Number(req.body.yourUserId);
     let allRelations = await Friendship.findAll({where: {friend_two: yourUserId, status: 1}});
     try{
-    const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
+    const getUsernamesFromTheirIdsFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/getUsernamesFromTheirIds', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ async function getFriendsList(req, res){
         }
         friendsList.push({friend_one: relation.friend_one, status: relation.status, friendship_id: relation.friendship_id});
       });
-      const getUsernamesFromTheirIdsFetch = await fetch('http://authentication-service:3020/auth/getUsernamesFromTheirIds', {
+      const getUsernamesFromTheirIdsFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/getUsernamesFromTheirIds', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

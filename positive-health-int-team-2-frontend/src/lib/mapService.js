@@ -1,5 +1,5 @@
 export async function getAllMeetings() {
-    const response = await fetch('https://map-service-94dff95542c5.herokuapp.com/map/get-all-meetings/', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/map/get-all-meetings/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ export async function getAllMeetings() {
  * @param {any} makerUserID
  */
 export async function createMeeting(activity, meetingStartTime, meetingEndTime, latitude, longitude, skillLevel, makerUserID) {
-    const response = await fetch('https://map-service-94dff95542c5.herokuapp.com/map/create-meeting/', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/map/create-meeting/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export async function createMeeting(activity, meetingStartTime, meetingEndTime, 
  * @param {any} playerID
  */
 export async function joinMeeting(meetingID, playerID) {
-    const response = await fetch('https://map-service-94dff95542c5.herokuapp.com/map/join-meeting/', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/map/join-meeting/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ export async function joinMeeting(meetingID, playerID) {
  * @param {any} meetingID
  */
 export async function deleteMeetingFromDB(meetingID) {
-    const response = await fetch(`https://map-service-94dff95542c5.herokuapp.com/map/delete-meeting/${meetingID}`, {
+    const response = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/map/delete-meeting/${meetingID}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ export async function deleteMeetingFromDB(meetingID) {
  * @param {any} activityID
  */
 export async function getMeetingPlayers(activityID) {
-    const response = await fetch(`https://map-service-94dff95542c5.herokuapp.com/map/get-meeting-players/${activityID}`, {
+    const response = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/map/get-meeting-players/${activityID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ export async function getMeetingPlayers(activityID) {
 }
 
 export async function leaveMeeting(meetingID, playerID) {
-    const response = await fetch('https://map-service-94dff95542c5.herokuapp.com/map/leave-meeting/', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/map/leave-meeting/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
