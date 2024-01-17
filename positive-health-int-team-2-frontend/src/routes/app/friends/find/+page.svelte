@@ -82,7 +82,7 @@
             })
         })
         if(addFriendProcess.ok){
-            alert("good");
+            alert("Invitation sent!");
             triggerSearchUsers();
         }
         else{
