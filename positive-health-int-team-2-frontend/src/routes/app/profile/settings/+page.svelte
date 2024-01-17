@@ -143,7 +143,7 @@
                     <input id="dateOfBirth" type="date" value="2000-01-01" />
                 {:else}
                     <h2>Date of Birth:</h2>
-                    <input id="dateOfBirth" type="date" value={data.user.dateOfBirth.toString().substring(0, 10)} />
+                    <input id="dateOfBirth" type="date" max="2021-01-01" min="1921-01-01" value={data.user.dateOfBirth.toString().substring(0, 10)} />
                 {/if}
                 <h2>Favorite sports:</h2>
                 <div class="grid grid-cols-2 ">
