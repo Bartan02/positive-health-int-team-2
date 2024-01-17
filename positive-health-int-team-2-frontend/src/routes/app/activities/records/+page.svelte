@@ -1,62 +1,77 @@
 <script>
-    import { onMount } from 'svelte';
-    import TopMenu from '../../../../components/top-menu.svelte';
-    let activities = [];
+    import { page } from '$app/stores';
+	import TopMenu from '../../../../components/top-menu.svelte';
+	import { onMount } from 'svelte';
 
-    onMount(async () => {
-        try {
-            const response = await fetch('http://localhost:3015/activities/records');
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
-            const data = await response.json();
-            activities = data[0]; // Assuming the first element is the relevant data
-        } catch (error) {
-            console.error('Failed to fetch activities:', error);
-        }
-    });
+    let activityName = $page.url.searchParams.get('activity');
+    console.log(activityName);
+
+	let userId;
+	let activities = [];
+
+	async function fetchAllRecords(userId) {
+		const url = `http://localhost:3015/activities/records?userId=${encodeURIComponent(userId)}`;
+
+		try {
+			const response = await fetch(url); // GET request
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			return data[0].filter(activity => activity.activity_name === activityName);
+		} catch (error) {
+			console.error('Error fetching last record:', error);
+		}
+	}
+
+	function loadActivities() {
+		// This function remains synchronous
+		const userid = localStorage.getItem('userid');
+		userId = userid;
+		if (userid) {
+			console.log(JSON.parse(userid));
+			userId = JSON.parse(userid); // Update userId if retrieved from localStorage
+		} else {
+			console.log('No user ID found in localStorage.');
+			userId = 'defaultUserId'; // This is just an example; adjust as needed.
+		}
+
+		// Call the async function without awaiting it
+		fetchAllRecords(userId)
+        .then((records) => {
+            // Use the filtered records here
+            activities = records;
+            console.log(activities);
+        })
+        .catch((error) => {
+            console.error('Error fetching activities:', error);
+        });
+	}
+
+	onMount(() => {
+		loadActivities(); // Call the load function inside onMount
+	});
 </script>
 
 <body>
-    <div class="min-h-screen" style="background: F6F7FB;">
-		<TopMenu menuLabel="Records" />
-        <!-- Frame for all components, setting the width to 90% of the viewport -->
-        <div style="padding-top: 146.6px;">
+    <div class="min-h-screen bg-[#F6F7FB]">
+        <TopMenu menuLabel="History" subHeader="{activityName}" />
         <div class="w-full mx-auto" style="width: 90%;">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left table-auto">
-                    <thead class="text-sm text-gray-700 bg-gray-200">
-                        <tr>
-                            <th class="px-4 py-2">Activity ID</th>
-                            <th class="px-4 py-2">User ID</th>
-                            <th class="px-4 py-2">Start Time</th>
-                            <th class="px-4 py-2">Start Location</th>
-                            <th class="px-4 py-2">Distance</th>
-                            <th class="px-4 py-2">Last Location</th>
-                            <th class="px-4 py-2">Maximum Speed</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-xs sm:text-sm bg-white">
-                        {#each activities as activity}
-                            <tr class="border-b">
-                                <td class="px-4 py-2">{activity.activity_id}</td>
-                                <td class="px-4 py-2">{activity.user_id}</td>
-                                <td class="px-4 py-2">{activity.start_time}</td>
-                                <td class="px-4 py-2">Lat: {activity.start_location.latitude}, Lon: {activity.start_location.longitude}</td>
-                                <td class="px-4 py-2">{activity.distance}</td>
-                                <td class="px-4 py-2">
-                                    {#if activity.last_location}
-                                        Lat: {activity.last_location.latitude}, Lon: {activity.last_location.longitude}
-                                    {:else}
-                                        N/A
-                                    {/if}
-                                </td>
-                                <td class="px-4 py-2">{activity.maximum_speed || 'N/A'}</td>
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
+            <div style="padding-top: 146.6px; max-width: md; margin-left: auto; margin-right: auto;">
+                {#each activities as activity}
+                    <div class="flex flex-col justify-between bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                        <div>{activity.activity_name}</div>
+                        <div><strong>Start time:</strong> {activity.start_time.slice(0, -14)}, {activity.start_time.slice(11, 16)}</div>
+                        <div><strong>Distance: </strong>{activity.distance}</div>
+                        <div><strong>Top speed: </strong>{activity.maximum_speed || 'N/A'}</div>
+                        <div><strong>Sprint distance: </strong>{activity.sprintDistance}</div>
+                        <div><strong>Total time: </strong>{activity.elapsedTime}</div>
+                        <div><strong>Calories burnt: </strong>{activity.calories_burned}</div>
+                    </div>
+                {/each}
             </div>
-</div>
-</div>
+        </div>
+    </div>
 </body>

@@ -1,5 +1,5 @@
 <script>
-	import SideMenu from '../../../../../components/top-menu.svelte';
+	import TopMenu from '../../../../../components/top-menu.svelte';
 	import { onMount } from 'svelte';
 
 	let userId;
@@ -19,7 +19,6 @@
 			return data[0].filter(activity => activity.activity_name === 'Football');
 		} catch (error) {
 			console.error('Error fetching last record:', error);
-			// Handle the error accordingly
 		}
 	}
 
@@ -52,43 +51,23 @@
 	});
 </script>
 
-<SideMenu />
-
-<table style="margin-top:5%">
-	<thead>
-		<tr>
-			<th>Activity name</th>
-			<th>Activity ID</th>
-			<th>Start Time</th>
-			<th>Start Location</th>
-			<th>Last Location</th>
-			<th>Distance</th>
-			<th>Maximum Speed</th>
-			<th>Sprint Distance</th>
-			<th>Total time</th>
-			<th>Calories Burned</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each activities as activity}
-			<tr>
-				<td>{activity.activity_name}</td>
-				<td>{activity.activity_id}</td>
-				<td>{activity.start_time}</td>
-				<td>{activity.start_location}</td>
-				<td>
-					{#if activity.last_location}
-						Lat: {activity.last_location.latitude}, Lon: {activity.last_location.longitude}
-					{:else}
-						N/A
-					{/if}
-				</td>
-				<td>{activity.distance}</td>
-				<td>{activity.maximum_speed || 'N/A'}</td>
-				<td>{activity.sprintDistance}</td>
-				<td>{activity.elapsedTime}</td>
-				<td>{activity.calories_burned}</td>
-			</tr>
-		{/each}
-	</tbody>
-</table>
+<body>
+    <div class="min-h-screen bg-[#F6F7FB]">
+        <TopMenu menuLabel="History"/>
+        <div class="w-full mx-auto" style="width: 90%;">
+            <div style="padding-top: 81px; max-width: md; margin-left: auto; margin-right: auto;">
+                {#each activities as activity}
+                    <div class="flex flex-col justify-between bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                        <div>{activity.activity_name}</div>
+                        <div><strong>Start time:</strong> {activity.start_time.slice(0, -14)}, {activity.start_time.slice(11, 16)}</div>
+                        <div><strong>Distance: </strong>{activity.distance}</div>
+                        <div><strong>Top speed: </strong>{activity.maximum_speed || 'N/A'}</div>
+                        <div><strong>Sprint distance: </strong>{activity.sprintDistance}</div>
+                        <div><strong>Total time: </strong>{activity.elapsedTime}</div>
+                        <div><strong>Calories burnt: </strong>{activity.calories_burned}</div>
+                    </div>
+                {/each}
+            </div>
+        </div>
+    </div>
+</body>
