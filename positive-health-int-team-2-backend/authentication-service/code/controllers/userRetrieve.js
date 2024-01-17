@@ -64,4 +64,14 @@ async function getUsernameFromTheirId(req,res,next){
     return res.status(200).json({allRetrievedRelations: allRetrievedRelationsWithUsernames});
 }
 
-export default { findUser, getUsernamesFromTheirIds, getUsernameFromTheirId }
+async function getIdFromTheirUsername(req,res,next){
+    const username = req.params.username;
+    try{
+        const queryFindUserWithUsername = await User.findOne({where: {username: username}, attributes: ['id']});
+        return res.status(200).json({id: queryFindUserWithUsername.id});
+    }catch(e){
+        return res.status(500).json(e.message);
+    }
+}
+
+export default { findUser, getUsernamesFromTheirIds, getUsernameFromTheirId, getIdFromTheirUsername }

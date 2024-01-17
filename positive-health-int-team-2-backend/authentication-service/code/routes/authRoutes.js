@@ -2,6 +2,7 @@ import express from 'express';
 import authController from '../controllers/authController.js';
 import authenticateMiddleware from '../middleware/authenticate.js';
 import notAuthenticateMiddleware from '../middleware/notAuthenticate.js';
+import getIdFromTheirUsername from '../controllers/userRetrieve.js'
 import userRetrieve from '../controllers/userRetrieve.js'
 import cors from 'cors';
 
@@ -43,6 +44,8 @@ router.get('/auth/user/:prompt', cors() ,userRetrieve.findUser);
 router.post('/auth/getUsernamesFromTheirIds', cors(), userRetrieve.getUsernamesFromTheirIds)
 
 router.post('/auth/getUsernameFromTheirId', cors(), userRetrieve.getUsernameFromTheirId)
+
+router.get('/auth/getIdFromTheirUsername/:username', cors(), userRetrieve.getIdFromTheirUsername)
 
 router.get('/auth/getuserid', authController.getUserID);
 

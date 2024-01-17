@@ -120,7 +120,8 @@
                     {/if}
                     {#each data.foundRecords.users as user}
                         <div class="flex justify-between items-center bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                            <div>
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div on:click={() => window.location.href=`/app/profile/${user.username}`}>
                                 <p class="font-bold">{user.username}</p>
                                 <p>{user.email}</p>
                             </div>

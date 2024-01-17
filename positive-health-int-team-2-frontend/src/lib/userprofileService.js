@@ -90,3 +90,21 @@ export async function getUserInfoAuth(userid){
 
     return response.json();
 }
+
+/**
+ * @param {any} username
+ */
+export async function getUserIdFromUsername(username){
+    const response = await fetch(`http://localhost:3020/auth/getIdFromTheirUsername/${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+}

@@ -69,16 +69,17 @@
         {:then retrievedFriends}
             <div style="margin-top: 81px;"></div>
             {#each retrievedFriends as friend}
-            <div on:click={() => displayChat(friend.friendship_id)}>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <div>
                 <div class="flex items-center bg-white rounded-lg p-4 mb-2 shadow-md w-full max-w-md mx-auto">
     
                     <!-- User avatar image on the top-left -->
-                    <div class="mr-3 w-16 h-16 flex items-center justify-center bg-amber-500 rounded-full">
+                    <div class="mr-3 w-16 h-16 flex items-center justify-center bg-amber-500 rounded-full" on:click={() => window.location.href=`/app/profile/${friend.username}`}>
                         <p class="text-white text-big">{ (friend.username[0]).toUpperCase() }</p>
                     </div>
         
                     <!-- Text content -->
-                    <div class="flex items-center ml-3">
+                    <div class="flex items-center ml-3" on:click={() => displayChat(friend.friendship_id)}>
                         <p class="text-gray-800 font-bold text-lg">{ friend.username }</p>
                     </div>
                 </div>
