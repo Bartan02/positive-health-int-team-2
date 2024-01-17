@@ -83,6 +83,12 @@
             icon: '/Friends-icon.png',
             text: 'Friends',
             alt: 'Feed'
+        },
+        {
+            href: '/app/faq',
+            icon: '/Faq-icon.png',
+            text: 'FAQ',
+            alt: 'FAQ'
         }
     ];
 </script>
