@@ -294,17 +294,25 @@
 							<p>Loading...</p>
 						</div>
 					{:then userInfo}
-						{#if player == localStorage.getItem('userid')}
-							<div class="center justify-start bg-white p-2 gap-3 border-orange-500 border rounded-2xl">
-								<img src="{userInfo.user.profilePic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+					{#if player == localStorage.getItem('userid')}
+						<div class="center justify-start bg-white p-2 gap-3 border-orange-500 border rounded-2xl">
+							<img src="{userInfo.user.profilePic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+							{#if userInfo.user.firstName == ""}
+								<h2>Anonymous User #{userInfo.user.userid}</h2>
+							{:else}
 								<h2>{userInfo.user.firstName}</h2>
+							{/if}
 							</div>
-						{:else}
-							<div class="center justify-start bg-white p-2 gap-3 border-gray-300 border rounded-2xl">
-								<img src="{userInfo.user.profilePic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+					{:else}
+						<div class="center justify-start bg-white p-2 gap-3 border-gray-300 border rounded-2xl">
+							<img src="{userInfo.user.profilePic}" alt="profile-pic" class="w-1/6 rounded-full border border-black" />
+							{#if userInfo.user.firstName == ""}
+								<h2>Anonymous User #{userInfo.user.userid}</h2>
+							{:else}
 								<h2>{userInfo.user.firstName}</h2>
-							</div>
-						{/if}
+							{/if}
+						</div>
+					{/if}
 					{:catch error}
 						<p>Something went wrong: {error.message}</p>
 					{/await}
