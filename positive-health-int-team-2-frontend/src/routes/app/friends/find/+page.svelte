@@ -11,7 +11,7 @@
         const prompt = document.getElementById('user').value;
         if(prompt.length === 0) throw new Error("Type to find friends");
 
-        const usersFetch = await fetch('http://localhost:3021/friends/findperson/'+prompt, {
+        const usersFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/findperson/'+prompt, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +35,7 @@
         }
 
         // Fetch relationships
-        const relationsFetch = await fetch('http://localhost:3021/friends/findrelationships/'+yourUserId, {
+        const relationsFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/findrelationships/'+yourUserId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@
 
     async function addFriend(friendId){
         const yourUserId = Number(localStorage.getItem('userid'));
-        const addFriendProcess = await fetch('http://localhost:3021/friends/addFriend', {
+        const addFriendProcess = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/addFriend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

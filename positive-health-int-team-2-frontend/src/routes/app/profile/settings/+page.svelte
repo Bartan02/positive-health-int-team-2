@@ -2,8 +2,6 @@
     import TopMenu from '../../../../components/top-menu.svelte';   
 	import { getUserInfo, createUserProfile, updateUserProfile } from '$lib/userprofileService';
 	import { onMount } from 'svelte';
-	import { includesType } from 'ol/expr/expression';
-
 
     /**
 	 * @type {number}

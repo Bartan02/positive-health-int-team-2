@@ -70,7 +70,7 @@ export async function stopActivity(req, res) {
 
     function calculateCalories(distance) {
         const caloriesPerKm = 80;
-        return distance * caloriesPerKm;
+        return (distance / 1000) * caloriesPerKm;
     };
 
     const caloriesBurned = calculateCalories(distance);
