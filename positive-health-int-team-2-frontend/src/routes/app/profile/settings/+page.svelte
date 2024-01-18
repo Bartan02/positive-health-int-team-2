@@ -2,8 +2,6 @@
     import TopMenu from '../../../../components/top-menu.svelte';   
 	import { getUserInfo, createUserProfile, updateUserProfile } from '$lib/userprofileService';
 	import { onMount } from 'svelte';
-	import { includesType } from 'ol/expr/expression';
-
 
     /**
 	 * @type {number}
@@ -179,7 +177,7 @@
                 <p>{error.message}</p>
             {/await}
             <div class='mt-10 grid gap-5'>
-                <h1 on:click={updateUserProfileButton}>UPDATE PROFILE</h1>
+                <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-full" on:click={updateUserProfileButton}>UPDATE PROFILE</button>
             </div>
         </div>
     </div>

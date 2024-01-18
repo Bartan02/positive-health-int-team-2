@@ -100,7 +100,7 @@
                 <!-- Personal Information Section -->
                 <div class="grid grid-cols-2 gap-4 mt-4">
                     <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center shadow-custom" style="background:linear-gradient(180deg, #F65800 0%, #F00 100%); box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                        <p class="text-lg font-bold text-white">Age: {calculateAge(data.user.dateOfBirth)}</p>
+                        <p class="text-lg font-bold text-white">Age: {data.user.dateOfBirth.toString().substring(0, 10) == '2020-01-01' || data.user.dateOfBirth == null ? 0 : calculateAge(data.user.dateOfBirth)}</p>
                         <p class="text-lg font-bold text-white">Height: {data.user.height} cm</p>
                         <p class="text-lg font-bold text-white">Weight: {data.user.weight} kg</p>
                     </div>

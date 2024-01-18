@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from "svelte";
   import { page } from '$app/stores';
-	import { fromKey } from "ol/tilecoord";
   import TopMenu from '../../../../../components/top-menu.svelte';
   let chatHeader, chatMessages, chatInputForm, chatInput, messages, username, conversationInfo;
   const friendshipId = $page.params.id;
