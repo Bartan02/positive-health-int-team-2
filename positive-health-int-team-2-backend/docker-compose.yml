@@ -15,7 +15,21 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - map-db
-
+  userprofile-service:
+    container_name: userprofile-service
+    build: ./userprofile-service
+    volumes:
+      - ./userprofile-service/code:/usr/src/app
+    networks:
+      - positive-health
+    ports:
+      - "3018:3018"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - userprofile-db
   activities-service:
     container_name: activities-service
     build: ./activities-service
@@ -31,23 +45,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - activities-db
-
-  appointments:
-    container_name: sample-service
-    build: ./sample-service
-    volumes:
-      - ./sample-service/code:/usr/src/app
-    networks:
-      - positive-health
-    ports:
-      - "3010:3010"
-    working_dir: /usr/src/app
-    command: npm run dev
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - appointments-db
-
   authentication-service:
     container_name: authentication-service
     build: ./authentication-service
@@ -62,76 +59,32 @@ services:
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
-
-  activities-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: activities_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
-    ports:
-      - '3307:3306'
+  friends-service:
+    container_name: friends-service
+    build: ./friends-service
     volumes:
-      - activities-db:/var/lib/mysql
+      - ./friends-service/code:/usr/src/app
     networks:
       - positive-health
-
-  appointments-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: appointments_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
     ports:
-      - '3308:3306'
+      - "3021:3021"
+    working_dir: /usr/src/app
+    command: npm run dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  chat-service:
+    container_name: chat-service
+    build: ./chat-service
     volumes:
-      - appointments-db:/var/lib/mysql
+      - ./chat-service/code:/usr/src/app
     networks:
       - positive-health
-  
-  authentication-db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: authentication_db
-      MYSQL_USER: example
-      MYSQL_PASSWORD: example
-      MYSQL_ROOT_PASSWORD: example
     ports:
-      - '3309:3306'
-    volumes:
-      - authentication-db:/var/lib/mysql
-    networks:
-      - positive-health
-  
-  map-db:
-    image: mysql:latest
+      - "3090:3090"
+    working_dir: /usr/src/app
+    command: npm run dev
     environment:
-      MYSQL_DATABASE: map-db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
-    ports:
-      - '3302:3306'
-    volumes:
-      - map-db:/var/lib/mysql
-    networks:
-      - positive-health
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: authentication-db
-      PMA_PORT: 3306
-      PMA_USER: example
-      PMA_PASSWORD: example
-    ports:
-      - '8080:80'
-    depends_on:
-      - authentication-db
-    networks:
-      - positive-health
+      - CHOKIDAR_USEPOLLING=true
   api-gateway:
     container_name: api-gateway
     build: ./api-gateway
@@ -145,6 +98,110 @@ services:
     command: npm run dev
     environment:
       - CHOKIDAR_USEPOLLING=true
+  chat-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: chat_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3304:3306'
+    volumes:
+      - chat-db:/var/lib/mysql
+    networks:
+      - positive-health
+  friends-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: friends_db
+      MYSQL_USER: example123
+      MYSQL_PASSWORD: example123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - '3305:3306'
+    volumes:
+      - friends-db:/var/lib/mysql
+    networks:
+      - positive-health
+  activities-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: activities_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3307:3306'
+    volumes:
+      - activities-db:/var/lib/mysql
+    networks:
+      - positive-health
+  appointments-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: appointments_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3308:3306'
+    volumes:
+      - appointments-db:/var/lib/mysql
+    networks:
+      - positive-health
+  authentication-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: authentication_db
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+      - '3309:3306'
+    volumes:
+      - authentication-db:/var/lib/mysql
+    networks:
+      - positive-health
+  map-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: map-db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3302:3306'
+    volumes:
+      - map-db:/var/lib/mysql
+    networks:
+      - positive-health
+  userprofile-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: userprofile_db
+      MYSQL_USER: activity123
+      MYSQL_PASSWORD: activity123123
+      MYSQL_ROOT_PASSWORD: activity123123
+    ports:
+      - '3303:3306'
+    volumes:
+      - userprofile-db:/var/lib/mysql
+    networks:
+      - positive-health
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: activities-db
+      PMA_PORT: 3306
+      PMA_USER: activity123
+      PMA_PASSWORD: activity123123
+    ports:
+      - '8080:80'
+    depends_on:
+      - activities-db
+    networks:
+      - positive-health
 networks:
   positive-health:
     driver: bridge
@@ -153,3 +210,6 @@ volumes:
   appointments-db:
   authentication-db:
   map-db:
+  userprofile-db:
+  friends-db:
+  chat-db:

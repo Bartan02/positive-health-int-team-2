@@ -37,6 +37,7 @@ function generateUniqueId() {
 export const startActivity = async (req, res) => {
     const userId = req.body.userId;
     const startLocation = req.body.startLocation;
+    const activityName = req.body.activityName;
 
     if (!userId || !startLocation) {
         return res.status(400).send('Missing user Data');
@@ -45,8 +46,8 @@ export const startActivity = async (req, res) => {
     const activityId = generateUniqueId();
     try {
         const [rows, fields] = await db.execute(
-            'INSERT INTO activities (activity_id, user_id, start_time, start_location, distance) VALUES (?, ?, NOW(), ?, 0)',
-            [activityId, userId, JSON.stringify(startLocation)]
+            'INSERT INTO activities (activity_id, user_id, start_time, start_location, distance, activity_name) VALUES (?, ?, NOW(), ?, 0, ?)',
+            [activityId, userId, JSON.stringify(startLocation), activityName]
         );
         res.json({ activityId, message: 'Activity successfully started' });
     } catch (error) {
@@ -61,8 +62,20 @@ export const startActivity = async (req, res) => {
 export async function stopActivity(req, res) {
     // const { activityId, maximumSpeed } = req.body;
     const activityId = req.body.activityId;
-    const maximumSpeed = req.body.maximumSpeed;
-    console.log('Received in backend:', req.body);
+    const maximumSpeed = req.body.maximumSpeed; 
+    const distance = req.body.distanceValue;
+    const sprintDistance = req.body.sprintDistance;
+    const elapsedTime = req.body.elapsedTimeValue;
+    const averageSpeed = req.body.averageSpeedValue;
+
+    function calculateCalories(distance) {
+        const caloriesPerKm = 80;
+        return distance * caloriesPerKm;
+    };
+
+    const caloriesBurned = calculateCalories(distance);
+
+    console.log('Received in backend:', req.body, caloriesBurned);
     try {
         // Retrieve the activity data from the database
         const [activityRows] = await db.query(
@@ -76,8 +89,12 @@ export async function stopActivity(req, res) {
         }
         
         // Update maximum speed only if the activity exists
-        const updateQuery = 'UPDATE activities SET maximum_speed = ? WHERE activity_id = ?';
-        await db.query(updateQuery, [maximumSpeed, activityId]);
+        const updateQuery = `
+            UPDATE activities 
+            SET maximum_speed = ?, distance = ?, sprintDistance = ?, elapsedTime = ?, averageSpeed = ?, calories_burned = ? 
+            WHERE activity_id = ?`;
+        
+        await db.query(updateQuery, [maximumSpeed, distance, sprintDistance, elapsedTime, averageSpeed, caloriesBurned, activityId]);
 
         const activity = activityRows[0];
         const endTime = new Date();
@@ -142,13 +159,32 @@ export async function updateLocation(req, res) {
 
 // retrieves all the records from activities table
 export async function getAllData(req, res) {
+    const userId = req.query.userId; // Get userId from query parameters
+
     try { 
         const result = await db.query (
-          'SELECT * from activities'
-        )
+          'SELECT * from activities WHERE user_id = ?', [userId]
+        );
         res.json(result);
         } catch (error) {
           console.error('Error fetching data from the database:', error);
           res.status(500).send('Server error occurred');
         }
+}
+
+
+//Retrieves last activity record by the user id 
+export async function getLastRecord(req, res) {
+    const userId = req.query.userId; // Get userId from query parameters
+    
+    try {
+        const result = await db.query(
+            'SELECT * FROM activities WHERE user_id = ? ORDER BY start_time DESC LIMIT 1', 
+            [userId]
+        );
+        res.json(result);
+    } catch (error) {
+        console.error('Error fetching data from the database:', error);
+        res.status(500).send('Server error occurred');
+    }
 }
