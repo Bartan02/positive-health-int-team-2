@@ -1,14 +1,15 @@
 <script>
-	// import { onMount } from 'svelte';
-	// import 'ol/ol.css'; // Import OpenLayers styles
-	// import Map from 'ol/Map';
-	// import View from 'ol/View';
-	// import TileLayer from 'ol/layer/Tile';
-	// import OSM from 'ol/source/OSM';
-	// import Geolocation from 'ol/Geolocation';
-	// import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
-	// import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, joinMeeting, leaveMeeting } from '../lib/mapService.js';
-	// import { getUserInfo } from '$lib/userprofileService.js';
+	import { onMount } from 'svelte';
+	import 'ol/ol.css'; // Import OpenLayers styles
+	import Map from 'ol/Map';
+	import View from 'ol/View';
+	import TileLayer from 'ol/layer/Tile';
+	import OSM from 'ol/source/OSM';
+	import Geolocation from 'ol/Geolocation';
+	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
+	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, joinMeeting, leaveMeeting } from '../lib/mapService.js';
+	import { getUserInfo } from '$lib/userprofileService.js';
+	import { user } from '../stores/user.js';
 
 	/**
 	 * @type {Map}
@@ -216,6 +217,7 @@
 	}
 
 	function createNewMeeting() {
+		userID = localStorage.getItem('userid');
 		// @ts-ignore
 		start = document.getElementById('meetingStart')?.value;
 		// @ts-ignore
@@ -225,9 +227,13 @@
 		// @ts-ignore
 		let longitude = userPoint.getPosition()[1];
 
-		createMeeting(activity, start, end, latitude, longitude, skill, userID).then((data) => {
-			location.reload();
-		})
+		if (activity != undefined && skill != undefined) {
+			createMeeting(activity, start, end, latitude, longitude, skill, userID).then((data) => {
+				location.reload();
+				activity = "";
+				skill = "";
+			})
+		}
 	}
 
 	function joinMeetingButton() {
@@ -242,6 +248,7 @@
 		})
 	}
 	function leaveMeetingButton() {
+		userID = localStorage.getItem('userid');
 		toggleVisibilityPopupInfo();
 		leaveMeeting(activityID, userID);
 	}
