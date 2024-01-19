@@ -117,7 +117,7 @@
                                 <p class="text-lg font-bold text-gray-600">{sport}</p>
                             {/each}
                         {:else}
-                            <p>Favorite Sports: Not specified</p>
+                            <p>Not specified</p>
                         {/if}
                     </div>
                 </div>
