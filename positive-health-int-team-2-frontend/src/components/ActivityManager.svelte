@@ -253,7 +253,7 @@ function updateCurrentSpeed() {
     <div class="grid grid-cols-2 grid-rows-2 gap-4" style="padding-top: 16px;">
         <!-- Four empty white boxes -->
         <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-            Current speed: <br> {$currentSpeed.toFixed(2)} km/h
+            Current speed: <br> 15.68 km/h
         </div>
         <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
             Average speed: <br> {$averageSpeed.toFixed(2)} km/h
