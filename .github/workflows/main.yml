@@ -18,6 +18,9 @@ jobs:
         run: npm test
   run-lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./positive-health-int-team-2-frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
