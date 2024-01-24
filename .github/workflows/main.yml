@@ -31,6 +31,8 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          LINTER_RULES_PATH: "./positive-health-int-team-2-frontend/.prettierrc"
   run-docker-compose:
     runs-on: ubuntu-latest
     steps:
