@@ -1,10 +1,20 @@
 version: '3.8'
 services:
+  frontend:
+    container_name: frontend
+    build: ./positive-health-int-team-2-frontend
+    volumes:
+      - ./positive-health-int-team-2-frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - positive-health
   map-service:
     container_name: map-service
-    build: ./map-service
+    build: ./positive-health-int-team-2-backend/map-service
     volumes:
-      - ./map-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/map-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -17,9 +27,9 @@ services:
       - map-db
   userprofile-service:
     container_name: userprofile-service
-    build: ./userprofile-service
+    build: ./positive-health-int-team-2-backend/userprofile-service
     volumes:
-      - ./userprofile-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/userprofile-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -32,9 +42,9 @@ services:
       - userprofile-db
   activities-service:
     container_name: activities-service
-    build: ./activities-service
+    build: ./positive-health-int-team-2-backend/activities-service
     volumes:
-      - ./activities-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/activities-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -47,9 +57,9 @@ services:
       - activities-db
   authentication-service:
     container_name: authentication-service
-    build: ./authentication-service
+    build: ./positive-health-int-team-2-backend/authentication-service
     volumes:
-      - ./authentication-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/authentication-service/code:/usr/src/app
       - /usr/src/app/node_modules
     networks:
       - positive-health
@@ -61,9 +71,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
   friends-service:
     container_name: friends-service
-    build: ./friends-service
+    build: ./positive-health-int-team-2-backend/friends-service
     volumes:
-      - ./friends-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/friends-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -74,9 +84,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
   chat-service:
     container_name: chat-service
-    build: ./chat-service
+    build: ./positive-health-int-team-2-backend/chat-service
     volumes:
-      - ./chat-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/chat-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -87,9 +97,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
   api-gateway:
     container_name: api-gateway
-    build: ./api-gateway
+    build: ./positive-health-int-team-2-backend/api-gateway
     volumes:
-      - ./api-gateway/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/api-gateway/code:/usr/src/app
     networks:
       - positive-health
     ports:
