@@ -15,7 +15,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install
       - name: Run Tests
-        run: npx vitest
+        run: npm test
   run-lint:
     runs-on: ubuntu-latest
     defaults:
