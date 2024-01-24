@@ -1,8 +1,7 @@
 <script>
-	import { getUserInfo, getUserInfoAuth} from '$lib/userprofileService';
+	import { getUserIdFromUsername, getUserInfo, getUserInfoAuth} from '$lib/userprofileService';
 	import { onMount } from 'svelte';
-	import TopMenu from '../../../components/top-menu.svelte';
-	import { user } from '../../../stores/user';
+	import TopMenu from '../../../../components/top-menu.svelte';
 
     /**
 	 * @type {number}
@@ -49,10 +48,14 @@
      */
     let location;
 
+    export let data;
+    
     onMount(() => {
-        // @ts-ignore
-        userid = localStorage.getItem('userid');
+        getUserIdFromUsername(data.username).then((retrievedData) => {
+            userid = retrievedData.id
+        });
     });
+
 
     function calculateAge(dateOfBirth) {
         const dob = new Date(dateOfBirth);
@@ -86,7 +89,11 @@
                 <!-- Profile Picture and User Information Section -->
                 <div class="flex flex-col items-center" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%); padding-bottom:10px; padding-top:10px; border-radius: 20px; box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
                     <img src="{data.user.profilePic}" alt="Profile" class="rounded-full w-32 h-32 object-cover shadow-md mb-4">
-                    <h2 class="text-lg font-bold text-white">{data.user.firstName} {data.user.lastName} <span class="text-blue-500">✓</span></h2>
+                    {#if data.user.firstName == "" || data.user.firstName == null}
+                        <h2 class="text-lg font-bold text-white">Anonymous user #{data.user.userid}<span class="text-blue-500">✓</span></h2>
+                    {:else}
+                        <h2 class="text-lg font-bold text-white">{data.user.firstName} {data.user.lastName} <span class="text-blue-500">✓</span></h2>
+                    {/if}
                     {#if data.user.location}
                         <p class="text-sm text-gray-600">{data.user.location}</p>
                     {/if}
@@ -100,7 +107,7 @@
                 <!-- Personal Information Section -->
                 <div class="grid grid-cols-2 gap-4 mt-4">
                     <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center shadow-custom" style="background:linear-gradient(180deg, #F65800 0%, #F00 100%); box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                        <p class="text-lg font-bold text-white">Age: {data.user.dateOfBirth.toString().substring(0, 10) == '2020-01-01' || data.user.dateOfBirth == null ? 0 : calculateAge(data.user.dateOfBirth)}</p>
+                        <p class="text-lg font-bold text-white">Age: {data.user.dateOfBirth.toString().substring(0, 10) == "2020-01-01" ? 0 : calculateAge(data.user.dateOfBirth)}</p>
                         <p class="text-lg font-bold text-white">Height: {data.user.height} cm</p>
                         <p class="text-lg font-bold text-white">Weight: {data.user.weight} kg</p>
                     </div>

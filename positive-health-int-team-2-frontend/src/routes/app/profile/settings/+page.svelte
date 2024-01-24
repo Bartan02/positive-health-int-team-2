@@ -2,8 +2,6 @@
     import TopMenu from '../../../../components/top-menu.svelte';   
 	import { getUserInfo, createUserProfile, updateUserProfile } from '$lib/userprofileService';
 	import { onMount } from 'svelte';
-	import { includesType } from 'ol/expr/expression';
-
 
     /**
 	 * @type {number}
@@ -80,6 +78,7 @@
         location = document.getElementById("location")?.value;
         updateUserProfile(localStorage.getItem('userid'), firstName, lastName, profilePic, height, weight, gender, dateOfBirth, favoriteSports, location)
         console.log("Updating user profile");
+        window.location.href = "/app/profile";
     }
 </script>
 
@@ -99,7 +98,7 @@
     <div class="min-h-screen" style="background: F6F7FB;">
         <TopMenu menuLabel="Settings" />
         <!-- Frame for all components, setting the width to 90% of the viewport -->
-        <div class="w-full mx-auto mt-20" style="width: 90%;">    
+        <div class="w-full mx-auto mt-20 flex flex-col gap-1" style="width: 90%;">    
             {#await getUserInfo(userid)}
                 <p>Loading...</p>
             {:then data} 
@@ -108,12 +107,17 @@
                 {:else}
                     <img src="{data.user.profilePic}" alt="Profile" class="aspect-ratio-1 rounded-full mx-auto w-1/2 h-1/2 object-cover">
                 {/if}
+                <div class="center w-full gap-2">
+                    <div class="w-full">
+                        <h2>First Name:</h2>
+                        <input id="firstName" class="w-full" type="text" value={data.user.firstName} />
+                    </div>
+                    <div class="w-full">
+                        <h2>Last Name:</h2>
+                        <input id="lastName" class="w-full" type="text" value={data.user.lastName} />
+                    </div>
+                </div>
 
-                <h2>First Name:</h2>
-                <input id="firstName" type="text" value={data.user.firstName} />
-
-                <h2>Last Name:</h2>
-                <input id="lastName" type="text" value={data.user.lastName} />
 
                 <h2>Gender:</h2>
                 <select id="gender">
@@ -132,18 +136,23 @@
                     {/if}
                 </select>
 
-                <h2>Height:</h2>
-                <input id="height" type="text" value={data.user.height} />
-
-                <h2>Weight:</h2>
-                <input id="weight" type="text" value={data.user.weight} />
+                <div class="center w-full gap-2">
+                    <div class="w-full">
+                        <h2>Height:</h2>
+                        <input id="height" class="w-full" type="text" value={data.user.height} />
+                    </div>
+                    <div class="w-full">
+                        <h2>Weight:</h2>
+                        <input id="weight" class="w-full" type="text" value={data.user.weight} />
+                    </div>
+                </div>
 
                 {#if data.user.dateOfBirth == null}
                     <h2>Date of Birth:</h2>
                     <input id="dateOfBirth" type="date" value="2000-01-01" />
                 {:else}
                     <h2>Date of Birth:</h2>
-                    <input id="dateOfBirth" type="date" value={data.user.dateOfBirth.toString().substring(0, 10)} />
+                    <input id="dateOfBirth" type="date" max="2021-01-01" min="1921-01-01" value={data.user.dateOfBirth.toString().substring(0, 10)} />
                 {/if}
                 <h2>Favorite sports:</h2>
                 <div class="grid grid-cols-2 ">
@@ -179,7 +188,7 @@
                 <p>{error.message}</p>
             {/await}
             <div class='mt-10 grid gap-5'>
-                <h1 on:click={updateUserProfileButton}>UPDATE PROFILE</h1>
+                <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-full" on:click={updateUserProfileButton}>UPDATE PROFILE</button>
             </div>
         </div>
     </div>

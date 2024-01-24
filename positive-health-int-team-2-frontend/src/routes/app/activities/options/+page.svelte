@@ -4,7 +4,6 @@
     import BigOrangeButton from '../../../../components/BigOrangeButton.svelte';
 
     let activity = $page.url.searchParams.get('activity');
-    console.log(activity);
 
     import Router from 'svelte-spa-router';
     import ActivityOptions from '../records/+page.svelte';

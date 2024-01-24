@@ -1,14 +1,14 @@
 <script>
-	import { onMount } from 'svelte';
-	import 'ol/ol.css'; // Import OpenLayers styles
-	import Map from 'ol/Map';
-	import View from 'ol/View';
-	import TileLayer from 'ol/layer/Tile';
-	import OSM from 'ol/source/OSM';
-	import Geolocation from 'ol/Geolocation';
-	import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
-	import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, joinMeeting, leaveMeeting } from '../lib/mapService.js';
-	import { getUserInfo } from '$lib/userprofileService.js';
+	// import { onMount } from 'svelte';
+	// import 'ol/ol.css'; // Import OpenLayers styles
+	// import Map from 'ol/Map';
+	// import View from 'ol/View';
+	// import TileLayer from 'ol/layer/Tile';
+	// import OSM from 'ol/source/OSM';
+	// import Geolocation from 'ol/Geolocation';
+	// import Overlay from 'ol/Overlay'; // Import Overlay from OpenLayers
+	// import { createMeeting, deleteMeetingFromDB, getAllMeetings, getMeetingPlayers, joinMeeting, leaveMeeting } from '../lib/mapService.js';
+	// import { getUserInfo } from '$lib/userprofileService.js';
 
 	/**
 	 * @type {Map}
@@ -168,7 +168,6 @@
 	function createMeetingsAtStart() {
 		getAllMeetings().then((meetings) => {
 			const meetingsArray = Object.values(meetings)[0];
-			console.log(meetingsArray);
 			meetingsArray.forEach((meeting) => {
 					const activityPointElement = document.createElement('img');
 					activityPointElement.style.width = '50px';
@@ -199,7 +198,6 @@
 							data.players.forEach(element => {
 								meetingPlayers.push(element.playerID);
 							});
-							console.log(meetingPlayers);
 						});
 						if (!popupIsVisible) {
 							toggleVisibilityPopupInfo();
@@ -234,21 +232,17 @@
 
 	function joinMeetingButton() {
 		toggleVisibilityPopupInfo();
-		console.log('Joining meeting');
 		userID = localStorage.getItem('userid');
 		joinMeeting(activityID, userID);
 	}
 	function deleteMeeting() {
 		toggleVisibilityPopupInfo();
-		console.log('Deleting meeting')
 		deleteMeetingFromDB(activityID).then (() => {
 			location.reload();
 		})
 	}
 	function leaveMeetingButton() {
 		toggleVisibilityPopupInfo();
-		console.log('Leaving meeting')
-		userID = localStorage.getItem('userid');
 		leaveMeeting(activityID, userID);
 	}
 </script>

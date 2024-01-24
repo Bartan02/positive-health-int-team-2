@@ -10,7 +10,7 @@
 
     async function displayFriendRequests(){
         const yourUserId = Number(localStorage.getItem('userid'));
-        const requestsFetch = await fetch('http://localhost:3021/friends/getFriendsRequests/', {
+        const requestsFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/getFriendsRequests/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,7 @@
     }
 
     async function acceptRequest(friendshipId){
-        const request = await fetch('http://localhost:3021/friends/acceptFriend/', {
+        const request = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/acceptFriend/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@
     }
 
     async function rejectRequest(friendshipId){
-        const request = await fetch('http://localhost:3021/friends/rejectFriend/', {
+        const request = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/rejectFriend/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -11,7 +11,7 @@
         const prompt = document.getElementById('user').value;
         if(prompt.length === 0) throw new Error("Type to find friends");
 
-        const usersFetch = await fetch('http://localhost:3021/friends/findperson/'+prompt, {
+        const usersFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/findperson/'+prompt, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +35,7 @@
         }
 
         // Fetch relationships
-        const relationsFetch = await fetch('http://localhost:3021/friends/findrelationships/'+yourUserId, {
+        const relationsFetch = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/findrelationships/'+yourUserId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@
 
     async function addFriend(friendId){
         const yourUserId = Number(localStorage.getItem('userid'));
-        const addFriendProcess = await fetch('http://localhost:3021/friends/addFriend', {
+        const addFriendProcess = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/friends/addFriend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +82,7 @@
             })
         })
         if(addFriendProcess.ok){
-            alert("good");
+            alert("Invitation sent!");
             triggerSearchUsers();
         }
         else{
@@ -120,7 +120,8 @@
                     {/if}
                     {#each data.foundRecords.users as user}
                         <div class="flex justify-between items-center bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
-                            <div>
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div on:click={() => window.location.href=`/app/profile/${user.username}`}>
                                 <p class="font-bold">{user.username}</p>
                                 <p>{user.email}</p>
                             </div>

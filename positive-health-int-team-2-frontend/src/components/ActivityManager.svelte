@@ -260,10 +260,10 @@ function updateCurrentSpeed() {
             Average speed: <br> {$averageSpeed.toFixed(2)} km/h
         </div>
         <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-            Distance: <br> {$distance.toFixed(2)} km
+            Distance: <br> {$distance.toFixed(2)} m
         </div>
         <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-            Sprint distance: <br> {sprintDistance.toFixed(2) } km
+            Sprint distance: <br> {sprintDistance.toFixed(2) } m
         </div>
 
         <div class="col-span-2 text-center mt-4">

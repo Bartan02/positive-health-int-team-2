@@ -3,7 +3,7 @@ import Friendship from "../models/Friendship.js";
 
 async function findPerson(req,res){
   try{
-    const responsePeople = await fetch('http://api-gateway:3025/auth/user/'+req.params.prompt, {
+    const responsePeople = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/user/'+req.params.prompt, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

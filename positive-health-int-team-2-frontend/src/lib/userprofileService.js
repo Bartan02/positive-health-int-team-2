@@ -3,7 +3,7 @@
  * @param {any} userid
  */
 export async function getUserInfo(userid) {
-    const response = await fetch(`https://userprofile-service-329f9e3f251a.herokuapp.com/userInfo/getUserInfo/${userid}`, {
+    const response = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/userInfo/getUserInfo/${userid}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ export async function getUserInfo(userid) {
  * @param {any} userid
  */
 export async function createUserProfile(userid){
-    const response = await fetch('https://userprofile-service-329f9e3f251a.herokuapp.com/userInfo/createUserProfile', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/userInfo/createUserProfile', {
     // const response = await fetch('http://localhost:3018/userInfo/createUserProfile', {
         method: 'POST',
         headers: {
@@ -53,7 +53,7 @@ export async function createUserProfile(userid){
  * @param {any} location
  */
 export async function updateUserProfile(userid, firstName, lastName, profilePic, height, weight, gender, dateOfBirth, favoriteSports, location){
-    const response = await fetch('https://userprofile-service-329f9e3f251a.herokuapp.com/userInfo/updateUserProfile', {
+    const response = await fetch('https://step-up-api-gateway-2639a76e4388.herokuapp.com/userInfo/updateUserProfile', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -78,6 +78,24 @@ export async function updateUserProfile(userid, firstName, lastName, profilePic,
  */
 export async function getUserInfoAuth(userid){
     const response = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/user/${userid}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+/**
+ * @param {any} username
+ */
+export async function getUserIdFromUsername(username){
+    const response = await fetch(`https://step-up-api-gateway-2639a76e4388.herokuapp.com/auth/getIdFromTheirUsername/${username}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
