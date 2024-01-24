@@ -1,5 +1,4 @@
 import { describe, it, expect, vi } from 'vitest';
-import { calculateSpeed } from './ActivityManager.svelte';
 
 // Mocking dependencies
 let previousLocation = null;
@@ -34,35 +33,35 @@ describe('calculateSpeed function', () => {
 
 
 
-// function calculateSpeed(currentLocation) {
-//     if (previousLocation) {
-//         const timeDifference = Date.now() - lastUpdateTime;
+function calculateSpeed(currentLocation) {
+    if (previousLocation) {
+        const timeDifference = Date.now() - lastUpdateTime;
 
-//         if (timeDifference > 0) {
-//             const distanceCovered = haversine(previousLocation, currentLocation);
-//             let speed = 0;
+        if (timeDifference > 0) {
+            const distanceCovered = haversine(previousLocation, currentLocation);
+            let speed = 0;
 
-//             if (distanceCovered > 0) {
-//                 speed = (distanceCovered / (timeDifference / 1000)) * 3.6;
-//                 totalDistance += distanceCovered; // Accumulate distance
+            if (distanceCovered > 0) {
+                speed = (distanceCovered / (timeDifference / 1000)) * 3.6;
+                totalDistance += distanceCovered; // Accumulate distance
 
-//                 if (speed > maxHumanSpeed) {
-//                     speed = 0;
-//                 } else if (speed >= SPRINT_THRESHOLD_SPEED) {
-//                     sprintDistance += distanceCovered;
-//                 }
-//             }
+                if (speed > maxHumanSpeed) {
+                    speed = 0;
+                } else if (speed >= SPRINT_THRESHOLD_SPEED) {
+                    sprintDistance += distanceCovered;
+                }
+            }
 
-//             currentSpeed.set(speed);
-//             distance.set(totalDistance); // Update the distance store
-//         } else {
-//             currentSpeed.set(0);
-//         }
+            currentSpeed.set(speed);
+            distance.set(totalDistance); // Update the distance store
+        } else {
+            currentSpeed.set(0);
+        }
 
-//         lastUpdateTime = Date.now();
-//         previousLocation = currentLocation;
-//     } else {
-//         previousLocation = currentLocation;
-//         lastUpdateTime = Date.now();
-//     }
-// }
+        lastUpdateTime = Date.now();
+        previousLocation = currentLocation;
+    } else {
+        previousLocation = currentLocation;
+        lastUpdateTime = Date.now();
+    }
+}
