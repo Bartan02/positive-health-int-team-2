@@ -223,6 +223,8 @@ function updateCurrentSpeed() {
         clearInterval(speedUpdateIntervalId);
         clearInterval(intervalId); // Clear the interval timer when the component is destroyed
     });
+
+    export { calculateSpeed};
 </script>
 
 <style>
