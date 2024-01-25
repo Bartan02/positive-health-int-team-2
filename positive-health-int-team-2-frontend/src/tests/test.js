@@ -1,7 +1,4 @@
-import { expect, test } from '@playwright/test';
-test('sample tesst', async ({ page }) => {
-	expect(2+2).toBe(4);
-});
+
 
 // import { expect, test } from '@playwright/test';
 
