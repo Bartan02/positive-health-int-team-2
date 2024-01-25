@@ -1,10 +1,20 @@
 version: '3.8'
 services:
+  frontend:
+    container_name: frontend
+    build: ./positive-health-int-team-2-frontend
+    volumes:
+      - ./positive-health-int-team-2-frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - positive-health
   map-service:
     container_name: map-service
-    build: ./map-service
+    build: ./positive-health-int-team-2-backend/map-service
     volumes:
-      - ./map-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/map-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -17,9 +27,9 @@ services:
       - map-db
   userprofile-service:
     container_name: userprofile-service
-    build: ./userprofile-service
+    build: ./positive-health-int-team-2-backend/userprofile-service
     volumes:
-      - ./userprofile-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/userprofile-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -32,9 +42,9 @@ services:
       - userprofile-db
   activities-service:
     container_name: activities-service
-    build: ./activities-service
+    build: ./positive-health-int-team-2-backend/activities-service
     volumes:
-      - ./activities-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/activities-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -47,9 +57,9 @@ services:
       - activities-db
   authentication-service:
     container_name: authentication-service
-    build: ./authentication-service
+    build: ./positive-health-int-team-2-backend/authentication-service
     volumes:
-      - ./authentication-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/authentication-service/code:/usr/src/app
       - /usr/src/app/node_modules
     networks:
       - positive-health
@@ -61,9 +71,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
   friends-service:
     container_name: friends-service
-    build: ./friends-service
+    build: ./positive-health-int-team-2-backend/friends-service
     volumes:
-      - ./friends-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/friends-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -74,9 +84,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
   chat-service:
     container_name: chat-service
-    build: ./chat-service
+    build: ./positive-health-int-team-2-backend/chat-service
     volumes:
-      - ./chat-service/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/chat-service/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -87,9 +97,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
   api-gateway:
     container_name: api-gateway
-    build: ./api-gateway
+    build: ./positive-health-int-team-2-backend/api-gateway
     volumes:
-      - ./api-gateway/code:/usr/src/app
+      - ./positive-health-int-team-2-backend/api-gateway/code:/usr/src/app
     networks:
       - positive-health
     ports:
@@ -101,10 +111,10 @@ services:
   chat-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: chat_db
-      MYSQL_USER: example123
-      MYSQL_PASSWORD: example123
-      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: ${MYSQL_DATABASE_CHAT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - '3304:3306'
     volumes:
@@ -114,10 +124,10 @@ services:
   friends-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: friends_db
-      MYSQL_USER: example123
-      MYSQL_PASSWORD: example123
-      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: ${MYSQL_DATABASE_FRIENDS}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - '3305:3306'
     volumes:
@@ -127,10 +137,10 @@ services:
   activities-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: activities_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
+      MYSQL_DATABASE: ${MYSQL_DATABASE_ACTIVITIES}
+      MYSQL_USER: ${MYSQL_USER_ACTIVITY}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_ACTIVITY}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_ACTIVITY}
     ports:
       - '3307:3306'
     volumes:
@@ -140,10 +150,10 @@ services:
   appointments-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: appointments_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
+      MYSQL_DATABASE: ${MYSQL_DATABASE_APPOINTMENTS}
+      MYSQL_USER: ${MYSQL_USER_APPOINTMENTS}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_APPOINTMENTS}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_APPOINTMENTS}
     ports:
       - '3308:3306'
     volumes:
@@ -153,10 +163,10 @@ services:
   authentication-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: authentication_db
-      MYSQL_USER: example
-      MYSQL_PASSWORD: example
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: ${MYSQL_DATABASE_AUTHENTICATION}
+      MYSQL_USER: ${MYSQL_USER_AUTHENTICATION}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_AUTHENTICATION}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_AUTHENTICATION}
     ports:
       - '3309:3306'
     volumes:
@@ -166,10 +176,10 @@ services:
   map-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: map-db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
+      MYSQL_DATABASE: ${MYSQL_DATABASE_MAP}
+      MYSQL_USER: ${MYSQL_USER_MAP}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_MAP}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_MAP}
     ports:
       - '3302:3306'
     volumes:
@@ -179,10 +189,10 @@ services:
   userprofile-db:
     image: mysql:latest
     environment:
-      MYSQL_DATABASE: userprofile_db
-      MYSQL_USER: activity123
-      MYSQL_PASSWORD: activity123123
-      MYSQL_ROOT_PASSWORD: activity123123
+      MYSQL_DATABASE: ${MYSQL_DATABASE_USERPROFILE}
+      MYSQL_USER: ${MYSQL_USER_USERPROFILE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD_USERPROFILE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_USERPROFILE}
     ports:
       - '3303:3306'
     volumes:
@@ -192,10 +202,10 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: activities-db
+      PMA_HOST: ${PMA_HOST_ACTIVITIES_DB}
       PMA_PORT: 3306
-      PMA_USER: activity123
-      PMA_PASSWORD: activity123123
+      PMA_USER: ${MYSQL_USER_ACTIVITY}
+      PMA_PASSWORD: ${MYSQL_PASSWORD_ACTIVITY}
     ports:
       - '8080:80'
     depends_on:
