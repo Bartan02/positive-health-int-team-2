@@ -124,13 +124,13 @@
                         Top speed: <br> { lastRecord.maximum_speed } km/h
                     </div>
                     <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                        Average speed: <br> { lastRecord.averageSpeed}
+                        Average speed: <br> { lastRecord.averageSpeed} km/h
                     </div>
                     <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                        Distance: <br> { lastRecord.distance } m
+                        Distance: <br> { Number(lastRecord.distance).toFixed(2) } meters
                     </div>
                     <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                        Sprint distance: <br> { lastRecord.sprintDistance} meters
+                        Sprint distance: <br> { Number(lastRecord.sprintDistance).toFixed(2) } meters
                     </div>
                     <div class="bg-white rounded-lg aspect-ratio-1" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(180deg, #F65800 0%, #F00 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
                         Calories burnt: <br> { lastRecord.calories_burned } kcal

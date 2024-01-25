@@ -42,7 +42,7 @@ const chatProxy = createProxyMiddleware({
 });
 
 const mapProxy = createProxyMiddleware({
-  target: 'http://https://map-service-94dff95542c5.herokuapp.com',
+  target: 'https://map-service-94dff95542c5.herokuapp.com',
   changeOrigin: true,
   onProxyReq(proxyReq, req, res){
     proxyReq.write(JSON.stringify(req.body));

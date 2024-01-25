@@ -23,6 +23,7 @@
     const maxHumanSpeed = 28;
     const SPRINT_THRESHOLD_SPEED = 24 * 1000 / 3600; // 24 km/h in meters per second
     let totalDistance = 0; // Add this to keep track of the total distance
+    let speed = 0;
 
 
     function calculateSpeed(currentLocation) {
@@ -31,7 +32,7 @@
 
             if (timeDifference > 0) {
                 const distanceCovered = haversine(previousLocation, currentLocation);
-                let speed = 0;
+                
 
                 if (distanceCovered > 0) {
                     speed = (distanceCovered / (timeDifference / 1000)) * 3.6;

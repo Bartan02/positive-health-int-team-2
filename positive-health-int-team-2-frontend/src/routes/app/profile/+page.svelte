@@ -105,6 +105,10 @@
                         <p class="text-lg font-bold text-white">Weight: {data.user.weight} kg</p>
                     </div>
                     <div class="aspect-ratio-1 bg-white rounded-lg p-4 text-center flex flex-col justify-center items-center shadow-custom" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
+                        <h1 class="font-bold text-sm mb-1" style="background: linear-gradient(180deg, #F65800 0%, #F00 100%);
+                        -webkit-background-clip: text;
+                        color: transparent;
+                        background-clip: text;">Favorite activities:</h1>
                         {#if data.user.favoriteSports}
                             <div class='hidden'>
                                 {favoriteSportsArray = data.user.favoriteSports.split(",")}
@@ -113,7 +117,7 @@
                                 <p class="text-lg font-bold text-gray-600">{sport}</p>
                             {/each}
                         {:else}
-                            <p>Favorite Sports: Not specified</p>
+                            <p>Not specified</p>
                         {/if}
                     </div>
                 </div>

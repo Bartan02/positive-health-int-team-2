@@ -62,8 +62,8 @@
                 {#each activities as activity}
                     <div class="flex flex-col justify-between bg-white rounded-lg p-4 mb-2 w-full max-w-md mx-auto" style="box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);">
                         <div>{activity.activity_name}</div>
-                        <div><strong>Start time:</strong> {activity.start_time.slice(0, -14)}, {activity.start_time.slice(11, 16)}</div>
-                        <div><strong>Distance: </strong>{activity.distance}</div>
+                        <div><strong>Start time:</strong> {activity.start_time.slice(0,-14)}, {activity.start_time.slice(11, 16)}</div>
+                        <div><strong>Distance: </strong>{activity.distance.toFixed(2)}</div>
                         <div><strong>Top speed: </strong>{activity.maximum_speed || 'N/A'}</div>
                         <div><strong>Sprint distance: </strong>{activity.sprintDistance}</div>
                         <div><strong>Total time: </strong>{activity.elapsedTime}</div>
